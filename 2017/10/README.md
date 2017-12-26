@@ -21,10 +21,6 @@ The solution is written in golang and takes a list from stdin, printing the
 answer on EOF (`C-d` on OSX).
 
 ```go
-➜ go run main.go
-b inc 5 if a > 1
-a inc 1 if b < 5
-c dec -10 if a >= 1
-c inc -20 if c == 10
-max is 1
+➜ go run main.go number_ring.go 165,1,255,31,87,52,24,113,0,91,148,254,158,2,73,153
+4114
 ```
