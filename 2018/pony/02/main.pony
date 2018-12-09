@@ -1,39 +1,38 @@
 use "debug"
 use "collections"
 use "promises"
+use "files"
 
 actor Main
   let _env: Env
-  var input: Array[String]
   let _db: Db = Db
 
   new create(env: Env) =>
     _env = env
-    input = env.args.clone()
     try
-      input.shift()?
-    else 
-      env.exitcode(-1)  // something is totally fucked because the name of the program should always be able to be shifted off
-    then
-      if input.size() == 0
-      then env.exitcode(-1)
+      let path = FilePath(_env.root as AmbientAuth, "./input.txt")?
+      match OpenFile(path)
+        | let file: File => Promises[Replications]
+          .join(process_input(file.lines()).values())
+          .next[None](_db~print_output())
+      else halt_and_catch_fire("Error opening file")
       end
-      // _db = Db(input.size())
-      Promises[Replications]
-        .join(process_input().values())
-        .next[None](_db~print_output())
-
+    else halt_and_catch_fire("env does not contain auth root")
     end
 
-  fun ref process_input(): Array[Promise[Replications]] => 
+  fun ref process_input(input: Iterator[String]): Array[Promise[Replications]] => 
     let promises: Array[Promise[Replications]] = []
-    for raw_input in input.values() do
+    for raw_input in input do
       let p = Promise[Replications]
-      let check = Checksum(raw_input, _db)
+      let check = Checksum(consume raw_input, _db)
       check.process(p)
       promises.push(p)
     end
     promises
+
+  fun halt_and_catch_fire(error_message: String) =>
+    _env.err.print(error_message)
+    _env.exitcode(-1)
 
 type Replications is Map[I8, Bool] val
 
