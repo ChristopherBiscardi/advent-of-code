@@ -24,9 +24,6 @@ actor Main
 
       end
 
-      // for num in possiblePasswords.values() do
-      //   env.out.print("pass: " + num.string())
-      // end
     end
     env.out.print("end " + possiblePasswords.size().string())
   
@@ -44,18 +41,16 @@ actor Main
     result
   
   fun ref hasTwoDigits(nums: Array[USize]): Bool =>
+    let hashMap: HashMap[USize, USize, HashIs[USize]] = HashMap[USize, USize, HashIs[USize]]
+
+    for num in nums.values() do
+      hashMap.upsert(num, 1, {(current, provided) => current + provided })
+    end
+
     var result = false
-    try
-
-      var lastNum = nums.shift()?
-
-      for num in nums.values() do
-        if lastNum == num then
-          result = true
-          break
-        else
-          lastNum = num
-        end
+    for value in hashMap.values() do
+      if value == 2 then
+        result = true
       end
     end
     result
