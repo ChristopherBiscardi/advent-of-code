@@ -928,8 +928,10 @@ struct Robot {
 
 impl Robot {
     fn new() -> Robot {
+        let mut map = BTreeMap::new();
+        map.insert((0, 0), 1);
         Robot {
-            grid: BTreeMap::new(),
+            grid: map,
             cur_pos: (0, 0),
             output_count: 0,
             direction: 0,
@@ -1021,11 +1023,13 @@ impl Robot {
         }
         let xaxis = xmax - xmin;
         let yaxis = ymax - ymin;
-        println!("paint_tile_count {}", self.paint_tile_count);
-        println!("grid size {}x{}", xmax - xmin, ymax - ymin);
-        for y in 0..yaxis {
-            for x in 0..xaxis {
-                match self.grid.get(&(x, y)) {
+        // println!("paint_tile_count {}", self.paint_tile_count);
+        // println!("grid size {}x{}", xmax - xmin, ymax - ymin);
+        // println!("grid {:?}", self.grid);
+        for y in (0..=yaxis).rev() {
+            // print!(":");
+            for x in 0..=xaxis {
+                match self.grid.get(&(xmin + x, ymin + y)) {
                     Some(n) => match n {
                         0 => print!(" "),
                         1 => print!("#"),
