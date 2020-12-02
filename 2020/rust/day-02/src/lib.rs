@@ -1,6 +1,34 @@
-use itertools::Itertools;
+// use itertools::Itertools;
 use lazy_static::lazy_static;
+use nom::{bytes::complete::tag, character, IResult};
 use regex::Regex;
+use std::io::{Error, ErrorKind};
+struct PasswordLine<'a> {
+    lower: u8,
+    upper: u8,
+    character: char,
+    password: &'a str,
+}
+
+fn password_line(input: &str) -> IResult<&str, PasswordLine> {
+    let (input, lower) = character::complete::digit1(input)?;
+    let (input, _) = tag("-")(input)?;
+    let (input, upper) = character::complete::digit1(input)?;
+    let (input, _) = tag(" ")(input)?;
+    let (input, parsed_character) = character::complete::anychar(input)?;
+    let (input, _) = tag(": ")(input)?;
+    let (input, password) = character::complete::alpha1(input)?;
+
+    Ok((
+        input,
+        PasswordLine {
+            lower: lower.parse::<u8>().unwrap(),
+            upper: upper.parse::<u8>().unwrap(),
+            character: parsed_character,
+            password,
+        },
+    ))
+}
 
 pub fn process_part1(input: &str) -> usize {
     input
@@ -14,20 +42,17 @@ pub fn process_part1(input: &str) -> usize {
 }
 
 fn process_password_line(line: &str) -> Result<bool, std::io::Error> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(r"([\d]+)-([\d]+) ([a-z]): ([a-z]+)").unwrap();
-    }
-    let caps = RE.captures(line).unwrap();
-    let lower_bound = caps.get(1).unwrap().as_str().parse::<usize>().unwrap();
-    let upper_bound = caps.get(2).unwrap().as_str().parse::<usize>().unwrap();
-    let character = caps.get(3).unwrap().as_str();
-    let password = caps.get(4).unwrap().as_str();
-    let char_count = password.chars().filter(|c| character.contains(*c)).count();
-
-    if char_count < lower_bound || char_count > upper_bound {
-        Ok(false)
-    } else {
-        Ok(true)
+    let result = password_line(line).map(|(_, pass)| {
+        let char_count = pass
+            .password
+            .chars()
+            .filter(|c| pass.character == *c)
+            .count();
+        char_count >= pass.lower.into() && char_count <= pass.upper.into()
+    });
+    match result {
+        Ok(b) => Ok(b),
+        _ => Err(Error::new(ErrorKind::Other, "failed to parse")),
     }
 }
 
@@ -43,29 +68,24 @@ pub fn process_part2(input: &str) -> usize {
 }
 
 fn process2_password_line(line: &str) -> Result<bool, std::io::Error> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(r"([\d]+)-([\d]+) ([a-z]): ([a-z]+)").unwrap();
-    }
-    let caps = RE.captures(line).unwrap();
-    let lower_bound = caps.get(1).unwrap().as_str().parse::<usize>().unwrap();
-    let upper_bound = caps.get(2).unwrap().as_str().parse::<usize>().unwrap();
-    let character = caps.get(3).unwrap().as_str();
-    let password = caps.get(4).unwrap().as_str();
-
-    let pos_1 = password
-        .chars()
-        .nth(lower_bound - 1)
-        .map(|c| character.contains(c))
-        .unwrap_or(false);
-    let pos_2 = password
-        .chars()
-        .nth(upper_bound - 1)
-        .map(|c| character.contains(c))
-        .unwrap_or(false);
-    if pos_1 && pos_2 || !pos_1 && !pos_2 {
-        Ok(false)
-    } else {
-        Ok(true)
+    let result = password_line(line).map(|(_, pass)| {
+        let pos_1 = pass
+            .password
+            .chars()
+            .nth((pass.lower - 1).into())
+            .map(|c| pass.character == c)
+            .unwrap_or(false);
+        let pos_2 = pass
+            .password
+            .chars()
+            .nth((pass.upper - 1).into())
+            .map(|c| pass.character == c)
+            .unwrap_or(false);
+        pos_1 != pos_2
+    });
+    match result {
+        Ok(b) => Ok(b),
+        _ => Err(Error::new(ErrorKind::Other, "failed to parse")),
     }
 }
 
