@@ -1,16 +1,8 @@
-use itertools::Itertools;
+use day_01::process;
 use std::env;
 use std::fs;
 use std::io::{Error, ErrorKind};
 
-fn process(input: &str) -> Option<u64> {
-    input
-        .lines()
-        .map(|string_num| string_num.parse::<u64>().unwrap())
-        .combinations(3)
-        .find(|perm| perm.iter().sum::<u64>() == 2020)
-        .map(|v| v.iter().product())
-}
 fn main() -> Result<(), std::io::Error> {
     let args: Vec<String> = env::args().collect();
 

@@ -1,5 +1,5 @@
 [package]
-name = "day-01"
+name = "day_01"
 version = "0.1.0"
 authors = ["Christopher Biscardi <chris@christopherbiscardi.com>"]
 edition = "2018"
@@ -8,3 +8,9 @@ edition = "2018"
 
 [dependencies]
 itertools = "0.9.0"
+criterion = "0.3.3"
+
+
+[[bench]]
+name = "benchmark"
+harness = false
