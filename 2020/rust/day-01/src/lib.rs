@@ -1,10 +1,14 @@
 use itertools::Itertools;
 
 pub fn process(input: &str) -> Option<u64> {
-    input
+    let list = input
         .lines()
         .map(|string_num| string_num.parse::<u64>().unwrap())
-        .combinations(3)
-        .find(|perm| perm.iter().sum::<u64>() == 2020)
-        .map(|v| v.iter().product())
+        .collect::<Vec<u64>>();
+
+    list.iter()
+        .cartesian_product(list.iter())
+        .cartesian_product(list.iter())
+        .find(|((a, b), c)| **a + **b + **c == 2020)
+        .map(|((a, b), c)| a * b * c)
 }
