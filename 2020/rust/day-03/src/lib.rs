@@ -9,10 +9,9 @@ pub fn process_part1(input: &str) -> usize {
 fn process_slope(input: &str, (x, y): (usize, usize)) -> usize {
     let results = input
         .lines()
-        .map(|row| row.chars().cycle())
         .step_by(y)
         .enumerate()
-        .filter_map(|(iter_i, mut row)| match row.nth(iter_i * x) {
+        .filter_map(|(iter_i, row)| match row.chars().cycle().nth(iter_i * x) {
             Some('.') => None,
             s => s,
         })
