@@ -7,7 +7,7 @@ pub fn process_part1(input: &str) -> usize {
 }
 
 fn process_slope(input: &str, (x, y): (usize, usize)) -> usize {
-    let results = input
+    input
         .lines()
         .step_by(y)
         .enumerate()
@@ -15,8 +15,7 @@ fn process_slope(input: &str, (x, y): (usize, usize)) -> usize {
             Some('.') => None,
             s => s,
         })
-        .count();
-    results
+        .count()
 }
 pub fn process_part2(input: &str, slopes: Vec<(usize, usize)>) -> usize {
     slopes
