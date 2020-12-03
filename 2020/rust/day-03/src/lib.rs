@@ -7,12 +7,9 @@ pub fn process_part1(input: &str) -> usize {
 }
 
 fn process_slope(input: &str, (x, y): (usize, usize)) -> usize {
-    let num_rows = input.lines().count();
-    // let num_columns = input.lines().nth(0).unwrap().len();
-    let num_x_traversing = x * (num_rows / y) + 1;
     let results = input
         .lines()
-        .map(|row| row.chars().cycle().take(num_x_traversing))
+        .map(|row| row.chars().cycle())
         .step_by(y)
         .enumerate()
         .filter_map(|(iter_i, mut row)| match row.nth(iter_i * x) {
