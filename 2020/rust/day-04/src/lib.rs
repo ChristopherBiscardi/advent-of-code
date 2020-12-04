@@ -214,26 +214,7 @@ fn any(input: &str) -> IResult<&str, PassportParse> {
     nom::branch::alt((byr, iyr, eyr, hgt, hcl, ecl, pid, cid))(input)
 }
 fn passport(input: &str) -> IResult<&str, String> {
-    // many1(alt(byr, iyr, ...))
-    //     println!(
-    //         "input:
-    // {}",
-    //         input
-    //     );
     let (input, passport_values) = nom::multi::separated_list1(multispace1, any)(input)?;
-    //     println!(
-    //         "
-    // leftover:
-    // {}
-
-    // {:?}",
-    //         input, passport_values
-    //     );
-    //     println!(
-    //         "
-    // ---
-    // "
-    //     );
     if passport_values
         .iter()
         .filter(|c| match c {
