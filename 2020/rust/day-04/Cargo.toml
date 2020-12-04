@@ -1,0 +1,27 @@
+[package]
+name = "day_04"
+version = "0.1.0"
+authors = ["Christopher Biscardi <chris@christopherbiscardi.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+itertools = "0.9.0"
+nom = "6.0.1"
+
+[dev-dependencies]
+criterion = "0.3.3"
+
+[[bin]]
+name = "2020day4part1"
+path = "./src/part1.rs"
+
+[[bin]]
+name = "2020day4part2"
+path = "./src/part2.rs"
+
+
+[[bench]]
+name = "benchmark"
+harness = false
