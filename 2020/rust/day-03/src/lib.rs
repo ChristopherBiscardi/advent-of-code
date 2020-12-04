@@ -11,10 +11,12 @@ fn process_slope(input: &str, (x, y): (usize, usize)) -> usize {
         .lines()
         .step_by(y)
         .enumerate()
-        .filter_map(|(iter_i, row)| match row.chars().cycle().nth(iter_i * x) {
-            Some('.') => None,
-            s => s,
-        })
+        .filter_map(
+            |(iter_i, row)| match row.chars().nth((iter_i * x) % row.len()) {
+                Some('.') => None,
+                s => s,
+            },
+        )
         .count()
 }
 pub fn process_part2(input: &str, slopes: Vec<(usize, usize)>) -> usize {
