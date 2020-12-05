@@ -3,12 +3,14 @@
 use itertools::Itertools;
 use nom::{
     bytes::complete::{tag, take_while_m_n},
-    character::complete::{digit1, hex_digit1, multispace0, multispace1},
+    character::complete::{digit1, multispace0, multispace1},
     multi::fold_many_m_n,
     IResult,
 };
+extern crate nom_locate;
+use nom_locate::{position, LocatedSpan};
 
-use std::io::{Error, ErrorKind};
+type Span<'a> = LocatedSpan<&'a str>;
 
 pub fn process_part1(input: &str) -> usize {
     input
@@ -39,7 +41,7 @@ struct Passport<'a> {
     hgt: Height,
     // done
     hcl: String,
-    ecl: EYE_COLOR,
+    ecl: EyeColor,
     pid: &'a str, // cid: Option<>,
 }
 #[derive(Debug, Eq, PartialEq)]
@@ -49,7 +51,7 @@ enum PassportParse<'a> {
     EYR(usize),
     HGT(Height),
     HCL(String),
-    ECL(EYE_COLOR),
+    ECL(EyeColor),
     PID(&'a str),
     CID(()),
 }
@@ -57,11 +59,11 @@ use PassportParse::*;
 fn is_hex_digit(c: char) -> bool {
     c.is_digit(16)
 }
-fn hex_digit(input: &str) -> IResult<&str, &str> {
+fn hex_digit(input: Span) -> IResult<Span, &str> {
     let (input, color) = take_while_m_n(2, 2, is_hex_digit)(input)?;
-    Ok((input, color))
+    Ok((input, &color))
 }
-fn hcl(input: &str) -> IResult<&str, PassportParse> {
+fn hcl(input: Span) -> IResult<Span, PassportParse> {
     let (input, _) = tag("hcl:")(input)?;
     let (input, _) = tag("#")(input)?;
     let (input, color) = fold_many_m_n(3, 3, hex_digit, "".to_string(), |mut s: String, item| {
@@ -70,12 +72,7 @@ fn hcl(input: &str) -> IResult<&str, PassportParse> {
 
     Ok((input, HCL(color)))
 }
-fn year<'a>(
-    prefix: &'a str,
-    lower: usize,
-    upper: usize,
-    input: &'a str,
-) -> IResult<&'a str, usize> {
+fn year<'a>(prefix: &str, lower: usize, upper: usize, input: Span<'a>) -> IResult<Span<'a>, usize> {
     let (input, _) = tag(prefix)(input)?;
     let (input, year) = digit1(input)?;
     match year.parse::<usize>() {
@@ -95,25 +92,25 @@ fn year<'a>(
         })),
     }
 }
-fn byr(input: &str) -> IResult<&str, PassportParse> {
+fn byr(input: Span) -> IResult<Span, PassportParse> {
     year("byr:", 1920, 2002, input).map(|(i, r)| (i, BYR(r)))
 }
-fn iyr(input: &str) -> IResult<&str, PassportParse> {
+fn iyr(input: Span) -> IResult<Span, PassportParse> {
     year("iyr:", 2010, 2020, input).map(|(i, r)| (i, IYR(r)))
 }
-fn eyr(input: &str) -> IResult<&str, PassportParse> {
+fn eyr(input: Span) -> IResult<Span, PassportParse> {
     year("eyr:", 2020, 2030, input).map(|(i, r)| (i, EYR(r)))
 }
-fn cid(input: &str) -> IResult<&str, PassportParse> {
+fn cid(input: Span) -> IResult<Span, PassportParse> {
     let (input, _) = tag("cid:")(input)?;
     let (input, _) = digit1(input)?;
     Ok((input, CID(())))
 }
-fn pid(input: &str) -> IResult<&str, PassportParse> {
+fn pid(input: Span) -> IResult<Span, PassportParse> {
     let (input, _) = tag("pid:")(input)?;
-    let (input, year) = digit1(input)?;
-    if year.len() == 9 {
-        Ok((input, PID(year)))
+    let (input, id) = digit1(input)?;
+    if id.len() == 9 {
+        Ok((input, PID(&id)))
     } else {
         Err(nom::Err::Error(nom::error::Error {
             input,
@@ -122,7 +119,7 @@ fn pid(input: &str) -> IResult<&str, PassportParse> {
     }
 }
 #[derive(Debug, Eq, PartialEq)]
-enum EYE_COLOR {
+enum EyeColor {
     AMB,
     BLU,
     BRN,
@@ -131,7 +128,7 @@ enum EYE_COLOR {
     HZL,
     OTH,
 }
-fn ecl(input: &str) -> IResult<&str, PassportParse> {
+fn ecl(input: Span) -> IResult<Span, PassportParse> {
     let (input, _) = tag("ecl:")(input)?;
     let (input, eye) = nom::branch::alt((
         tag("amb"),
@@ -142,14 +139,14 @@ fn ecl(input: &str) -> IResult<&str, PassportParse> {
         tag("hzl"),
         tag("oth"),
     ))(input)?;
-    let eye_color = match eye {
-        "amb" => EYE_COLOR::AMB,
-        "blu" => EYE_COLOR::BLU,
-        "brn" => EYE_COLOR::BRN,
-        "gry" => EYE_COLOR::GRY,
-        "grn" => EYE_COLOR::GRN,
-        "hzl" => EYE_COLOR::HZL,
-        "oth" => EYE_COLOR::OTH,
+    let eye_color = match *eye {
+        "amb" => EyeColor::AMB,
+        "blu" => EyeColor::BLU,
+        "brn" => EyeColor::BRN,
+        "gry" => EyeColor::GRY,
+        "grn" => EyeColor::GRN,
+        "hzl" => EyeColor::HZL,
+        "oth" => EyeColor::OTH,
         _ => panic!("EYE COLOR PANIC! AT THE DISCO"),
     };
     Ok((input, ECL(eye_color)))
@@ -160,14 +157,14 @@ enum Height {
     Inches(usize),
     Centimeters(usize),
 }
-fn hgt(input: &str) -> IResult<&str, PassportParse> {
+fn hgt(input: Span) -> IResult<Span, PassportParse> {
     let (input, _) = tag("hgt:")(input)?;
     let (input, h) = digit1(input)?;
     let (input, measurement) = nom::branch::alt((tag("in"), tag("cm")))(input)?;
 
     match h.parse::<usize>() {
         Ok(digits) => {
-            let height = match (measurement) {
+            let height = match *measurement {
                 "in" => {
                     if digits >= 59 && digits <= 76 {
                         Ok((input, HGT(Height::Inches(digits))))
@@ -210,11 +207,13 @@ where
 {
     nom::sequence::delimited(multispace0, inner, multispace0)
 }
-fn any(input: &str) -> IResult<&str, PassportParse> {
+fn any(input: Span) -> IResult<Span, PassportParse> {
     nom::branch::alt((byr, iyr, eyr, hgt, hcl, ecl, pid, cid))(input)
 }
-fn passport(input: &str) -> IResult<&str, String> {
+fn passport(input: Span) -> IResult<Span, String> {
     let (input, passport_values) = nom::multi::separated_list1(multispace1, any)(input)?;
+    // let (s, pos) = position(input)?;
+    // println!("s {:?}", pos);
     if passport_values
         .iter()
         .filter(|c| match c {
@@ -233,7 +232,10 @@ fn passport(input: &str) -> IResult<&str, String> {
     }
 }
 pub fn process_part2(input: &str) -> usize {
-    input.split("\n\n").flat_map(|v| passport(v).ok()).count()
+    input
+        .split("\n\n")
+        .flat_map(|v| passport(Span::new(v)).ok())
+        .count()
 }
 
 #[cfg(test)]
@@ -264,16 +266,25 @@ iyr:2011 ecl:brn hgt:59in",
     }
     #[test]
     fn text_hcl() {
-        assert_eq!(hcl("hcl:#1fa9f4").unwrap(), ("", HCL("1fa9f4".to_string())));
+        assert_eq!(
+            hcl(Span::new("hcl:#1fa9f4")).unwrap(),
+            (
+                unsafe { Span::new_from_raw_offset(11, 1, "", ()) },
+                HCL("1fa9f4".to_string())
+            )
+        );
     }
     #[test]
     fn test_input_two_single() {
         assert_eq!(
-            passport(
+            passport(Span::new(
                 "pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
-hcl:#623a2f"
-            ),
-            Ok(("", "".to_string()))
+        hcl:#623a2f"
+            )),
+            Ok((
+                unsafe { Span::new_from_raw_offset(77, 2, "", ()) },
+                "".to_string()
+            ))
         )
     }
     #[test]
@@ -317,4 +328,15 @@ pid:3556412378 byr:2007",
             0
         )
     }
+
+    //     #[test]
+    //     fn test_input_spans() {
+    //         assert_eq!(
+    //             any(Span::new(
+    //                 "eyr:1972 cid:100
+    // hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926"
+    //             ),),
+    //             Ok((Span::new(""), HCL("#1fa9f4".to_string())))
+    //         )
+    //     }
 }
