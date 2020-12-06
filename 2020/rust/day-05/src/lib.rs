@@ -1,5 +1,6 @@
-#![feature(iterator_fold_self)]
+// #![feature(iterator_fold_self)]
 
+use bitvec::prelude::*;
 use itertools::Itertools;
 
 #[derive(Debug, Eq, PartialEq)]
@@ -14,39 +15,29 @@ impl Seat {
 }
 
 fn process_seat(input: &str) -> Seat {
-    let groups = input
+    let mut groups = input
         .chars()
         .group_by(|c| *c == 'F' || *c == 'B')
         .into_iter()
-        .map(|(_, s)| s.collect::<String>())
-        .collect::<Vec<String>>();
-    let row = groups[0].chars().fold((0, 128), |acc, cur| match cur {
-        'F' => {
-            let size = acc.1 - acc.0;
-            (acc.0, acc.1 - size / 2)
-        }
-        'B' => {
-            let size = acc.1 - acc.0;
-            (acc.0 + size / 2, acc.1)
-        }
-        c => panic!("FB panic {}", c),
-    });
-    let column = groups[1].chars().fold((0, 8), |acc, cur| match cur {
-        'L' => {
-            let size = acc.1 - acc.0;
-            (acc.0, acc.1 - size / 2)
-        }
-        'R' => {
-            let size = acc.1 - acc.0;
-            (acc.0 + size / 2, acc.1)
-        }
-        c => panic!("LR panic {}", c),
-    });
+        .map(|(_, s)| {
+            s.map(|v| match v {
+                'B' | 'R' => true,
+                'F' | 'L' => false,
+                _ => panic!("asfkj"),
+            })
+            .collect::<BitVec>()
+        })
+        .collect::<Vec<_>>();
+
+    groups[0].reverse();
+    groups[1].reverse();
+
     Seat {
-        row: row.0,
-        column: column.0,
+        row: groups[0][0..7].load::<u8>().into(),
+        column: groups[1][0..].load::<u8>().into(),
     }
 }
+
 pub fn process_part1(input: &str) -> usize {
     input.lines().map(|v| process_seat(v).id()).max().unwrap()
 }

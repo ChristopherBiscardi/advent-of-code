@@ -264,6 +264,7 @@ dependencies = [
 name = "day_05"
 version = "0.1.0"
 dependencies = [
+ "bitvec",
  "criterion",
  "itertools",
  "nom",

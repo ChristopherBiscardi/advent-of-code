@@ -10,6 +10,7 @@ edition = "2018"
 itertools = "0.9.0"
 nom = "6.0.1"
 nom_locate = "3.0.0"
+bitvec = "0.19.4"
 
 [dev-dependencies]
 criterion = "0.3.3"
