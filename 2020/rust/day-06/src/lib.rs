@@ -1,62 +1,31 @@
 #![feature(bool_to_option)]
+#![feature(iterator_fold_self)]
 
 use itertools::Itertools;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 pub fn process_part1(input: &str) -> usize {
     input
-        .lines()
-        .group_by(|line| line.is_empty())
-        .into_iter()
-        .filter_map(|(_, lines)| {
-            let s = lines.collect::<String>();
-            if s.is_empty() {
-                return None;
-            }
-            let count = s.chars().unique().count();
-            Some(count)
+        .split("\n\n")
+        .map(|lines| {
+            lines
+                .chars()
+                .filter(|v| *v != '\n')
+                .collect::<HashSet<char>>()
+                .len()
         })
         .sum()
 }
 
 pub fn process_part2(input: &str) -> usize {
     input
-        .lines()
-        .group_by(|line| line.is_empty())
-        .into_iter()
-        .filter_map(|(_, line_group)| {
-            // count occurrences of chars
-            let line_maps = line_group
-                .filter_map(|line| {
-                    let map =
-                        line.chars()
-                            .fold(HashMap::new(), |mut map: HashMap<char, usize>, c| {
-                                map.entry(c).and_modify(|v| *v += 1).or_insert(1);
-                                map
-                            });
-                    if map.len() == 0 {
-                        None
-                    } else {
-                        Some(map)
-                    }
-                })
-                .collect::<Vec<_>>();
-
-            let num_people = line_maps.len();
-            let s = line_maps
-                .into_iter()
-                .fold(HashMap::new(), |mut acc: HashMap<char, usize>, map| {
-                    for (c, num_ocurrences) in map.iter() {
-                        acc.entry(*c).and_modify(|v| *v += 1).or_insert(1);
-                    }
-
-                    acc
-                })
-                .into_iter()
-                .filter_map(|(k, v)| (v == num_people).then(|| 1));
-
-            let count = s.count();
-            Some(count)
+        .split("\n\n")
+        .filter_map(|lines| {
+            lines
+                .split('\n')
+                .map(|line| line.chars().collect::<HashSet<char>>())
+                .fold_first(|acc, v| acc.intersection(&v).cloned().collect())
+                .map(|m| m.len())
         })
         .sum()
 }

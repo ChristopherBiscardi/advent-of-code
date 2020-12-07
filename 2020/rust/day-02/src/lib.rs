@@ -1,6 +1,10 @@
 // use itertools::Itertools;
 use lazy_static::lazy_static;
-use nom::{bytes::complete::tag, character, IResult};
+use nom::{
+    bytes::complete::tag,
+    character::complete::{alpha1, anychar, digit1},
+    IResult,
+};
 use regex::Regex;
 use std::io::{Error, ErrorKind};
 struct PasswordLine<'a> {
@@ -11,13 +15,13 @@ struct PasswordLine<'a> {
 }
 
 fn password_line(input: &str) -> IResult<&str, PasswordLine> {
-    let (input, lower) = character::complete::digit1(input)?;
+    let (input, lower) = digit1(input)?;
     let (input, _) = tag("-")(input)?;
-    let (input, upper) = character::complete::digit1(input)?;
+    let (input, upper) = digit1(input)?;
     let (input, _) = tag(" ")(input)?;
-    let (input, parsed_character) = character::complete::anychar(input)?;
+    let (input, parsed_character) = anychar(input)?;
     let (input, _) = tag(": ")(input)?;
-    let (input, password) = character::complete::alpha1(input)?;
+    let (input, password) = alpha1(input)?;
 
     Ok((
         input,
