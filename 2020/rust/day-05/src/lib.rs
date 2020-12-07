@@ -14,27 +14,29 @@ impl Seat {
     }
 }
 
-fn process_seat(input: &str) -> Seat {
-    let mut groups = input
-        .chars()
-        .group_by(|c| *c == 'F' || *c == 'B')
-        .into_iter()
-        .map(|(_, s)| {
-            s.map(|v| match v {
-                'B' | 'R' => true,
-                'F' | 'L' => false,
-                _ => panic!("asfkj"),
-            })
-            .collect::<BitVec>()
-        })
-        .collect::<Vec<_>>();
+fn char_to_bool(c: char) -> bool {
+    match c {
+        'B' | 'R' => true,
+        'F' | 'L' => false,
+        _ => panic!("asfkj"),
+    }
+}
 
-    groups[0].reverse();
-    groups[1].reverse();
+fn process_seat(input: &str) -> Seat {
+    let mut a = input.chars().take(7).map(char_to_bool).collect::<BitVec>();
+    let mut b = input
+        .chars()
+        .skip(7)
+        .take(3)
+        .map(char_to_bool)
+        .collect::<BitVec>();
+
+    a.reverse();
+    b.reverse();
 
     Seat {
-        row: groups[0][0..7].load::<u8>().into(),
-        column: groups[1][0..].load::<u8>().into(),
+        row: a[0..].load::<u8>().into(),
+        column: b[0..].load::<u8>().into(),
     }
 }
 

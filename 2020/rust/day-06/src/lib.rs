@@ -1,4 +1,3 @@
-#![feature(bool_to_option)]
 #![feature(iterator_fold_self)]
 
 use itertools::Itertools;
