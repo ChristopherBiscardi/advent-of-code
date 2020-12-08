@@ -5,10 +5,9 @@ use itertools::Itertools;
 use nom::{
     branch::alt,
     bytes::complete::{tag, take_until},
-    character::complete::{alpha0, anychar, char, digit1},
+    character::complete::{char, digit1},
     combinator::opt,
     multi::{many1, separated_list1},
-    sequence::terminated,
     IResult,
 };
 use nom_locate::{position, LocatedSpan};
@@ -56,11 +55,16 @@ fn bag_line(input: Span) -> IResult<Span, Bag> {
         },
     ))
 }
+
+fn bags(input: Span) -> IResult<Span, Vec<Bag>> {
+    let (input, vs) = separated_list1(char('\n'), bag_line)(input)?;
+    Ok((input, vs))
+}
 pub fn process_part1(input: &str) -> usize {
-    let bags = input
-        .lines()
-        .flat_map(|v| opt(bag_line)(Span::new(v)).ok().and_then(|(span, res)| res))
-        .collect::<Vec<Bag>>();
+    let bags = opt(bags)(Span::new(input))
+        .ok()
+        .and_then(|(_, res)| res)
+        .unwrap();
 
     let (mut dag, mut map) = bags.iter().enumerate().fold(
         {
@@ -86,7 +90,7 @@ pub fn process_part1(input: &str) -> usize {
         }
     }
     let gold_index = daggy::NodeIndex::new(*map.get("shiny gold").unwrap());
-    dbg!(gold_index);
+    // dbg!(gold_index);
 
     let mut visited: Vec<daggy::NodeIndex<usize>> = vec![];
     let mut parents: Vec<_> = dag.parents(gold_index).iter(&dag).collect();
