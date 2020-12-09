@@ -31,32 +31,34 @@ pub fn process_part1(input: &str, preamble_length: usize) -> isize {
     let nums = nums(Span::new(input)).ok().unwrap().1;
     // err is an err, but we want that value here
     // to detect the infinite loop
-    find_part1_num(nums, preamble_length)
+    find_part1_num(&nums, preamble_length)
 }
 
-fn find_part1_num(nums: Vec<isize>, preamble_length: usize) -> isize {
-    // nums.windows(preamble_length).
-    for cur_idx in (preamble_length + 1)..nums.len() {
-        let preamble_nums = &nums[(cur_idx - preamble_length)..cur_idx];
-        let count = preamble_nums
-            .iter()
-            .filter_map(|preamble_num| {
-                preamble_nums
-                    .contains(&(nums[cur_idx] - preamble_num))
-                    .then(|| true)
-            })
-            .count();
-        if count > 0 {
-            continue;
-        } else {
-            return nums[cur_idx];
-        }
-    }
-    panic!("no num found");
+fn find_part1_num(nums: &[isize], preamble_length: usize) -> isize {
+    *nums
+        .windows(preamble_length + 1)
+        .find_map(|num_group| {
+            let (cur_num, preamble_nums) = num_group.split_last().unwrap();
+            let count = preamble_nums
+                .iter()
+                .filter_map(|preamble_num| {
+                    preamble_nums
+                        .contains(&(cur_num - preamble_num))
+                        .then(|| true)
+                })
+                .count();
+            if count > 0 {
+                None
+            } else {
+                Some(cur_num)
+            }
+        })
+        .expect("no num found")
 }
+
 pub fn process_part2(input: &str, preamble_length: usize) -> isize {
     let nums = nums(Span::new(input)).ok().unwrap().1;
-    let part_1_num = find_part1_num(nums.clone(), preamble_length);
+    let part_1_num = find_part1_num(&nums, preamble_length);
     for window_size in 2.. {
         let result = nums
             .windows(window_size)
