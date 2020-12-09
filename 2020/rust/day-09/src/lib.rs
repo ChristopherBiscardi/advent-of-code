@@ -41,7 +41,7 @@ fn find_part1_num(nums: &[isize], preamble_length: usize) -> isize {
             let (cur_num, preamble_nums) = num_group.split_last().unwrap();
             preamble_nums
                 .iter()
-                .all(|preamble_num| !preamble_nums.contains(&(*cur_num - *preamble_num)))
+                .all(|preamble_num| !preamble_nums.contains(&(cur_num - preamble_num)))
                 .then(|| cur_num)
         })
         .expect("no num found")
