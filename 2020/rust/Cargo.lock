@@ -313,6 +313,7 @@ dependencies = [
  "itertools",
  "nom",
  "nom_locate",
+ "rayon",
 ]
 
 [[package]]

@@ -1,5 +1,5 @@
 #![feature(non_ascii_idents)]
-
+use rayon::prelude::*;
 use itertools::Itertools;
 use nom::{
     branch::alt,
@@ -94,7 +94,7 @@ fn execute(commands: Vec<Instruction>) -> Result<isize, isize> {
 pub fn process_part2(input: &str) -> isize {
     let commands = instructions(Span::new(input)).ok().unwrap().1;
     commands
-        .iter()
+        .par_iter()
         .enumerate()
         .filter_map(|(i, v)| match v {
             ACCUMULATE(v) => None,
