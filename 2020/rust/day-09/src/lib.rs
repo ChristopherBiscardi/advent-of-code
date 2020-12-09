@@ -39,19 +39,10 @@ fn find_part1_num(nums: &[isize], preamble_length: usize) -> isize {
         .windows(preamble_length + 1)
         .find_map(|num_group| {
             let (cur_num, preamble_nums) = num_group.split_last().unwrap();
-            let count = preamble_nums
+            preamble_nums
                 .iter()
-                .filter_map(|preamble_num| {
-                    preamble_nums
-                        .contains(&(cur_num - preamble_num))
-                        .then(|| true)
-                })
-                .count();
-            if count > 0 {
-                None
-            } else {
-                Some(cur_num)
-            }
+                .all(|preamble_num| !preamble_nums.contains(&(*cur_num - *preamble_num)))
+                .then(|| cur_num)
         })
         .expect("no num found")
 }
