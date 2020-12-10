@@ -28,7 +28,11 @@ fn nums(input: Span) -> IResult<Span, Vec<isize>> {
     Ok((input, vs))
 }
 pub fn process_part1(input: &str, preamble_length: usize) -> isize {
-    let nums = nums(Span::new(input)).ok().unwrap().1;
+    // let nums = nums(Span::new(input)).ok().unwrap().1;
+    let nums = input
+        .lines()
+        .map(|num_str| num_str.parse::<isize>().unwrap())
+        .collect::<Vec<isize>>();
     // err is an err, but we want that value here
     // to detect the infinite loop
     find_part1_num(&nums, preamble_length)
@@ -48,7 +52,10 @@ fn find_part1_num(nums: &[isize], preamble_length: usize) -> isize {
 }
 
 pub fn process_part2(input: &str, preamble_length: usize) -> isize {
-    let nums = nums(Span::new(input)).ok().unwrap().1;
+    let nums = input
+        .lines()
+        .map(|num_str| num_str.parse::<isize>().unwrap())
+        .collect::<Vec<isize>>();
     let part_1_num = find_part1_num(&nums, preamble_length);
     for window_size in 2.. {
         let result = nums
@@ -65,7 +72,7 @@ pub fn process_part2(input: &str, preamble_length: usize) -> isize {
             Some(v) => return v,
         }
     }
-    panic!("SHOULDN'T REACH THIS; AOC INPUT IS VALID");
+    panic!("SHOULDN'T REACH THIS; AOC INPUT IS VALID AND YOU ARE TOO.");
 }
 
 #[cfg(test)]
