@@ -3,13 +3,13 @@ use today::{process_part1, process_part2};
 
 const INPUT: &'static str = include_str!("../input.txt");
 fn bench_1(c: &mut Criterion) {
-    c.bench_function("day-12:part-1", |b| {
+    c.bench_function("day-11:part-1", |b| {
         b.iter(|| process_part1(black_box(INPUT)))
     });
 }
 
 fn bench_2(c: &mut Criterion) {
-    c.bench_function("day-12:part-2", |b| {
+    c.bench_function("day-11:part-2", |b| {
         b.iter(|| process_part2(black_box(INPUT)))
     });
 }
