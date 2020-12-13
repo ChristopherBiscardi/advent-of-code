@@ -1,9 +1,3 @@
-use itertools::Itertools;
-use std::cmp::{Ord, Ordering};
-use std::collections::HashMap;
-use std::convert::TryInto;
-use std::fmt;
-
 fn instruction(input: &str) -> (&str, isize) {
     let (dir, i) = input.split_at(1);
     (dir, i.parse::<isize>().unwrap())
