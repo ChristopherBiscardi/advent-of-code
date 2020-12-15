@@ -1,72 +1,79 @@
-use itertools::Itertools;
+use std::collections::HashMap;
 
-fn step(nums: &[usize]) -> usize {
-    if let Some((last, elems)) = nums.split_last() {
-        match elems.iter().rev().find(|v| *v == last) {
-            Some(pos) => nums.len() - pos - 1,
-            None => 0,
+fn step(nums: &HashMap<usize, usize>, last: usize, cur_index: usize) -> usize {
+    // println!("turn {} {}", cur_index + 1, last);
+    match nums.get(&last) {
+        Some(pos) => {
+            // println!("calc: {} - {} ", cur_index, pos);
+            cur_index - pos
         }
-    } else {
-        panic!("This should never happen")
+        None => {
+            // println!("None");
+            0
+        }
     }
 }
 
 pub fn process_part1(input: &str) -> usize {
-    let nums = input
+    let nums: HashMap<usize, usize> = input
         .split(',')
         .map(|v| v.parse::<usize>().expect("valid number"))
-        .collect::<Vec<usize>>();
-    let result = (0..)
+        .enumerate()
+        .fold(HashMap::new(), |mut map, current| {
+            map.insert(current.1, current.0);
+            map
+        });
+    let len = nums.len();
+    // let end = *nums.iter().max_by_key(|v| v.1).unwrap().0;
+    let result = (nums.len()..)
         .into_iter()
-        .scan(vec![], |mut state, i| match nums.get(i) {
-            Some(num) => {
-                state.push(*num);
-                Some(*num)
-            }
-            None => {
-                let next_num = step(state);
-                state.push(next_num);
-                Some(next_num)
-            }
+        .scan((nums, 0), |(map, last), i| {
+            let next_num = step(&map, *last, i);
+            map.insert(*last, i);
+            *last = next_num;
+            // dbg!(map);
+            Some(next_num)
         })
-        // .take(20)
-        // .inspect(|next| {
-        //     dbg!(next);
+        // .take(10)
+        // .inspect(|gen_num| {
+        //     dbg!(gen_num);
         // })
         // .collect::<Vec<usize>>();
-        .nth(2019)
+        .nth(2019 - len - 1)
         .expect("value");
-    // dbg!(result);
+    // dbg!(result)
     result
 }
 
 pub fn process_part2(input: &str) -> usize {
-    let nums = input
+    let nums: HashMap<usize, usize> = input
         .split(',')
         .map(|v| v.parse::<usize>().expect("valid number"))
-        .collect::<Vec<usize>>();
-    let result = (0..)
+        .enumerate()
+        .fold(HashMap::new(), |mut map, current| {
+            map.insert(current.1, current.0);
+            map
+        });
+    let len = nums.len();
+    let end = *nums.iter().max_by_key(|v| v.1).unwrap().0;
+    let result = (nums.len()..)
         .into_iter()
-        .scan(vec![], |mut state, i| match nums.get(i) {
-            Some(num) => {
-                state.push(*num);
-                Some(*num)
-            }
-            None => {
-                let next_num = step(state);
-                state.push(next_num);
-                Some(next_num)
-            }
+        .scan((nums, 0), |(map, last), i| {
+            let next_num = step(&map, *last, i);
+            map.insert(*last, i);
+            *last = next_num;
+            // dbg!(map);
+            Some(next_num)
         })
         // .take(20)
-        .enumerate()
-        .inspect(|next| {
-            dbg!(next.0);
-        })
+        // .enumerate()
+        // .inspect(|next| {
+        //     dbg!(next.0);
+        // })
         // .collect::<Vec<usize>>();
-        .nth(30_000_000)
-        .expect("value")
-        .1;
+        .nth(30_000_000 - len - 2)
+        .expect("value");
+    // .1;
     // dbg!(result);
     result
 }
