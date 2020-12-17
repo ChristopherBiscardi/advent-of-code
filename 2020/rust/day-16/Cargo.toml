@@ -1,5 +1,5 @@
 [package]
-name = "day_10"
+name = "day_16"
 version = "0.1.0"
 authors = ["Christopher Biscardi <chris@christopherbiscardi.com>"]
 edition = "2018"
@@ -11,6 +11,7 @@ itertools = "0.9.0"
 nom = "6.0.1"
 nom_locate = "3.0.0"
 rayon = "1.5.0"
+nom-supreme = "0.1.2"
 
 [dev-dependencies]
 criterion = "0.3.3"
@@ -24,7 +25,7 @@ name = "part2"
 path = "./src/part2.rs"
 
 [lib]
-name = "day_10"
+name = "today"
 path = "src/lib.rs"
 
 [[bench]]
