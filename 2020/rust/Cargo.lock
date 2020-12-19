@@ -70,6 +70,12 @@ checksum = "2e8c087f005730276d1096a652e92a8bacee2e2472bcc9715a74d2bec38b5820"
 
 [[package]]
 name = "bytecount"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f861d9ce359f56dbcb6e0c2a1cb84e52ad732cadb57b806adeb3c7668caccbd8"
+
+[[package]]
+name = "bytecount"
 version = "0.6.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72feb31ffc86498dacdbd0fcebb56138e7177a8cc5cea4516031d15ae85a742e"
@@ -252,7 +258,7 @@ dependencies = [
  "criterion",
  "itertools",
  "lazy_static",
- "nom",
+ "nom 6.0.1",
  "regex",
 ]
 
@@ -262,7 +268,7 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
+ "nom 6.0.1",
 ]
 
 [[package]]
@@ -271,8 +277,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
 ]
 
 [[package]]
@@ -282,8 +288,8 @@ dependencies = [
  "bitvec",
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
 ]
 
 [[package]]
@@ -293,8 +299,8 @@ dependencies = [
  "bitvec",
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
 ]
 
 [[package]]
@@ -305,8 +311,8 @@ dependencies = [
  "criterion",
  "daggy",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
 ]
 
 [[package]]
@@ -317,8 +323,8 @@ dependencies = [
  "criterion",
  "daggy",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -328,8 +334,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -339,8 +345,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -350,8 +356,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -361,8 +367,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -372,8 +378,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
- "nom_locate",
+ "nom 6.0.1",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -383,9 +389,9 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
+ "nom 6.0.1",
  "nom-supreme",
- "nom_locate",
+ "nom_locate 3.0.0",
  "rayon",
 ]
 
@@ -395,10 +401,24 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "itertools",
- "nom",
+ "nom 6.0.1",
  "nom-supreme",
- "nom_locate",
+ "nom_locate 3.0.0",
  "rayon",
+]
+
+[[package]]
+name = "day_18"
+version = "0.1.0"
+dependencies = [
+ "criterion",
+ "itertools",
+ "nom 6.0.1",
+ "nom-recursive",
+ "nom-supreme",
+ "nom_locate 3.0.0",
+ "rayon",
+ "trees",
 ]
 
 [[package]]
@@ -445,6 +465,12 @@ name = "indent_write"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "80406a495a19a297b9d2331969027e6e670534ccd2fe541da3c0e53b6a96ffc7"
+
+[[package]]
+name = "indexed"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64d9ca77b99ee70a9251b23d3a5167336665b91addfdd52381cf13d3693427e6"
 
 [[package]]
 name = "indexmap"
@@ -537,6 +563,17 @@ dependencies = [
 
 [[package]]
 name = "nom"
+version = "5.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ffb4262d26ed83a1c0a33a38fe2bb15797329c85770da05e6b828ddb782627af"
+dependencies = [
+ "lexical-core",
+ "memchr",
+ "version_check",
+]
+
+[[package]]
+name = "nom"
 version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "88034cfd6b4a0d54dd14f4a507eceee36c0b70e5a02236c4e4df571102be17f0"
@@ -545,6 +582,27 @@ dependencies = [
  "lexical-core",
  "memchr",
  "version_check",
+]
+
+[[package]]
+name = "nom-recursive"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e0de2967d4f9065b08596dcfa9be631abc4997951b9e0a93e2279b052370bacc"
+dependencies = [
+ "nom-recursive-macros",
+ "nom_locate 1.0.0",
+ "nom_locate 3.0.0",
+]
+
+[[package]]
+name = "nom-recursive-macros"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "07744fc6b7423baf7198f9e1200305f27eafe7395289fa7462b63dacd4eac78d"
+dependencies = [
+ "quote",
+ "syn",
 ]
 
 [[package]]
@@ -557,7 +615,18 @@ dependencies = [
  "indent_write",
  "joinery",
  "memchr",
- "nom",
+ "nom 6.0.1",
+]
+
+[[package]]
+name = "nom_locate"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f932834fd8e391fc7710e2ba17e8f9f8645d846b55aa63207e17e110a1e1ce35"
+dependencies = [
+ "bytecount 0.3.2",
+ "memchr",
+ "nom 5.1.2",
 ]
 
 [[package]]
@@ -566,9 +635,9 @@ version = "3.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7eea0a4e89c311de638c9f933521dbb8c7c4ab1cf722d0d6920aae0eb5c5c102"
 dependencies = [
- "bytecount",
+ "bytecount 0.6.2",
  "memchr",
- "nom",
+ "nom 6.0.1",
 ]
 
 [[package]]
@@ -826,6 +895,15 @@ checksum = "6d3dc76004a03cec1c5932bca4cdc2e39aaa798e3f82363dd94f9adf6098c12f"
 dependencies = [
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "trees"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fcd12c7f693050b0724c2b7d678c62ae8370554b33267702d5adf4b4fa116fb"
+dependencies = [
+ "indexed",
 ]
 
 [[package]]
