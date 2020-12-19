@@ -14,6 +14,7 @@ rayon = "1.5.0"
 nom-supreme = "0.1.2"
 trees = "0.3.0"
 nom-recursive = "0.3.0"
+santa18 = { path = "../santa-replace-18" }
 
 [dev-dependencies]
 criterion = "0.3.3"
@@ -29,6 +30,7 @@ path = "./src/part2.rs"
 [lib]
 name = "today"
 path = "src/lib.rs"
+
 
 [[bench]]
 name = "benchmark"

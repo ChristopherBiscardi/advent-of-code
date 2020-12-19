@@ -1,29 +1,7 @@
-use itertools::Itertools;
-use std::convert::TryInto;
-use trees::Tree;
-// use std::collections::HashMap;
-use nom::{
-    branch::alt,
-    bytes::complete::{take_until, take_while},
-    character::{
-        complete::{alpha1, char, digit1, newline, space1},
-        is_alphabetic, is_space,
-    },
-    combinator::opt,
-    multi::{many1, separated_list1},
-    IResult,
-};
-// use nom_locate::{position, LocatedSpan};
-use nom_locate::LocatedSpan;
-use nom_supreme::{
-    error::ErrorTree,
-    final_parser::{final_parser, Location},
-    tag::complete::tag,
-};
-
 mod libpart1;
 mod libpart2;
 use libpart1::Calc;
+
 // 2 * 3 + (4 * 5)
 // ("2" "*" "3" "+" ("4" "*" "5"))
 // type Span<'a> = LocatedSpan<&'a str>;
@@ -66,10 +44,7 @@ pub fn process_part1(input: &str) -> usize {
 }
 
 pub fn process_part2(input: &str) -> usize {
-    input
-        .lines()
-        .map(|line| fold_calc(&libpart2::parse(line).unwrap()))
-        .sum()
+    libpart2::solve()
 }
 
 #[cfg(test)]
