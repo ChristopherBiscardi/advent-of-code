@@ -20,7 +20,7 @@ impl std::ops::Mul for SantaNum {
 }
 
 pub fn solve() -> usize {
-    let results = include!("./part2-input.txt");
+    let results = santa_replace!();
     let sum: usize = results.iter().map(|v| v.0).sum();
     sum
 }
