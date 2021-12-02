@@ -1,5 +1,9 @@
 #[cfg(feature = "dhat")]
 use dhat::{Dhat, DhatAlloc};
+use nom::{
+    branch::alt, bytes::complete::tag,
+    character::complete::i32, IResult,
+};
 use std::fs;
 
 #[cfg(feature = "dhat")]
@@ -30,24 +34,43 @@ fn main() {
     let final_position = file.lines().fold(
         Submarine::default(),
         |mut acc, item| {
-            let items =
-                item.split(' ').collect::<Vec<&str>>();
-            let magnitude =
-                items[1].parse::<i32>().unwrap();
-            match items[0] {
-                "forward" => {
+            let (_, dir) = parse_direction(item).unwrap();
+
+            match dir {
+                Direction::Forward(magnitude) => {
                     acc.x += magnitude;
                 }
-                "up" => {
+                Direction::Up(magnitude) => {
                     acc.y -= magnitude;
                 }
-                "down" => {
+                Direction::Down(magnitude) => {
                     acc.y += magnitude;
                 }
-                i => panic!("unhandled input {}", i),
             };
             acc
         },
     );
     dbg!(final_position.finalize());
+}
+
+fn parse_direction(
+    input: &str,
+) -> IResult<&str, Direction> {
+    let (input, dir) =
+        alt((tag("forward"), tag("up"), tag("down")))(
+            input,
+        )?;
+    let (input, _) = tag(" ")(input)?;
+    let (input, magnitude) = i32(input)?;
+
+    let result = match dir {
+        "forward" => Direction::Forward(magnitude),
+        "up" => Direction::Up(magnitude),
+        "down" => Direction::Down(magnitude),
+        _ => {
+            panic!("invalid")
+        }
+    };
+
+    Ok((input, result))
 }
