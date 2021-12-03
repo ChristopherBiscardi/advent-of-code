@@ -9,3 +9,13 @@ dhat: At t-gmax: 117,960 bytes in 491 blocks
 dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
+
+original part2
+
+```
+5736383
+dhat: Total:     988,868 bytes in 8,407 blocks
+dhat: At t-gmax: 294,808 bytes in 3,008 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
