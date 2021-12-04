@@ -22,6 +22,16 @@ dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
 
+### After switching to arrays for the board parser
+
+```
+49686
+dhat: Total:     209,086 bytes in 415 blocks
+dhat: At t-gmax: 114,130 bytes in 103 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
 ## Part 2
 
 ### original part 2
@@ -39,6 +49,16 @@ dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
 26878
 dhat: Total:     307,694 bytes in 622 blocks
+dhat: At t-gmax: 116,242 bytes in 105 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+### After switching to arrays for the board parser
+
+```
+26878
+dhat: Total:     211,694 bytes in 422 blocks
 dhat: At t-gmax: 116,242 bytes in 105 blocks
 dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html

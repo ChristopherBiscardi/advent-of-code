@@ -85,14 +85,18 @@ fn square(input: &str) -> IResult<&str, &str> {
     Ok((input, value))
 }
 pub fn row(input: &str) -> IResult<&str, [&str; 5]> {
+    let (input, _) = opt(newline)(input)?;
     let (input, _) = opt(space1)(input)?;
     let mut buf = [""; 5];
     let (input, ()) = fill(square, &mut buf)(input)?;
     Ok((input, buf))
 }
 pub fn board(input: &str) -> IResult<&str, Board> {
-    let (input, rows) =
-        separated_list1(newline, row)(input)?;
+    let mut rows = [[""; 5]; 5];
+    let (input, ()) = fill(row, &mut rows)(input)?;
+
+    // let (input, rows) =
+    //     separated_list1(newline, row)(input)?;
     let data = rows
         .iter()
         .flat_map(|row| {
