@@ -4,7 +4,7 @@ use nom::{
     bytes::complete::tag,
     character::complete::{digit1, newline, space1},
     combinator::opt,
-    multi::separated_list1,
+    multi::{fill, separated_list1},
     IResult,
 };
 
@@ -79,9 +79,16 @@ impl<'a> Board<'a> {
         }
     }
 }
-pub fn row(input: &str) -> IResult<&str, Vec<&str>> {
+fn square(input: &str) -> IResult<&str, &str> {
+    let (input, value) = digit1(input)?;
     let (input, _) = opt(space1)(input)?;
-    separated_list1(space1, digit1)(input)
+    Ok((input, value))
+}
+pub fn row(input: &str) -> IResult<&str, [&str; 5]> {
+    let (input, _) = opt(space1)(input)?;
+    let mut buf = [""; 5];
+    let (input, ()) = fill(square, &mut buf)(input)?;
+    Ok((input, buf))
 }
 pub fn board(input: &str) -> IResult<&str, Board> {
     let (input, rows) =
