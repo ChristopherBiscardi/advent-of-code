@@ -20,12 +20,15 @@ fn process(input: &str) -> u32 {
     let stuff = input
         .lines()
         .map(|row| {
-            row.split("")
-                .filter(|v| v != &"")
-                .map(|v| v.parse().unwrap())
-                .collect::<Vec<i32>>()
+            row.chars()
+                .map(|c| match c {
+                    '0' => false,
+                    '1' => true,
+                    _ => panic!("invalid input"),
+                })
+                .collect::<BitVec<Msb0>>()
         })
-        .collect::<Vec<Vec<i32>>>();
+        .collect::<Vec<BitVec<Msb0>>>();
 
     let mut gamma_vecs = stuff.clone();
     let mut epsilon_vecs = stuff.clone();
@@ -37,13 +40,13 @@ fn process(input: &str) -> u32 {
             .iter()
             .filter(|v| {
                 v[i] == match gamma[i] {
-                    None => 1,
-                    Some(true) => 1,
-                    Some(false) => 0,
+                    None => true,
+                    Some(true) => true,
+                    Some(false) => false,
                 }
             })
             .cloned()
-            .collect::<Vec<Vec<i32>>>();
+            .collect::<Vec<BitVec<Msb0>>>();
         // println!("gamma: {}, {:?}", i, &gamma[i]);
         // // println!("gamma: {:#?}", &gamma);
         // println!("output: {:?}", vecs);
@@ -62,13 +65,13 @@ fn process(input: &str) -> u32 {
             .iter()
             .filter(|v| {
                 v[i] == match epsilon[i] {
-                    None => 0,
-                    Some(true) => 1,
-                    Some(false) => 0,
+                    None => false,
+                    Some(true) => true,
+                    Some(false) => false,
                 }
             })
             .cloned()
-            .collect::<Vec<Vec<i32>>>();
+            .collect::<Vec<BitVec<Msb0>>>();
         if vecs.len() == 0 {
             break;
         } else {
@@ -77,24 +80,23 @@ fn process(input: &str) -> u32 {
     }
     let oxygen = gamma_vecs[0]
         .iter()
-        .map(|v| match v {
-            0 => false,
-            1 => true,
+        .map(|v| match *v {
+            false => false,
+            true => true,
             _ => panic!("Asfklj"),
         })
         .collect::<BitVec<Msb0>>();
     let co2 = epsilon_vecs[0]
         .iter()
-        .map(|v| match v {
-            0 => false,
-            1 => true,
+        .map(|v| match *v {
+            false => false,
+            true => true,
             _ => panic!("Asfklj"),
         })
         .collect::<BitVec<Msb0>>();
 
     let g = oxygen[0..].load::<u32>();
     let e = co2[0..].load::<u32>();
-    dbg!(g, e);
     g * e
 }
 
@@ -108,29 +110,28 @@ fn process(input: &str) -> u32 {
 // }
 
 fn calc_gamma_ep(
-    stuff: &[Vec<i32>],
+    stuff: &[BitVec<Msb0>],
 ) -> (Vec<Option<bool>>, Vec<Option<bool>>) {
     let nrows = stuff.len();
     let ncols = stuff[0].len();
-    let mut data = vec![];
+    let mut counts = vec![0; ncols];
     for bits in stuff {
-        data.extend_from_slice(&bits);
+        for (i, bit) in bits.iter().enumerate() {
+            if *bit {
+                counts[i] += 1;
+            }
+        }
     }
-    let arr = Array2::from_shape_vec((nrows, ncols), data)
-        .unwrap();
-    let tarr = arr.t();
-    let mut totals = Array1::zeros(tarr.nrows());
-
-    Zip::from(&mut totals)
-        .and(tarr.rows())
-        .for_each(|totals, row| *totals = row.sum());
+    // // common
+    let mut gamma: BitVec<Msb0> = BitVec::new();
+    // // uncommon
+    let mut epsilon: BitVec<Msb0> = BitVec::new();
     // // common
     let mut gamma: Vec<Option<bool>> = vec![];
     // // uncommon
     let mut epsilon: Vec<Option<bool>> = vec![];
-    for v in totals.iter() {
+    for v in counts.iter() {
         let frac = nrows / 2;
-        dbg!(v, frac, nrows);
         if nrows % 2 == 0 && (*v as usize) == frac {
             gamma.push(None);
             epsilon.push(None);

@@ -20,31 +20,32 @@ fn process(input: &str) -> u32 {
     let stuff = input
         .lines()
         .map(|row| {
-            row.split("")
-                .filter(|v| v != &"")
-                .map(|v| v.parse().unwrap())
-                .collect::<Vec<i32>>()
+            row.chars()
+                .map(|c| match c {
+                    '0' => false,
+                    '1' => true,
+                    _ => panic!("invalid input"),
+                })
+                .collect::<BitVec<Msb0>>()
         })
-        .collect::<Vec<Vec<i32>>>();
+        .collect::<Vec<BitVec<Msb0>>>();
     let nrows = stuff.len();
     let ncols = stuff[0].len();
-    let mut data = vec![];
-    for bits in stuff {
-        data.extend_from_slice(&bits);
-    }
-    let arr = Array2::from_shape_vec((nrows, ncols), data)
-        .unwrap();
-    let tarr = arr.t();
-    let mut totals = Array1::zeros(tarr.nrows());
+    dbg!(ncols);
 
-    Zip::from(&mut totals)
-        .and(tarr.rows())
-        .for_each(|totals, row| *totals = row.sum());
+    let mut counts = vec![0; ncols];
+    for bits in stuff {
+        for (i, bit) in bits.iter().enumerate() {
+            if *bit {
+                counts[i] += 1;
+            }
+        }
+    }
     // // common
     let mut gamma: BitVec<Msb0> = BitVec::new();
     // // uncommon
     let mut epsilon: BitVec<Msb0> = BitVec::new();
-    for v in totals.iter() {
+    for v in counts.iter() {
         if (*v as usize) > nrows / 2 {
             gamma.push(true);
             epsilon.push(false);
