@@ -1,4 +1,7 @@
-use ndarray::Array2;
+use ndarray::{
+    arr2, aview_mut2, Array2, ArrayView, ArrayView2,
+    ArrayViewMut2,
+};
 use nom::{
     branch::alt,
     bytes::complete::tag,
@@ -12,13 +15,13 @@ use nom::{
 pub struct Board<'a> {
     board: Array2<BoardSquare<'a>>,
 }
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
 pub enum Mark {
     Called,
     Uncalled,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct BoardSquare<'a> {
     num: &'a str,
     called: Mark,
@@ -79,34 +82,35 @@ impl<'a> Board<'a> {
         }
     }
 }
-fn square(input: &str) -> IResult<&str, &str> {
+fn square(input: &str) -> IResult<&str, BoardSquare> {
     let (input, value) = digit1(input)?;
     let (input, _) = opt(space1)(input)?;
-    Ok((input, value))
+    Ok((
+        input,
+        BoardSquare {
+            num: value,
+            called: Mark::Uncalled,
+        },
+    ))
 }
-pub fn row(input: &str) -> IResult<&str, [&str; 5]> {
+pub fn row(input: &str) -> IResult<&str, [BoardSquare; 5]> {
     let (input, _) = opt(newline)(input)?;
     let (input, _) = opt(space1)(input)?;
-    let mut buf = [""; 5];
+    let mut buf = [BoardSquare {
+        num: "",
+        called: Mark::Uncalled,
+    }; 5];
     let (input, ()) = fill(square, &mut buf)(input)?;
     Ok((input, buf))
 }
 pub fn board(input: &str) -> IResult<&str, Board> {
-    let mut rows = [[""; 5]; 5];
+    let mut rows = [[BoardSquare {
+        num: "",
+        called: Mark::Uncalled,
+    }; 5]; 5];
     let (input, ()) = fill(row, &mut rows)(input)?;
 
-    // let (input, rows) =
-    //     separated_list1(newline, row)(input)?;
-    let data = rows
-        .iter()
-        .flat_map(|row| {
-            row.iter().map(|callout| BoardSquare {
-                num: callout,
-                called: Mark::Uncalled,
-            })
-        })
-        .collect();
-    let arr = Array2::from_shape_vec((5, 5), data).unwrap();
+    let arr = arr2(&rows);
     Ok((input, Board { board: arr }))
 }
 

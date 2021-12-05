@@ -19,6 +19,7 @@ fn main() {
 }
 
 fn process(input: &str) -> u32 {
+    // let inititalized_boards =
     let (_, (callouts, mut boards)) =
         puzzle_input(input).unwrap();
     let mut playing_boards = boards
