@@ -23,6 +23,18 @@ dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
 
+### parse nom with u8 instead of str
+
+and don't use `str::parse<usize>()`
+
+```
+365131
+dhat: Total:     2,716 bytes in 11 blocks
+dhat: At t-gmax: 1,624 bytes in 2 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
 ## Part 2
 
 ```
