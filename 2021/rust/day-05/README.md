@@ -22,6 +22,17 @@ dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
 
+### u8 in BTreeMap
+
+```
+➜ ./target/release/part1
+6113
+dhat: Total:     1,257,186 bytes in 14,701 blocks
+dhat: At t-gmax: 1,252,086 bytes in 14,692 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
 ## Part 2
 
 ```
@@ -41,6 +52,17 @@ dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 20373
 dhat: Total:     2,803,410 bytes in 24,059 blocks
 dhat: At t-gmax: 2,798,310 bytes in 24,050 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+### u8 in BTreeMap
+
+```
+➜ ./target/release/part2
+20373
+dhat: Total:     2,033,874 bytes in 24,059 blocks
+dhat: At t-gmax: 2,028,774 bytes in 24,050 blocks
 dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```

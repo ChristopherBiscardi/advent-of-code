@@ -18,7 +18,7 @@ fn main() {
 
 fn process(input: &str) -> usize {
     let (_, lines) = puzzle_input(input).unwrap();
-    let mut points: BTreeMap<Point, i32> = BTreeMap::new();
+    let mut points: BTreeMap<Point, u8> = BTreeMap::new();
     for (a, b) in lines {
         let dx = b.x - a.x;
         let dy = b.y - a.y;
