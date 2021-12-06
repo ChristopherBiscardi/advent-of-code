@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 use nom::{
     branch::alt,
     bytes::complete::tag,
@@ -7,11 +9,17 @@ use nom::{
     IResult,
 };
 
-pub fn puzzle_input(input: &str) -> IResult<&str, Vec<u8>> {
+pub fn puzzle_input(
+    input: &str,
+) -> IResult<&str, VecDeque<u32>> {
     let (input, fish) =
         separated_list1(tag(","), digit1)(input)?;
-    Ok((
-        input,
-        fish.iter().map(|s| s.parse().unwrap()).collect(),
-    ))
+    let mut arr = [0; 9];
+    for num in fish.iter() {
+        let num: usize = num.parse().unwrap();
+        arr[num] += 1
+    }
+    let que: VecDeque<u32> = VecDeque::from(arr);
+
+    Ok((input, que))
 }

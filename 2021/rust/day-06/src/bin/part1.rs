@@ -1,7 +1,6 @@
 use day_05::puzzle_input;
 #[cfg(feature = "dhat")]
 use dhat::{Dhat, DhatAlloc};
-use std::collections::BTreeMap;
 use std::fs;
 
 #[cfg(feature = "dhat")]
@@ -16,25 +15,16 @@ fn main() {
     println!("{}", process(&file, 80));
 }
 
-fn process(input: &str, num_days_to_process: u32) -> usize {
+fn process(input: &str, num_days_to_process: u32) -> u32 {
     let (_, mut fishes) = puzzle_input(input).unwrap();
     for _ in 0..num_days_to_process {
-        let mut new_fish = vec![];
-        for fish in fishes.iter_mut() {
-            match fish {
-                0 => {
-                    *fish = 6;
-                    new_fish.push(8);
-                }
-                1..=8 => {
-                    *fish -= 1;
-                }
-                _ => panic!("immortal fish. run."),
-            }
-        }
-        fishes.extend_from_slice(&new_fish);
+        fishes.rotate_left(1);
+
+        let new_fishes = fishes.get(8).unwrap().clone();
+        let old_fishes = fishes.get_mut(6).unwrap();
+        *old_fishes += new_fishes;
     }
-    fishes.len()
+    fishes.iter().sum()
 }
 
 #[cfg(test)]
