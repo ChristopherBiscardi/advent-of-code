@@ -7,7 +7,7 @@ use nom::{
 
 pub fn puzzle_input(
     input: &str,
-) -> IResult<&str, VecDeque<u32>> {
+) -> IResult<&str, VecDeque<u64>> {
     let (input, fish) =
         separated_list1(tag(","), u8)(input)?;
     let mut arr = [0; 9];
@@ -15,7 +15,7 @@ pub fn puzzle_input(
         // let num: usize = num.parse().unwrap();
         arr[*num as usize] += 1
     }
-    let que: VecDeque<u32> = VecDeque::from(arr);
+    let que: VecDeque<u64> = VecDeque::from(arr);
 
     Ok((input, que))
 }

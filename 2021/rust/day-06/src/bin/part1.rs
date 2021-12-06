@@ -15,7 +15,7 @@ fn main() {
     println!("{}", process(&file, 80));
 }
 
-fn process(input: &str, num_days_to_process: u32) -> u32 {
+fn process(input: &str, num_days_to_process: u32) -> u64 {
     let (_, mut fishes) = puzzle_input(input).unwrap();
     for _ in 0..num_days_to_process {
         fishes.rotate_left(1);
