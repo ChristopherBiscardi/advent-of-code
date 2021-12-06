@@ -12,6 +12,16 @@ dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
 
+## using i16 instead of i32 in Point
+
+```
+6113
+dhat: Total:     1,727,266 bytes in 14,701 blocks
+dhat: At t-gmax: 1,722,166 bytes in 14,692 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
 ## Part 2
 
 ```
@@ -20,6 +30,17 @@ day-05
 20373
 dhat: Total:     3,773,491 bytes in 24,059 blocks
 dhat: At t-gmax: 3,764,327 bytes in 24,050 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+## using i16 instead of i32 in Point
+
+```
+➜ ./target/release/part2
+20373
+dhat: Total:     2,803,410 bytes in 24,059 blocks
+dhat: At t-gmax: 2,798,310 bytes in 24,050 blocks
 dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```

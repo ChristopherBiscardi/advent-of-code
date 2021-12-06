@@ -9,8 +9,8 @@ use nom::{
 
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq)]
 pub struct Point {
-    pub x: i32,
-    pub y: i32,
+    pub x: i16,
+    pub y: i16,
 }
 
 pub fn point(input: &str) -> IResult<&str, Point> {
