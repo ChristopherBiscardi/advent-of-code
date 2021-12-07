@@ -10,6 +10,8 @@ edition = "2021"
 dhat = { version = "0.2.4", optional = true }
 nom = "7.1.0"
 
+[profile.release]
+debug = 1
 
 [dev-dependencies]
 criterion = "0.3"

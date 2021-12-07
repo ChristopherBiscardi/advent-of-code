@@ -3,13 +3,21 @@ use nom::{
     multi::separated_list1, IResult,
 };
 use std::collections::BTreeMap;
-use std::collections::VecDeque;
 
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq)]
 pub struct InitialPosition(pub u16);
 
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq)]
 pub struct NumCrabs(pub u16);
+
+pub fn puzzle_input2(
+    input: &str,
+) -> IResult<&str, Vec<u16>> {
+    let (input, crabs) =
+        separated_list1(tag(","), u16)(input)?;
+
+    Ok((input, crabs))
+}
 
 pub fn puzzle_input(
     input: &str,
@@ -53,6 +61,28 @@ pub fn process_part1(input: &str) -> u32 {
         .min();
     totals.unwrap()
 }
+
+pub fn process_part1_opt2(input: &str) -> u32 {
+    let (_, mut crabs) = puzzle_input2(input).unwrap();
+    let optimal_crab_position_idx = (crabs.len() + 1) / 2;
+
+    crabs.sort();
+    let goal_position =
+        crabs.get(optimal_crab_position_idx).unwrap();
+
+    // dbg!(goal_position);
+    let total_movement: u32 = crabs
+        .iter()
+        .map(|initial_position| {
+            let dx: u32 = (*initial_position as i32
+                - *goal_position as i32)
+                .abs() as u32;
+            dx
+        })
+        .sum();
+
+    total_movement
+}
 pub fn process_part2(input: &str) -> u32 {
     let (_, crabs) = puzzle_input(input).unwrap();
     let mut crab_rave = crabs.iter();
@@ -90,6 +120,10 @@ mod tests {
 
     #[test]
     fn part1_test_demo_data() {
+        assert_eq!(37, process_part1(input));
+    }
+    #[test]
+    fn part1_opt2_test_demo_data() {
         assert_eq!(37, process_part1(input));
     }
     #[test]

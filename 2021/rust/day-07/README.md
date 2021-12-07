@@ -21,6 +21,22 @@ part1                   time:   [7.1576 ms 7.1965 ms 7.2362 ms]
                         Performance has regressed.
 ```
 
+## Part2 opt2
+
+```
+352707
+dhat: Total:     10,203 bytes in 15 blocks
+dhat: At t-gmax: 7,063 bytes in 4 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+```
+part1_opt2              time:   [53.436 us 53.610 us 53.797 us]
+Found 4 outliers among 100 measurements (4.00%)
+  4 (4.00%) high mild
+```
+
 ## Part 2
 
 ### original
