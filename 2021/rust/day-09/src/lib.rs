@@ -121,50 +121,40 @@ pub fn process_part1(input: &str) -> u32 {
     results
 }
 
-fn row_2(input: &str) -> IResult<&str, Vec<Option<u32>>> {
-    let (input, chars) = many1(alt((
-        char('0'),
-        char('1'),
-        char('2'),
-        char('3'),
-        char('4'),
-        char('5'),
-        char('6'),
-        char('7'),
-        char('8'),
-        char('9'),
-    )))(input)?;
-    let nums: Vec<Option<u32>> = chars
-        .iter()
-        .map(|v| {
+fn row_2(input: &str) -> IResult<&str, Vec<Option<u8>>> {
+    let (input, chars) =
+        many1(one_of("0123456789"))(input)?;
+    let nums: Vec<Option<u8>> = [None]
+        .into_iter()
+        .chain(chars.iter().map(|v| {
             match v.to_digit(10).expect("to have succeeded")
+                as u8
             {
                 9 => None,
                 i => Some(i),
             }
-        })
-        .collect();
-    let mut res = vec![None];
-    res.extend(nums);
-    res.extend([None]);
+        }))
+        .chain([None].into_iter())
+        .collect::<Vec<Option<u8>>>();
 
-    Ok((input, res))
+    Ok((input, nums))
 }
 fn puzzle_input_2(
     input: &str,
-) -> IResult<&str, Array2<Option<u32>>> {
+) -> IResult<&str, Array2<Option<u8>>> {
     let (input, outputs) =
         separated_list1(newline, row_2)(input)?;
 
     let nrows = outputs.len();
     let ncols = outputs[0].len();
 
-    let mut data: Vec<Option<u32>> = vec![None; ncols];
-
-    let real_data: Vec<Option<u32>> =
-        outputs.into_iter().flatten().collect();
-    data.extend(real_data);
-    data.extend(vec![None; ncols]);
+    let filler = vec![None; ncols];
+    let data = filler
+        .iter()
+        .cloned()
+        .chain(outputs.into_iter().flatten())
+        .chain(filler.iter().cloned())
+        .collect::<Vec<Option<u8>>>();
 
     let arr =
         Array2::from_shape_vec((nrows + 2, ncols), data)
@@ -178,11 +168,11 @@ fn puzzle_input_2(
 )]
 struct Node {
     point: (usize, usize),
-    weight: u32,
+    weight: u8,
 }
 fn insert(
     graph: &mut GraphMap<Node, (), Undirected>,
-    heightmap: &Array2<Option<u32>>,
+    heightmap: &Array2<Option<u8>>,
     point: (usize, usize),
     node: &Node,
 ) -> () {

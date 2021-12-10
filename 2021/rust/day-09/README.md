@@ -90,3 +90,17 @@ Found 9 outliers among 100 measurements (9.00%)
   5 (5.00%) high mild
   4 (4.00%) high severe
 ```
+
+### After part1 iterator chains and u8 changes
+
+```
+1092012
+dhat: Total:     6,235,631 bytes in 9,917 blocks
+dhat: At t-gmax: 3,306,739 bytes in 7,457 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+```
+part2                   time:   [8.7105 ms 8.7616 ms 8.8170 ms]
+```
