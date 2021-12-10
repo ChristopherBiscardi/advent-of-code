@@ -44,18 +44,17 @@ fn puzzle_input(
     let nrows = outputs.len();
     let ncols = outputs[0].len();
 
-    let mut data: Vec<Option<u8>> = vec![None; ncols];
+    let v = vec![None; ncols];
+    let data = v
+        .iter()
+        .cloned()
+        .chain(outputs.into_iter().flatten())
+        .chain(v.iter().cloned())
+        .collect::<Vec<Option<u8>>>();
 
-    let real_data: Vec<Option<u8>> =
-        outputs.into_iter().flatten().collect();
-    data.extend(real_data);
-    data.extend(vec![None; ncols]);
-
-    // dbg!(ncols, nrows);
     let arr =
         Array2::from_shape_vec((nrows + 2, ncols), data)
             .unwrap();
-    // dbg!(&arr);
     Ok((input, arr))
 }
 

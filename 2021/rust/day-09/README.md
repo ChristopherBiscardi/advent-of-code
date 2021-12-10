@@ -54,6 +54,20 @@ dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 part1                   time:   [464.71 us 466.46 us 468.42 us]
 ```
 
+### iter chain in puzzle_input
+
+```
+475
+dhat: Total:     190,403 bytes in 717 blocks
+dhat: At t-gmax: 47,035 bytes in 41 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+```
+part1                   time:   [497.04 us 499.94 us 503.25 us]
+```
+
 ## Part 2
 
 dhat
