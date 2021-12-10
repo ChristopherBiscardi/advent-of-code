@@ -24,6 +24,36 @@ Found 10 outliers among 100 measurements (10.00%)
 Benchmarking part2: Collecting 100 samples in estimated 5.28
 ```
 
+### Using u8s
+
+```
+475
+dhat: Total:     313,023 bytes in 1,021 blocks
+dhat: At t-gmax: 56,815 bytes in 3 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+criterion
+
+```
+part1                   time:   [517.01 us 520.58 us 524.69 us]
+```
+
+### iter chain instead of collect and extend
+
+```
+475
+dhat: Total:     252,623 bytes in 721 blocks
+dhat: At t-gmax: 56,815 bytes in 3 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+```
+part1                   time:   [464.71 us 466.46 us 468.42 us]
+```
+
 ## Part 2
 
 dhat
