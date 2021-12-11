@@ -333,20 +333,22 @@ impl fmt::Display for Ast {
     }
 }
 
-pub fn process_part2(input: &str) -> u32 {
-    let mut results: Vec<u32> = input
+pub fn process_part2(input: &str) -> u64 {
+    let mut results: Vec<u64> = input
         .lines()
         .map(|line| {
-            let res = chunk_2(line);
-            match res {
-                Ok((input, output)) => {
-                    if input.len() > 0 {
-                        chunk_2(input)
-                    } else {
-                        Ok((input, output))
+            let mut res = chunk_2(line);
+            loop {
+                match res {
+                    Ok((input, output)) => {
+                        if input.len() > 0 {
+                            res = chunk_2(input);
+                        } else {
+                            break Ok((input, output));
+                        }
                     }
+                    Err(e) => break Err(e),
                 }
-                Err(e) => Err(e),
             }
         })
         .enumerate()
@@ -397,7 +399,7 @@ pub fn process_part2(input: &str) -> u32 {
         })
         .collect();
     results.sort();
-    results[2]
+    results[results.len() / 2]
 }
 
 #[cfg(test)]
