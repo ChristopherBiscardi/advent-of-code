@@ -6,14 +6,12 @@ use nom::{
         streaming::{char, one_of},
     },
     error::context,
-    multi::{many0, many1},
+    multi::many1,
     IResult,
 };
+use nom_supreme::error::ErrorTree;
 use nom_supreme::error::StackContext::Context;
 use nom_supreme::tag::streaming::tag;
-use nom_supreme::{
-    error::ErrorTree, final_parser::final_parser,
-};
 
 // ): 3 points.
 // ]: 57 points.
@@ -72,146 +70,30 @@ pub fn process_part1(input: &str) -> u32 {
     let results: u32 = input
         .lines()
         .map(|line| chunk(line))
-        .enumerate()
         // filter out lines that end early
-        .filter_map(|(i, res)| {
-            // dbg!(&res);
-            // match res {
-            //     Ok(_) => None,
-            //     Err(e) => {
-            //         dbg!(e);
-            //         Some(0)
-            //     }
-            // }
-            match res {
-                Ok(_) => None,
-                Err(nom::Err::Incomplete(e)) => None,
-                Err(nom::Err::Error(
-                    ErrorTree::Stack { base, contexts },
-                )) => {
-                    // dbg!(&base, &contexts);
-                    let ctx = contexts
-                        .iter()
-                        .find(|v| v.1 == Context("chars"))
-                        .unwrap();
-                    // dbg!(ctx);
-                    let c = ctx.0.chars().next().unwrap();
-                    let res = scoring.get(&c);
-                    // dbg!(c);
-                    res
-                }
-
-                _ => panic!("uh oh"),
+        .filter_map(|res| match res {
+            Ok(_) => None,
+            Err(nom::Err::Incomplete(_e)) => None,
+            Err(nom::Err::Error(ErrorTree::Stack {
+                base: _,
+                contexts,
+            })) => {
+                let ctx = contexts
+                    .iter()
+                    .find(|v| v.1 == Context("chars"))
+                    .unwrap();
+                let c = ctx.0.chars().next().unwrap();
+                let res = scoring.get(&c);
+                res
             }
+
+            _ => panic!("uh oh"),
         })
-        // .inspect(|v| {
-        //     dbg!(v);
-        // })
         .sum();
     results
 }
 
-// fn chunk_2(
-//     original_input: &str,
-// ) -> IResult<&str, String, ErrorTree<&str>> {
-//     dbg!("chunk2");
-//     if original_input == "" {
-//         Ok(("", "".to_string()))
-//     } else {
-//         let (input, open_char) =
-//             one_of("({<[")(original_input)?;
-//         let c_res: IResult<&str, &str, ErrorTree<&str>> =
-//             tag(match open_char {
-//                 '{' => "}",
-//                 '(' => ")",
-//                 '[' => "]",
-//                 '<' => ">",
-//                 _ => panic!("unrecognized char"),
-//             })(input);
-//         match c_res {
-//             Ok((input, something)) => {
-//                 dbg!(&input, &something);
-//                 Ok((
-//                     input,
-//                     open_char.to_string() + something,
-//                 ))
-//             }
-//             Err(nom::Err::Incomplete(_)) => {
-//                 dbg!("incomplete here");
-//                 Ok((
-//                     input,
-//                     match open_char {
-//                         '{' => "}",
-//                         '(' => ")",
-//                         '[' => "]",
-//                         '<' => ">",
-//                         _ => panic!("unrecognized char"),
-//                     }
-//                     .to_string(),
-//                 ))
-//             }
-//             Err(e) => {
-//                 // dbg!(&e);
-//                 dbg!(&input);
-//                 let (input, leftovers) =
-//                     many1(chunk_2)(input)?;
-//                 dbg!(&leftovers);
-//                 Ok((
-//                     input,
-//                     leftovers
-//                         .into_iter()
-//                         .collect::<String>(),
-//                 ))
-//             }
-//         }
-//     }
-
-// if let Ok((input, _)) = c_res {
-//     Ok((input, "".to_string()))
-// } else {
-//     let (input, leftovers) =
-//         context("chunk", many0(chunk))(input)?;
-
-//     let chars_res = context(
-//         "chars",
-//         tag(match open_char {
-//             '{' => "}",
-//             '(' => ")",
-//             '[' => "]",
-//             '<' => ">",
-//             _ => panic!("unrecognized char"),
-//         }),
-//     )(input);
-//     dbg!(&chars_res);
-//     match chars_res {
-//         Ok((input, c)) => {
-//             dbg!(&input, &c);
-//             Ok((input, "".to_string()))
-//         }
-//         Err(e) => {
-//             dbg!(&e);
-//             match e {
-//                 nom::Err::Incomplete(_) => Ok((
-//                     input,
-//                     match open_char {
-//                         '{' => "}",
-//                         '(' => ")",
-//                         '[' => "]",
-//                         '<' => ">",
-//                         _ => panic!("here"),
-//                     }
-//                     .to_string(),
-//                 )),
-//                 e => Err(e),
-//             }
-//         }
-//     }
-//     // Ok((input, "".to_string()))
-// }
-// }
-
 fn chunk_2(original_input: &str) -> IResult<&str, Ast> {
-    // println!("chunk_2: {}", &original_input);
     let (input, open_char) =
         complete::one_of("({<[")(original_input)?;
     let c_res: IResult<&str, char> =
@@ -223,28 +105,14 @@ fn chunk_2(original_input: &str) -> IResult<&str, Ast> {
             _ => panic!("unrecognized char"),
         })(input);
     match c_res {
-        Ok((input, close_char)) => {
-            // dbg!(&input, &close_char);
-            Ok((
-                input,
-                Ast {
-                    left: open_char,
-                    right: Some(close_char),
-                    children: vec![],
-                },
-            ))
-        }
-        // Err(nom::Err::Incomplete(_)) => {
-        //     // println!("incomplete: {}", &input);
-        //     Ok((
-        //         input,
-        //         Ast {
-        //             left: open_char,
-        //             right: None,
-        //             children: vec![],
-        //         },
-        //     ))
-        // }
+        Ok((input, close_char)) => Ok((
+            input,
+            Ast {
+                left: open_char,
+                right: Some(close_char),
+                children: vec![],
+            },
+        )),
         Err(e) => {
             if input == "" {
                 Ok((
@@ -256,14 +124,8 @@ fn chunk_2(original_input: &str) -> IResult<&str, Ast> {
                     },
                 ))
             } else {
-                // dbg!(input);
                 let (input, output) =
                     many1(chunk_2)(input)?;
-                //                 println!(
-                //                     "i: {}
-                // o: {:?}",
-                //                     &e, &output
-                //                 );
                 let c_res: IResult<&str, char> =
                     char(match open_char {
                         '{' => '}',
@@ -351,12 +213,11 @@ pub fn process_part2(input: &str) -> u64 {
                 }
             }
         })
-        .enumerate()
         // filter out lines that end early
-        .filter_map(|(i, res)| {
+        .filter_map(|res| {
             // dbg!(&res);
             match res {
-                Ok((input, v)) => {
+                Ok((_input, v)) => {
                     let num = v.to_string().chars().fold(
                         0,
                         |acc, v| {
@@ -372,7 +233,7 @@ pub fn process_part2(input: &str) -> u64 {
                     );
                     Some(num)
                 }
-                Err(e) => {
+                Err(_e) => {
                     // dbg!(e);
                     None
                 }
