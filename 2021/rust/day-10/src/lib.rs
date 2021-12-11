@@ -215,7 +215,6 @@ pub fn process_part2(input: &str) -> u64 {
         })
         // filter out lines that end early
         .filter_map(|res| {
-            // dbg!(&res);
             match res {
                 Ok((_input, v)) => {
                     let num = v.to_string().chars().fold(
@@ -238,23 +237,6 @@ pub fn process_part2(input: &str) -> u64 {
                     None
                 }
 
-                // Err(ErrorTree::Stack {
-                //     base,
-                //     contexts,
-                // }) => {
-                //     dbg!(base);
-                //     // dbg!(&base, &contexts);
-                //     // let ctx = contexts
-                //     //     .iter()
-                //     //     .find(|v| v.1 == Context("chars"))
-                //     //     .unwrap();
-                //     // // dbg!(ctx);
-                //     // let c = ctx.0.chars().next().unwrap();
-                //     // let res = scoring.get(&c);
-                //     // // dbg!(c);
-                //     // res
-                //     Some(0)
-                // }
                 _ => panic!("uh oh"),
             }
         })
