@@ -28,6 +28,48 @@ dhat: At t-end:  1,024 bytes in 1 blocks
 dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 ```
 
+```
+part1                   time:   [1.7642 ms 1.7706 ms 1.7774 ms]
+```
+
+### By predicting the size of the String
+
+```
+3009
+dhat: Total:     222,029 bytes in 43 blocks
+dhat: At t-gmax: 138,822 bytes in 15 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+### By using .counts instead of .sorted().group_by()
+
+```
+3009
+dhat: Total:     46,509 bytes in 35 blocks
+dhat: At t-gmax: 31,543 bytes in 13 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+```
+part1                   time:   [1.0155 ms 1.0214 ms 1.0273 ms]
+```
+
+### Using the part2 algorithm
+
+```
+3009
+dhat: Total:     25,945 bytes in 114 blocks
+dhat: At t-gmax: 6,773 bytes in 33 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
+```
+part1                   time:   [127.87 us 129.37 us 130.83 us]
+```
+
 ## Part 2
 
 dhat

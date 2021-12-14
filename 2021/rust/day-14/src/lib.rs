@@ -1,5 +1,5 @@
-use std::io::Write;
 use std::{collections::BTreeMap, fs::File};
+use std::{collections::HashMap, io::Write};
 
 use itertools::Itertools;
 use ndarray::{s, Array2, Axis, Zip};
@@ -41,32 +41,27 @@ pub fn process_part1(input: &str) -> usize {
 
     let mut state = initial_state.to_string();
     for _ in 0..10 {
+        let mut new_state =
+            String::with_capacity(state.len() * 2 - 1);
         // dbg!(&state);
         let last = state.chars().last().unwrap().clone();
-        state = state
-            .chars()
-            .tuple_windows()
-            .map(|pair: (char, char)| {
-                let new_char = ruleset.get(&pair).unwrap();
-                format!("{}{}", pair.0, new_char)
-            })
-            .collect::<String>();
-        state.push(last);
+        for pair in state.chars().tuple_windows() {
+            let new_char = ruleset.get(&pair).unwrap();
+            new_state.push(pair.0);
+            new_state.push(*new_char);
+            // format!("{}{}", pair.0, new_char)
+        }
+        new_state.push(last);
+        state = new_state;
     }
-    let groups = state
-        .chars()
-        .sorted()
-        .group_by(|c| *c)
-        .into_iter()
-        .map(|(c, group)| (c, group.count()))
-        .collect::<Vec<(char, usize)>>();
+    let groups = state.chars().counts();
     let max = groups
         .iter()
-        .max_by_key(|(_, count)| count)
+        .max_by_key(|(_, count)| *count)
         .unwrap();
     let min = groups
         .iter()
-        .min_by_key(|(_, count)| count)
+        .min_by_key(|(_, count)| *count)
         .unwrap();
     max.1 - min.1
 }
