@@ -58,8 +58,54 @@ fn dots(input: &str) -> IResult<&str, Array2<Mark>> {
 }
 #[derive(Debug)]
 enum Fold {
-    Y(u32),
-    X(u32),
+    Row(u32),
+    Column(u32),
+}
+impl Fold {
+    fn apply_to(
+        &self,
+        dots: &Array2<Mark>,
+    ) -> Array2<Mark> {
+        dbg!(&self);
+        let (fold_axis, idx) = match self {
+            Fold::Row(idx) => (Axis(0), idx),
+            Fold::Column(idx) => (Axis(1), idx),
+        };
+
+        let folding_axis_length = dots.len_of(fold_axis);
+        // dbg!(folding_axis_length);
+        let skip_amount = folding_axis_length % 2;
+        let (range_a, range_b) = (
+            0..*idx as usize,
+            (*idx as usize + skip_amount)
+                ..folding_axis_length,
+        );
+        // dbg!(&range_a, &range_b);
+
+        let matrix_a = dots.slice(match self {
+            Fold::Row(_) => s!(range_a, ..),
+            Fold::Column(_) => s!(.., range_a),
+        });
+        let mut matrix_b = dots.slice(match self {
+            Fold::Row(_) => s!(range_b, ..),
+            Fold::Column(_) => s!(.., range_b),
+        });
+        matrix_b.invert_axis(fold_axis);
+
+        // union matrix a + b
+        let smol = Zip::from(matrix_a)
+            .and(matrix_b)
+            .map_collect(|a, b| match (a, b) {
+                (Mark::Marked, _) | (_, Mark::Marked) => {
+                    Mark::Marked
+                }
+                (Mark::UnMarked, Mark::UnMarked) => {
+                    Mark::UnMarked
+                }
+            });
+        // dbg!(smol.shape());
+        smol
+    }
 }
 fn fold(input: &str) -> IResult<&str, Fold> {
     let (input, _) = tag("fold along ")(input)?;
@@ -68,8 +114,8 @@ fn fold(input: &str) -> IResult<&str, Fold> {
     Ok((
         input,
         match axis {
-            'y' => Fold::Y(num),
-            'x' => Fold::X(num),
+            'y' => Fold::Row(num),
+            'x' => Fold::Column(num),
             _ => panic!("not x or y for fold"),
         },
     ))
@@ -90,52 +136,7 @@ pub fn process_part1(input: &str) -> usize {
 
     let mut it = folds.iter();
     let operation = it.next().unwrap();
-    let smol_matrix = match operation {
-        Fold::Y(row_idx) => {
-            let axis_0_len = dots.len_of(Axis(0));
-            let num_axis_0 = axis_0_len / 2;
-            let matrix_a =
-                dots.slice(s!(0..num_axis_0, ..));
-            let mut matrix_b = dots.slice(s!(
-                (*row_idx as usize + 1)..axis_0_len,
-                ..,
-            ));
-            matrix_b.invert_axis(Axis(0));
-
-            // union matrix a + b
-            Zip::from(matrix_a).and(matrix_b).map_collect(
-                |a, b| match (a, b) {
-                    (Mark::Marked, _)
-                    | (_, Mark::Marked) => Mark::Marked,
-                    (Mark::UnMarked, Mark::UnMarked) => {
-                        Mark::UnMarked
-                    }
-                },
-            )
-        }
-        Fold::X(col_idx) => {
-            let axis_1_len = dots.len_of(Axis(1));
-            let num_axis_1 = axis_1_len / 2;
-            let matrix_a =
-                dots.slice(s!(.., 0..num_axis_1));
-            let mut matrix_b = dots.slice(s!(
-                ..,
-                (*col_idx as usize + 1)..axis_1_len,
-            ));
-            matrix_b.invert_axis(Axis(1));
-
-            // union matrix a + b
-            Zip::from(matrix_a).and(matrix_b).map_collect(
-                |a, b| match (a, b) {
-                    (Mark::Marked, _)
-                    | (_, Mark::Marked) => Mark::Marked,
-                    (Mark::UnMarked, Mark::UnMarked) => {
-                        Mark::UnMarked
-                    }
-                },
-            )
-        }
-    };
+    let smol_matrix = operation.apply_to(&dots);
     smol_matrix
         .iter()
         .map(|point| match point {
@@ -151,69 +152,10 @@ pub fn process_part2(input: &str) -> usize {
     let smol_matrix = folds.iter().enumerate().fold(
         dots,
         |dots, (i, operation)| {
-            match operation {
-                Fold::Y(row_idx) => {
-                    let axis_0_len = dots.len_of(Axis(0));
-                    let num_axis_0 = axis_0_len / 2;
-                    let skip_amount = axis_0_len % 2;
-
-                    let matrix_a =
-                        dots.slice(s!(0..num_axis_0, ..));
-                    let mut matrix_b = dots.slice(s!(
-                        (*row_idx as usize + skip_amount)
-                            ..axis_0_len,
-                        ..,
-                    ));
-                    matrix_b.invert_axis(Axis(0));
-
-                    // union matrix a + b
-                    let smol = Zip::from(matrix_a)
-                        .and(matrix_b)
-                        .map_collect(|a, b| match (a, b) {
-                            (Mark::Marked, _)
-                            | (_, Mark::Marked) => {
-                                Mark::Marked
-                            }
-                            (
-                                Mark::UnMarked,
-                                Mark::UnMarked,
-                            ) => Mark::UnMarked,
-                        });
-                    to_file(&smol, i);
-
-                    smol
-                }
-                Fold::X(col_idx) => {
-                    let axis_1_len = dots.len_of(Axis(1));
-                    let num_axis_1 = axis_1_len / 2;
-                    let skip_amount = axis_1_len % 2;
-
-                    let matrix_a =
-                        dots.slice(s!(.., 0..num_axis_1));
-                    let mut matrix_b = dots.slice(s!(
-                        ..,
-                        (*col_idx as usize + skip_amount)
-                            ..axis_1_len,
-                    ));
-                    matrix_b.invert_axis(Axis(1));
-
-                    // union matrix a + b
-                    let smol = Zip::from(matrix_a)
-                        .and(matrix_b)
-                        .map_collect(|a, b| match (a, b) {
-                            (Mark::Marked, _)
-                            | (_, Mark::Marked) => {
-                                Mark::Marked
-                            }
-                            (
-                                Mark::UnMarked,
-                                Mark::UnMarked,
-                            ) => Mark::UnMarked,
-                        });
-                    to_file(&smol, i);
-                    smol
-                }
-            }
+            // dbg!(&operation);
+            let smol = operation.apply_to(&dots);
+            to_file(&smol, i);
+            smol
         },
     );
 
@@ -246,7 +188,7 @@ fn to_file(smol: &Array2<Mark>, step: usize) {
                 row.iter()
                     .map(|point| match point {
                         Mark::Marked => "█",
-                        Mark::UnMarked => " ",
+                        Mark::UnMarked => ".",
                     })
                     .collect::<String>()
             )
