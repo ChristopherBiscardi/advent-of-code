@@ -1,4 +1,6 @@
-use std::collections::BTreeMap;
+#![feature(iter_intersperse)]
+use std::io::Write;
+use std::{collections::BTreeMap, fs::File};
 
 use ndarray::{s, Array2, Axis, Zip};
 use nom::{
@@ -8,6 +10,7 @@ use nom::{
     sequence::separated_pair,
     IResult,
 };
+use std::fs;
 
 #[derive(Debug, Clone)]
 enum Mark {
@@ -145,8 +148,9 @@ pub fn process_part1(input: &str) -> usize {
 pub fn process_part2(input: &str) -> usize {
     let (_, (dots, folds)) = puzzle_input(input).unwrap();
 
-    let smol_matrix =
-        folds.iter().fold(dots, |dots, operation| {
+    let smol_matrix = folds.iter().enumerate().fold(
+        dots,
+        |dots, (i, operation)| {
             match operation {
                 Fold::Y(row_idx) => {
                     let axis_0_len = dots.len_of(Axis(0));
@@ -175,18 +179,8 @@ pub fn process_part2(input: &str) -> usize {
                                 Mark::UnMarked,
                             ) => Mark::UnMarked,
                         });
-                    println!("-------------");
-                    for row in smol.rows() {
-                        println!(
-                            "{}",
-                            row.iter()
-                                .map(|point| match point {
-                                    Mark::Marked => "█",
-                                    Mark::UnMarked => " ",
-                                })
-                                .collect::<String>()
-                        );
-                    }
+                    to_file(&smol, i);
+
                     smol
                 }
                 Fold::X(col_idx) => {
@@ -216,22 +210,14 @@ pub fn process_part2(input: &str) -> usize {
                                 Mark::UnMarked,
                             ) => Mark::UnMarked,
                         });
-                    println!("-------------");
-                    for row in smol.rows() {
-                        println!(
-                            "{}",
-                            row.iter()
-                                .map(|point| match point {
-                                    Mark::Marked => "█",
-                                    Mark::UnMarked => " ",
-                                })
-                                .collect::<String>()
-                        );
-                    }
+                    to_file(&smol, i);
                     smol
                 }
             }
-        });
+        },
+    );
+
+    to_file(&smol_matrix, 999999999);
     println!("-----FINAL-----");
     for row in smol_matrix.rows() {
         println!(
@@ -245,6 +231,29 @@ pub fn process_part2(input: &str) -> usize {
         );
     }
     0
+}
+
+fn to_file(smol: &Array2<Mark>, step: usize) {
+    let mut file =
+        File::create(format!("step-{:02}.txt", step))
+            .unwrap();
+    let t = smol
+        .rows()
+        .into_iter()
+        .map(|row| {
+            format!(
+                "{}",
+                row.iter()
+                    .map(|point| match point {
+                        Mark::Marked => "█",
+                        Mark::UnMarked => " ",
+                    })
+                    .collect::<String>()
+            )
+        })
+        .intersperse("\n".to_string())
+        .collect::<String>();
+    file.write_all(t.as_bytes()).unwrap();
 }
 
 #[cfg(test)]
