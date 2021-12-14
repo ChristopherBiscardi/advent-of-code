@@ -39,27 +39,67 @@ pub fn process_part1(input: &str) -> usize {
     let (_, (initial_state, ruleset)) =
         puzzle_input(input).unwrap();
 
-    let mut state = initial_state.to_string();
-    for _ in 0..10 {
-        let mut new_state =
-            String::with_capacity(state.len() * 2 - 1);
-        // dbg!(&state);
-        let last = state.chars().last().unwrap().clone();
-        for pair in state.chars().tuple_windows() {
-            let new_char = ruleset.get(&pair).unwrap();
-            new_state.push(pair.0);
-            new_state.push(*new_char);
-            // format!("{}{}", pair.0, new_char)
-        }
-        new_state.push(last);
-        state = new_state;
+    let mut state: BTreeMap<(char, char), usize> =
+        BTreeMap::new();
+    for tuple in initial_state.chars().tuple_windows() {
+        state
+            .entry(tuple)
+            .and_modify(|count| {
+                *count += 1;
+            })
+            .or_insert(1);
     }
-    let groups = state.chars().counts();
-    let max = groups
+
+    for _ in 0..10 {
+        let mut new_state: BTreeMap<(char, char), usize> =
+            BTreeMap::new();
+        for (pair, pair_count) in state.iter() {
+            let new_char = ruleset.get(&pair).unwrap();
+
+            new_state
+                .entry((pair.0, *new_char))
+                .and_modify(|count| {
+                    *count += pair_count;
+                })
+                .or_insert(*pair_count);
+            new_state
+                .entry((*new_char, pair.1))
+                .and_modify(|count| {
+                    *count += pair_count;
+                })
+                .or_insert(*pair_count);
+        }
+        state = new_state
+    }
+
+    let mut new_counts: BTreeMap<char, usize> =
+        BTreeMap::new();
+
+    for (c, count) in
+        state.iter().map(|((a, b), count)| (a, count))
+    {
+        new_counts
+            .entry(*c)
+            .and_modify(|v| {
+                *v += count;
+            })
+            .or_insert(*count);
+    }
+    new_counts
+        .entry(initial_state.chars().last().unwrap())
+        .and_modify(|v| {
+            *v += 1;
+        })
+        .or_insert(1);
+    // for (c, thing) in new_counts.iter() {
+    //     dbg!(c, thing);
+    // }
+
+    let max = new_counts
         .iter()
         .max_by_key(|(_, count)| *count)
         .unwrap();
-    let min = groups
+    let min = new_counts
         .iter()
         .min_by_key(|(_, count)| *count)
         .unwrap();
