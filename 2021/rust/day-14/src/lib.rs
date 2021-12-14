@@ -1,5 +1,5 @@
 use std::io::Write;
-use std::{collections::HashMap, fs::File};
+use std::{collections::BTreeMap, fs::File};
 
 use itertools::Itertools;
 use ndarray::{s, Array2, Axis, Zip};
@@ -16,7 +16,7 @@ use std::fs;
 
 fn puzzle_input(
     input: &str,
-) -> IResult<&str, (&str, HashMap<(char, char), char>)> {
+) -> IResult<&str, (&str, BTreeMap<(char, char), char>)> {
     let (input, initial_state) = alpha1(input)?;
     let (input, _) = newline(input)?;
     let (input, _) = newline(input)?;
@@ -31,7 +31,7 @@ fn puzzle_input(
 
     let ruleset = rules
         .into_iter()
-        .collect::<HashMap<(char, char), char>>();
+        .collect::<BTreeMap<(char, char), char>>();
 
     Ok((input, (initial_state, ruleset)))
 }
@@ -75,8 +75,8 @@ pub fn process_part2(input: &str) -> usize {
     let (_, (initial_state, ruleset)) =
         puzzle_input(input).unwrap();
 
-    let mut state: HashMap<(char, char), usize> =
-        HashMap::new();
+    let mut state: BTreeMap<(char, char), usize> =
+        BTreeMap::new();
     for tuple in initial_state.chars().tuple_windows() {
         state
             .entry(tuple)
@@ -87,8 +87,8 @@ pub fn process_part2(input: &str) -> usize {
     }
 
     for _ in 0..40 {
-        let mut new_state: HashMap<(char, char), usize> =
-            HashMap::new();
+        let mut new_state: BTreeMap<(char, char), usize> =
+            BTreeMap::new();
         for (pair, pair_count) in state.iter() {
             let new_char = ruleset.get(&pair).unwrap();
 
@@ -108,8 +108,8 @@ pub fn process_part2(input: &str) -> usize {
         state = new_state
     }
 
-    let mut new_counts: HashMap<char, usize> =
-        HashMap::new();
+    let mut new_counts: BTreeMap<char, usize> =
+        BTreeMap::new();
 
     for (c, count) in
         state.iter().map(|((a, b), count)| (a, count))
