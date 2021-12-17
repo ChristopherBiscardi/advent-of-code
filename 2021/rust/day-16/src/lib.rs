@@ -4,7 +4,10 @@ use nom::{
     character::complete::{
         self, alpha1, anychar, newline, one_of, u32,
     },
-    multi::{many0, many1, many_m_n, separated_list1},
+    multi::{
+        length_value, many0, many1, many_m_n,
+        separated_list1,
+    },
     sequence::{
         pair, preceded, separated_pair, terminated,
     },
@@ -34,17 +37,20 @@ fn operator(
             let (input, length_in_bits): (_, usize) =
                 take(15_usize)(input)?;
             dbg!(&length_in_bits);
-            let (input, bits): (_, u16) =
+            let (input, bits): (_, u128) =
                 take(length_in_bits)(input)?;
             let bits = bits.to_be_bytes();
             dbg!(bits.len());
+            let offset = 128 - length_in_bits;
+            let byte_offset = offset / 8;
+
             let (_input, packets) = many1(puzzle_input)((
-                &bits, // 63 - length_in_bits - 1,
-                5,     // wtf magic number
+                &bits[byte_offset..], // 63 - length_in_bits - 1,
+                offset % 8,           // wtf magic number
             ))
             .unwrap();
 
-            // dbg!(&input);
+            dbg!(&input);
             Ok((input, packets))
         }
         1 => {
@@ -340,15 +346,15 @@ mod tests {
             )
         );
     }
-    // #[test]
-    // fn part1_test_D() {
-    //     assert_eq!(
-    //         31,
-    //         process_part1(
-    //             "A0016C880162017C3686B18A3D4780".as_bytes()
-    //         )
-    //     );
-    // }
+    #[test]
+    fn part1_test_D() {
+        assert_eq!(
+            31,
+            process_part1(
+                "A0016C880162017C3686B18A3D4780".as_bytes()
+            )
+        );
+    }
     // // #[test]
     // // fn part2_test_demo_data() {
     // //     assert_eq!(315, process_part2(INPUT));
