@@ -3,7 +3,7 @@ use criterion::{
 };
 use day_05::{process_part1, process_part2};
 
-const INPUT: &'static str = include_str!("../input.txt");
+const INPUT: &'static [u8] = include_bytes!("../input.txt");
 
 fn criterion_benchmark(c: &mut Criterion) {
     c.bench_function("part1", |b| {

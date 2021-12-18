@@ -207,77 +207,71 @@ fn process_packet(packet: &Packet) -> usize {
         }
     }
 }
-// fn process_packet2(packet: &Packet) -> usize {
-//     match packet {
-//         Packet::Operator {
-//             version,
-//             type_id,
-//             packets,
-//         } => {
-//             let mut packets =
-//                 packets.iter().map(process_packet2);
-//             match type_id {
-//                 0 => packets.sum(),
-//                 1 => packets.product(),
-//                 2 => packets.min().unwrap(),
-//                 3 => packets.max().unwrap(),
-//                 5 => {
-//                     let a = packets.next().unwrap();
-//                     let b = packets.next().unwrap();
-//                     let c = packets.next();
-//                     assert_eq!(c, None);
-//                     if a > b {
-//                         1
-//                     } else {
-//                         0
-//                     }
-//                 }
-//                 6 => {
-//                     let a = packets.next().unwrap();
-//                     let b = packets.next().unwrap();
-//                     let c = packets.next();
-//                     assert_eq!(c, None);
-//                     if a < b {
-//                         1
-//                     } else {
-//                         0
-//                     }
-//                 }
-//                 7 => {
-//                     let a = packets.next().unwrap();
-//                     let b = packets.next().unwrap();
-//                     let c = packets.next();
-//                     assert_eq!(c, None);
-//                     if a == b {
-//                         1
-//                     } else {
-//                         0
-//                     }
-//                 }
-//                 _ => panic!("askfjlasf"),
-//             }
-//         }
-//         Packet::Literal { value, .. } => *value as usize,
-//     }
-// }
+fn process_packet2(packet: &Packet) -> usize {
+    match packet {
+        Packet::Operator {
+            version,
+            type_id,
+            packets,
+        } => {
+            let mut packets =
+                packets.iter().map(process_packet2);
+            match type_id {
+                0 => packets.sum(),
+                1 => packets.product(),
+                2 => packets.min().unwrap(),
+                3 => packets.max().unwrap(),
+                5 => {
+                    let a = packets.next().unwrap();
+                    let b = packets.next().unwrap();
+                    let c = packets.next();
+                    assert_eq!(c, None);
+                    if a > b {
+                        1
+                    } else {
+                        0
+                    }
+                }
+                6 => {
+                    let a = packets.next().unwrap();
+                    let b = packets.next().unwrap();
+                    let c = packets.next();
+                    assert_eq!(c, None);
+                    if a < b {
+                        1
+                    } else {
+                        0
+                    }
+                }
+                7 => {
+                    let a = packets.next().unwrap();
+                    let b = packets.next().unwrap();
+                    let c = packets.next();
+                    assert_eq!(c, None);
+                    if a == b {
+                        1
+                    } else {
+                        0
+                    }
+                }
+                _ => panic!("askfjlasf"),
+            }
+        }
+        Packet::Literal { value, .. } => *value as usize,
+    }
+}
 pub fn process_part1(input: &[u8]) -> usize {
     let bytes = hex::decode(input).unwrap();
-    // for byte in bytes.iter() {
-    //     print!("{:08b}", byte);
-    // }
     let (_, packet) = puzzle_input((&bytes, 0)).unwrap();
 
-    // dbg!(&packet);
     process_packet(&packet)
 }
 
-pub fn process_part2(input: &str) -> usize {
-    // let binary_as_string = hex_as_binary_str(input);
-    // let (_, packet) =
-    //     puzzle_input(&binary_as_string).unwrap();
+pub fn process_part2(input: &[u8]) -> usize {
+    let bytes = hex::decode(input).unwrap();
+    let (_, packet) = puzzle_input((&bytes, 0)).unwrap();
 
-    // process_packet2(&packet)
-    todo!()
+    process_packet2(&packet)
 }
 
 fn hex_as_binary_str(input: &str) -> String {
@@ -410,10 +404,13 @@ mod tests {
     // //     assert_eq!(315, process_part2(INPUT));
     // // }
 
-    // #[test]
-    // fn test_part2_C200B40A82() {
-    //     assert_eq!(3, process_part2("C200B40A82"));
-    // }
+    #[test]
+    fn test_part2_C200B40A82() {
+        assert_eq!(
+            3,
+            process_part2("C200B40A82".as_bytes())
+        );
+    }
     // #[test]
     // fn test_part2_04005AC33890() {
     //     assert_eq!(54, process_part2("04005AC33890"));
