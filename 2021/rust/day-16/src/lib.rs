@@ -61,8 +61,7 @@ fn operator(
 
             let bits = match first_bits {
                 Some(byte) => {
-                    let mut bits: Vec<u8> =
-                        vec![first_bits.unwrap()];
+                    let mut bits: Vec<u8> = vec![byte];
                     bits.extend(rest_of_bits);
                     bits
                 }
