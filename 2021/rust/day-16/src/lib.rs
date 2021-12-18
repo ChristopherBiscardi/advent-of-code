@@ -36,20 +36,8 @@ fn operator(
     // dbg!(length_type_id);
     match length_type_id {
         0 => {
-            // println!("offset is {} bits", input.1);
-            // println!("original input is:");
-            // for byte in input.0.iter() {
-            //     println!("{:08b}", byte);
-            // }
             let (input, length_in_bits): (_, usize) =
                 take(15_usize)(input)?;
-            // dbg!(&length_in_bits);
-
-            // println!("offset is {} bits", input.1);
-            // println!("original input is:");
-            // for byte in input.0.iter() {
-            //     println!("{:08b}", byte);
-            // }
 
             let (first_bits, offset, input) =
                 if length_in_bits % 8 > 0 {
@@ -64,15 +52,6 @@ fn operator(
                     (None, 0, input)
                 };
 
-            // println!(
-            //     "first bits: {:08b}",
-            //     &first_bits.unwrap()
-            // );
-            // println!("input bits");
-            // for byte in input.0.iter() {
-            //     println!("{:08b}", byte);
-            // }
-            // dbg!(length_in_bits / 8);
             let (input, rest_of_bits): (_, Vec<u8>) =
                 many_m_n(
                     length_in_bits / 8,
@@ -90,25 +69,16 @@ fn operator(
                 None => rest_of_bits,
             };
 
-            // println!("bits at offset {}", offset);
-            // for byte in bits.iter() {
-            //     println!("{:08b}", byte);
-            // }
-            let (_input, packets) = many1(puzzle_input)((
-                &bits,  // 63 - length_in_bits - 1,
-                offset, // wtf magic number
-            ))
-            .unwrap();
+            let (_input, packets) =
+                many1(puzzle_input)((&bits, offset))
+                    .unwrap();
 
-            // dbg!(&input);
             Ok((input, packets))
         }
         1 => {
             let (input, num_subpackets) =
                 take(11_usize)(input)?;
 
-            // dbg!(num_subpackets);
-            // TODO: What is this number actually?
             let (input, packets) = many_m_n(
                 num_subpackets,
                 num_subpackets,
@@ -128,21 +98,17 @@ fn literal(
 fn literals(
     input: (&[u8], usize),
 ) -> IResult<(&[u8], usize), (usize, usize)> {
-    // let input_len = input.len();
     let (input, bits) =
         many0(preceded(tag(0b1, 1_usize), literal))(input)?;
     let (input, ending_literal) =
         preceded(tag(0b0, 1_usize), literal)(input)?;
-    // dbg!(&bits, ending_literal);
     let mut bitshift: usize = 0;
     for byte in bits.iter() {
         bitshift = bitshift.checked_shl(4).unwrap()
             | *byte as usize;
     }
-    // dbg!(&ending_literal);
     let value = bitshift.checked_shl(4).unwrap()
         | ending_literal as usize;
-    // dbg!(&value);
     let num_parsed_bits = bits.len() * 5 + 5;
     Ok((input, (num_parsed_bits % 4, value)))
 }
@@ -152,21 +118,11 @@ fn puzzle_input(
 ) -> IResult<(&[u8], usize), Packet> {
     let (input, version) = take(3_usize)(input)?;
     let (input, type_id) = take(3_usize)(input)?;
-    // let version =
-    // u8::from_str_radix(binary_version, 2).unwrap();
-    // let type_id =
-    //     u8::from_str_radix(binary_type_id, 2).unwrap();
-    // dbg!(version, type_id, input);
-    // dbg!(version, type_id);
-    // if type_id != 4 {
-    //     panic!("");
-    // };
+
     match type_id {
         4 => {
-            // TODO: here doesn't deal with starting padding 0s
             let (input, (_skip, value)) = literals(input)?;
-            // dbg!(&values);
-            // dbg!(input);
+
             Ok((
                 input,
                 Packet::Literal {
@@ -329,42 +285,7 @@ mod tests {
             result.1
         );
     }
-    // #[test]
-    // fn test_test_operator_1_parser() {
-    //     let bits = 0b10000000001101010000001100100000100011000001100000_usize.to_be_bytes();
-    // dbg!(&bits);
-    //     println!("asfk");
 
-    //     for bit in bits.iter() {
-    //         print!("{:b}", bit);
-    //     }
-    //     println!("\nAsfklj");
-
-    //     assert_eq!(
-    //         vec![
-    //             Packet::Literal {
-    //                 version: 2,
-    //                 type_id: 4,
-    //                 value: 1,
-    //             },
-    //             Packet::Literal {
-    //                 version: 4,
-    //                 type_id: 4,
-    //                 value: 2,
-    //             },
-    //             Packet::Literal {
-    //                 version: 1,
-    //                 type_id: 4,
-    //                 value: 3,
-    //             }
-    //         ],
-    //         operator((&bits, 0)).unwrap().1
-    //     );
-    // }
-    // // #[test]
-    // // fn part1_test_demo_data() {
-    // //     assert_eq!(40, process_part1(INPUT));
-    // // }
     #[test]
     fn part1_test_A() {
         assert_eq!(
@@ -399,10 +320,6 @@ mod tests {
             )
         );
     }
-    // // #[test]
-    // // fn part2_test_demo_data() {
-    // //     assert_eq!(315, process_part2(INPUT));
-    // // }
 
     #[test]
     fn test_part2_C200B40A82() {
