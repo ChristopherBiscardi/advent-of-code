@@ -11,6 +11,6 @@ fn main() {
     #[cfg(feature = "dhat")]
     let _dhat = Dhat::start_heap_profiling();
 
-    let file = fs::read_to_string("./input.txt").unwrap();
+    let file = fs::read("./input.txt").unwrap();
     println!("{}", process_part1(&file));
 }
