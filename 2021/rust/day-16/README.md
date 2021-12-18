@@ -14,6 +14,16 @@ dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
 part1                   time:   [339.63 us 340.81 us 342.13 us]
 ```
 
+### After switching to binary parser
+
+```
+889
+dhat: Total:     22,018 bytes in 438 blocks
+dhat: At t-gmax: 14,993 bytes in 103 blocks
+dhat: At t-end:  1,024 bytes in 1 blocks
+dhat: The data in dhat-heap.json is viewable with dhat/dh_view.html
+```
+
 ## Part 2
 
 ```

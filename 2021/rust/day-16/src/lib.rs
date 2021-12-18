@@ -1,4 +1,4 @@
-use ndarray::{concatenate, Array2, Axis};
+use bitvec::prelude::*;
 use nom::{
     bits::complete::{tag, take},
     character::complete::{
@@ -31,26 +31,76 @@ enum Packet {
 fn operator(
     input: (&[u8], usize),
 ) -> IResult<(&[u8], usize), Vec<Packet>> {
+    // dbg!(input);
     let (input, length_type_id) = take(1_usize)(input)?;
+    // dbg!(length_type_id);
     match length_type_id {
         0 => {
+            // println!("offset is {} bits", input.1);
+            // println!("original input is:");
+            // for byte in input.0.iter() {
+            //     println!("{:08b}", byte);
+            // }
             let (input, length_in_bits): (_, usize) =
                 take(15_usize)(input)?;
-            dbg!(&length_in_bits);
-            let (input, bits): (_, u128) =
-                take(length_in_bits)(input)?;
-            let bits = bits.to_be_bytes();
-            dbg!(bits.len());
-            let offset = 128 - length_in_bits;
-            let byte_offset = offset / 8;
+            // dbg!(&length_in_bits);
 
+            // println!("offset is {} bits", input.1);
+            // println!("original input is:");
+            // for byte in input.0.iter() {
+            //     println!("{:08b}", byte);
+            // }
+
+            let (first_bits, offset, input) =
+                if length_in_bits % 8 > 0 {
+                    let (input, first): (_, u8) =
+                        take(length_in_bits % 8)(input)?;
+                    (
+                        Some(first),
+                        8 - length_in_bits % 8,
+                        input,
+                    )
+                } else {
+                    (None, 0, input)
+                };
+
+            // println!(
+            //     "first bits: {:08b}",
+            //     &first_bits.unwrap()
+            // );
+            // println!("input bits");
+            // for byte in input.0.iter() {
+            //     println!("{:08b}", byte);
+            // }
+            // dbg!(length_in_bits / 8);
+            let (input, rest_of_bits): (_, Vec<u8>) =
+                many_m_n(
+                    length_in_bits / 8,
+                    length_in_bits / 8,
+                    take(8_usize),
+                )(input)?;
+
+            let bits = match first_bits {
+                Some(byte) => {
+                    let mut bits: Vec<u8> =
+                        vec![first_bits.unwrap()];
+                    bits.extend(rest_of_bits);
+                    bits
+                }
+                None => rest_of_bits,
+            };
+
+            // println!("bits at offset {}", offset);
+            // for byte in bits.iter() {
+            //     println!("{:08b}", byte);
+            // }
             let (_input, packets) = many1(puzzle_input)((
-                &bits[byte_offset..], // 63 - length_in_bits - 1,
-                offset % 8,           // wtf magic number
+                &bits,  // 63 - length_in_bits - 1,
+                offset, // wtf magic number
             ))
             .unwrap();
 
-            dbg!(&input);
+            // dbg!(&input);
             Ok((input, packets))
         }
         1 => {
@@ -83,16 +133,16 @@ fn literals(
         many0(preceded(tag(0b1, 1_usize), literal))(input)?;
     let (input, ending_literal) =
         preceded(tag(0b0, 1_usize), literal)(input)?;
-    dbg!(&bits, ending_literal);
+    // dbg!(&bits, ending_literal);
     let mut bitshift: usize = 0;
     for byte in bits.iter() {
         bitshift = bitshift.checked_shl(4).unwrap()
             | *byte as usize;
     }
-    dbg!(&ending_literal);
+    // dbg!(&ending_literal);
     let value = bitshift.checked_shl(4).unwrap()
         | ending_literal as usize;
-    dbg!(&value);
+    // dbg!(&value);
     let num_parsed_bits = bits.len() * 5 + 5;
     Ok((input, (num_parsed_bits % 4, value)))
 }
@@ -107,7 +157,7 @@ fn puzzle_input(
     // let type_id =
     //     u8::from_str_radix(binary_type_id, 2).unwrap();
     // dbg!(version, type_id, input);
-    dbg!(version, type_id);
+    // dbg!(version, type_id);
     // if type_id != 4 {
     //     panic!("");
     // };
@@ -212,12 +262,12 @@ fn process_packet(packet: &Packet) -> usize {
 // }
 pub fn process_part1(input: &[u8]) -> usize {
     let bytes = hex::decode(input).unwrap();
-    for byte in bytes.iter() {
-        print!("{:08b}", byte);
-    }
+    // for byte in bytes.iter() {
+    //     print!("{:08b}", byte);
+    // }
     let (_, packet) = puzzle_input((&bytes, 0)).unwrap();
 
-    dbg!(&packet);
+    // dbg!(&packet);
     process_packet(&packet)
 }
 
@@ -247,7 +297,7 @@ mod tests {
     // fn test_packet_literal_parser() {
     //     let bits = 0b101111111000101000_usize.to_be_bytes();
     //     let lits = literals((&bits, 0)).unwrap();
-    //     // dbg!(lits.0);
+    // dbg!(lits.0);
     //     for lit in lits.0 .0.iter() {
     //         print!("{:b}", lit);
     //     }
@@ -288,7 +338,7 @@ mod tests {
     // #[test]
     // fn test_test_operator_1_parser() {
     //     let bits = 0b10000000001101010000001100100000100011000001100000_usize.to_be_bytes();
-    //     dbg!(&bits);
+    // dbg!(&bits);
     //     println!("asfk");
 
     //     for bit in bits.iter() {
