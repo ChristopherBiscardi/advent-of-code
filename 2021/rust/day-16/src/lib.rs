@@ -411,35 +411,55 @@ mod tests {
             process_part2("C200B40A82".as_bytes())
         );
     }
-    // #[test]
-    // fn test_part2_04005AC33890() {
-    //     assert_eq!(54, process_part2("04005AC33890"));
-    // }
-    // #[test]
-    // fn test_part2_880086C3E88112() {
-    //     assert_eq!(7, process_part2("880086C3E88112"));
-    // }
-    // #[test]
-    // fn test_part2_CE00C43D881120() {
-    //     assert_eq!(9, process_part2("CE00C43D881120"));
-    // }
-    // #[test]
-    // fn test_part2_D8005AC2A8F0() {
-    //     assert_eq!(1, process_part2("D8005AC2A8F0"));
-    // }
-    // #[test]
-    // fn test_part2_F600BC2D8F() {
-    //     assert_eq!(0, process_part2("F600BC2D8F"));
-    // }
-    // #[test]
-    // fn test_part2_9C005AC2F8F0() {
-    //     assert_eq!(0, process_part2("9C005AC2F8F0"));
-    // }
-    // #[test]
-    // fn test_part2_9C0141080250320F1802104A08() {
-    //     assert_eq!(
-    //         1,
-    //         process_part2("9C0141080250320F1802104A08")
-    //     );
-    // }
+    #[test]
+    fn test_part2_04005AC33890() {
+        assert_eq!(
+            54,
+            process_part2("04005AC33890".as_bytes())
+        );
+    }
+    #[test]
+    fn test_part2_880086C3E88112() {
+        assert_eq!(
+            7,
+            process_part2("880086C3E88112".as_bytes())
+        );
+    }
+    #[test]
+    fn test_part2_CE00C43D881120() {
+        assert_eq!(
+            9,
+            process_part2("CE00C43D881120".as_bytes())
+        );
+    }
+    #[test]
+    fn test_part2_D8005AC2A8F0() {
+        assert_eq!(
+            1,
+            process_part2("D8005AC2A8F0".as_bytes())
+        );
+    }
+    #[test]
+    fn test_part2_F600BC2D8F() {
+        assert_eq!(
+            0,
+            process_part2("F600BC2D8F".as_bytes())
+        );
+    }
+    #[test]
+    fn test_part2_9C005AC2F8F0() {
+        assert_eq!(
+            0,
+            process_part2("9C005AC2F8F0".as_bytes())
+        );
+    }
+    #[test]
+    fn test_part2_9C0141080250320F1802104A08() {
+        assert_eq!(
+            1,
+            process_part2(
+                "9C0141080250320F1802104A08".as_bytes()
+            )
+        );
+    }
 }
