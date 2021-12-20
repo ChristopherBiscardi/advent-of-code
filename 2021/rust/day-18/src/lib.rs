@@ -562,9 +562,13 @@ pub fn process_part1(input: &str) -> usize {
 
 pub fn process_part2(input: &str) -> usize {
     let fish = input
-    .lines()
-    .map(|line| snailfish(line).unwrap().1);
-    let max = fish.clone().cartesian_product(fish.clone()).map(|(a,b)| (a+b).reduce_all_the_way().magnitude()).max();
+        .lines()
+        .map(|line| snailfish(line).unwrap().1);
+    let max = fish.clone()
+        .cartesian_product(fish.clone())
+        .map(|(a,b)| (a+b).reduce_all_the_way()
+                            .magnitude())
+        .max();
     max.unwrap()
 }
 
