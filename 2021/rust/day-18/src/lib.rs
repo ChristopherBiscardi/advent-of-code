@@ -561,8 +561,11 @@ pub fn process_part1(input: &str) -> usize {
 }
 
 pub fn process_part2(input: &str) -> usize {
-    // let (_input, size) = puzzle_input(input).unwrap();
-    0
+    let fish = input
+    .lines()
+    .map(|line| snailfish(line).unwrap().1);
+    let max = fish.clone().cartesian_product(fish.clone()).map(|(a,b)| (a+b).reduce_all_the_way().magnitude()).max();
+    max.unwrap()
 }
 
 #[cfg(test)]
@@ -572,10 +575,10 @@ mod tests {
     const INPUT: &'static str =
         include_str!("./test-input.txt");
 
-    // #[test]
-    // fn part1_test_demo_data() {
-    //     assert_eq!(4140, process_part1(INPUT));
-    // }
+    #[test]
+    fn part1_test_demo_data() {
+        assert_eq!(4140, process_part1(INPUT));
+    }
 
     #[test]
     // #[ignore]
@@ -914,8 +917,8 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
         assert_eq!(3488, input_fish.magnitude());
     }
  
-    // #[test]
-    // fn part2_test_demo_data() {
-    //     assert_eq!(112, process_part2(INPUT));
-    // }
+    #[test]
+    fn part2_test_demo_data() {
+        assert_eq!(3993, process_part2(INPUT));
+    }
 }
