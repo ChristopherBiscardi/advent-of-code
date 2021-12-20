@@ -194,11 +194,13 @@ pub fn process_part1(input: &str) -> usize {
 pub fn process_part2(input: &str) -> usize {
     let (_, (algo, image)) =
         puzzle_input(input).expect("input to be valid");
-    let mut pad_char = '.';
-    let mut new_image = image.clone();
+    let grid = big_pad_array(&image, 50);
+
+    let mut new_image = grid.clone();
+
     for _ in 0..50 {
-        new_image = process(&new_image, &algo, pad_char);
-        pad_char = new_pad_char(&algo, pad_char);
+        new_image = big_process(&new_image, &algo);
+        new_image = big_pad_array(&new_image, 0);
     }
 
     new_image
@@ -210,6 +212,85 @@ pub fn process_part2(input: &str) -> usize {
         .count()
 }
 
+fn big_pad_array(
+    original: &Array2<char>,
+    num_iters: usize,
+) -> Array2<char> {
+    let pad_axis_1 = Array2::from_elem(
+        (original.len_of(Axis(0)), num_iters + 1),
+        '.',
+    );
+
+    let padded_axis_1 = concatenate(
+        Axis(1),
+        &[
+            // pad_axis_1.view(),
+            // pad_axis_1.view(),
+            pad_axis_1.view(),
+            original.view(),
+            pad_axis_1.view(),
+            // pad_axis_1.view(),
+            // pad_axis_1.view(),
+        ],
+    )
+    .unwrap();
+
+    let pad_axis_0 = Array2::from_elem(
+        (
+            num_iters + 1,
+            padded_axis_1.len_of(Axis(1)),
+        ),
+        '.',
+    );
+
+    let padded_axis_0 = concatenate(
+        Axis(0),
+        &[
+            // pad_axis_0.view(),
+            // pad_axis_0.view(),
+            pad_axis_0.view(),
+            padded_axis_1.view(),
+            pad_axis_0.view(),
+            // pad_axis_0.view(),
+            // pad_axis_0.view(),
+        ],
+    )
+    .unwrap();
+    padded_axis_0
+}
+
+fn big_process(
+    image: &Array2<char>,
+    algo: &Vec<char>,
+) -> Array2<char> {
+    let processed_image = image
+        .windows((3, 3))
+        .into_iter()
+        .map(|elems| {
+            let string_num = elems
+                .iter()
+                .map(|item| match item {
+                    '#' => "1",
+                    '.' => "0",
+                    _ => panic!("input wasn't correct"),
+                })
+                .collect::<String>();
+            let num = usize::from_str_radix(&string_num, 2)
+                .expect("a valid parse");
+            algo.get(num).expect("a valid index")
+        })
+        .cloned()
+        .collect::<Vec<char>>();
+
+    Array2::from_shape_vec(
+        (
+            image.len_of(Axis(0)) - 2,
+            image.len_of(Axis(1)) - 2,
+        ),
+        processed_image,
+    )
+    .unwrap()
+}
 #[cfg(test)]
 mod tests {
     use super::*;
