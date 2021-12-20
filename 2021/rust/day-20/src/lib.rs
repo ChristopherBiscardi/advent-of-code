@@ -1,5 +1,9 @@
 use core::fmt;
-use std::{cmp::Ordering, iter::Sum, ops::Add};
+use std::{
+    cmp::Ordering,
+    iter::{self, Sum},
+    ops::Add,
+};
 
 use itertools::Itertools;
 use ndarray::{arr1, arr2, concatenate, Array2, Axis};
@@ -26,11 +30,11 @@ fn newlines(input: &str) -> IResult<&str, ()> {
 }
 fn pad_array(
     original: &Array2<char>,
-    // zero_char: char,
+    zero_char: char,
 ) -> Array2<char> {
     let pad_axis_1 = Array2::from_elem(
         (original.len_of(Axis(0)), 1),
-        '.',
+        zero_char,
     );
 
     let padded_axis_1 = concatenate(
@@ -49,7 +53,7 @@ fn pad_array(
 
     let pad_axis_0 = Array2::from_elem(
         (1, padded_axis_1.len_of(Axis(1))),
-        '.',
+        zero_char,
     );
 
     let padded_axis_0 = concatenate(
@@ -101,8 +105,9 @@ fn puzzle_input(
 fn process(
     image: &Array2<char>,
     algo: &Vec<char>,
+    pad_char: char,
 ) -> Array2<char> {
-    let padded_image = pad_array(image);
+    let padded_image = pad_array(image, pad_char);
     let processed_image = padded_image
         .windows((3, 3))
         .into_iter()
@@ -158,14 +163,25 @@ fn print_image(input: &Array2<char>) {
     }
     print!("\n");
 }
+fn new_pad_char(algo: &Vec<char>, c: char) -> char {
+    let char_string = iter::repeat(c)
+        .take(6)
+        .map(|c| match c {
+            '#' => "1",
+            '.' => "0",
+            _ => panic!("asfkglj"),
+        })
+        .collect::<String>();
+    let num = usize::from_str_radix(&char_string, 2)
+        .expect("a valid parse");
+    *algo.get(num).expect("a valid index")
+}
 pub fn process_part1(input: &str) -> usize {
     let (_, (algo, image)) =
         puzzle_input(input).expect("input to be valid");
-    let new_image = process(&image, &algo);
-    print_image(&new_image);
-    let new_image = process(&new_image, &algo);
-    print_image(&new_image);
-    // dbg!(algo, image);
+    let new_image = process(&image, &algo, '.');
+    let pad_char = new_pad_char(&algo, '.');
+    let new_image = process(&new_image, &algo, pad_char);
     new_image
         .iter()
         .filter(|v| match v {
@@ -176,7 +192,22 @@ pub fn process_part1(input: &str) -> usize {
 }
 
 pub fn process_part2(input: &str) -> usize {
-    0
+    let (_, (algo, image)) =
+        puzzle_input(input).expect("input to be valid");
+    let mut pad_char = '.';
+    let mut new_image = image.clone();
+    for _ in 0..50 {
+        new_image = process(&new_image, &algo, pad_char);
+        pad_char = new_pad_char(&algo, pad_char);
+    }
+
+    new_image
+        .iter()
+        .filter(|v| match v {
+            '#' => true,
+            _ => false,
+        })
+        .count()
 }
 
 #[cfg(test)]
@@ -190,25 +221,9 @@ mod tests {
     fn part1_test_demo_data() {
         assert_eq!(35, process_part1(INPUT));
     }
-    //     #[test]
-    //     fn part1_test_random_data() {
-    //         let SECOND = "#.#.#..#####.#.#.#.###.##.....###.##.#..###.####..#####..#....#..#..##..###..######.###...####..#..#####..##..#.#####...##.#.#..#.##..#.#......#.###.######.###.####...#.##.##..#..#..#####.....#.#....###..#.##......#.....#..#..#..##..#...##.######.####.####.#.#...#.......#..#.#.#...####.##.#......#..#...##.#.##..#...##.#.##..###.#......#.#.......#.#.#.####.###.##...#.....####.#..#..#.##.#....##..#.####....##...##..#...#......#.#.......#.......##..####..#...#.#.#...##..#.#..###..#####........#..####......#..#
 
-    // #....
-    // #....
-    // #...#
-    // ..#..
-    // ..###";
-    //         let (_, (algo, image)) = puzzle_input(SECOND)
-    //             .expect("input to be valid");
-    //         let new_image = process(&image, &algo);
-    //         print_image(&new_image);
-    //         // assert_eq!(35, process_part1(SECOND));
-    //         assert_eq!(false, true);
-    //     }
-
-    // #[test]
-    // fn part2_test_demo_data() {
-    //     assert_eq!(3993, process_part2(INPUT));
-    // }
+    #[test]
+    fn part2_test_demo_data() {
+        assert_eq!(3351, process_part2(INPUT));
+    }
 }
