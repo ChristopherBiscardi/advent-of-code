@@ -33,6 +33,8 @@ impl Add for Snailfish {
         Self::Fish((Box::new(self), Box::new(other)))
     }
 }
+
+#[derive(Debug)]
 enum Operation {
     Explode((Option<u32>, Option<u32>)),
     Split,
@@ -70,7 +72,9 @@ impl Snailfish {
                 }
             }
             Fish(fishes) => {
+                dbg!(fishes);
                 let operation = fishes.0.step(level + 1);
+                // dbg!(&operation);
                 let (new_fish, op) = match operation {
                     (
                         new_fish,
@@ -79,16 +83,22 @@ impl Snailfish {
                             right,
                         ))),
                     ) => {
-                        match fishes.1 {
+                        match &fishes.1 {
                             box Number(num) => {
+
                                 if let Some(op_num) = right
                                 {
-                                    dbg!(op_num, num);
+                                    dbg!(op_num, num, &new_fish);
+
                                     let new_num =
                                         op_num + num;
+
                                     (
                                             Fish((
-                                                Box::new(Number(0)),
+                                                match new_fish {
+                                                    Some(fish) => Box::new(fish),
+                                                    None => Box::new(Number(0)),
+                                                },
                                                 Box::new(Number(
                                                     new_num,
                                                 )),
@@ -104,7 +114,7 @@ impl Snailfish {
                                         Fish((
                                             Box::new(new_fish.unwrap()),
                                             Box::new(Number(
-                                                num,
+                                                *num,
                                             )),
                                         )),
                                         Some(
@@ -117,7 +127,47 @@ impl Snailfish {
 
                                 // let new_op =
                             }
-                            box Fish(_) => todo!(),
+                            box Fish(fishy) => {
+                                dbg!(fishy.clone());
+                                if let Some(op_num) = right
+                                {
+                                    dbg!(op_num, num, &new_fish);
+
+                                    let new_num =
+                                        op_num + num;
+
+                                    (
+                                            Fish((
+                                                match new_fish {
+                                                    Some(fish) => Box::new(fish),
+                                                    None => Box::new(Number(0)),
+                                                },
+                                                Box::new(Number(
+                                                    new_num,
+                                                )),
+                                            )),
+                                            Some(
+                                                Operation::Explode(
+                                                    (left, None),
+                                                ),
+                                            ),
+                                        )
+                                } else {
+                                    (
+                                        Fish((
+                                            Box::new(new_fish.unwrap()),
+                                            Box::new(Number(
+                                                *num,
+                                            )),
+                                        )),
+                                        Some(
+                                            Operation::Explode(
+                                                (left, None),
+                                            ),
+                                        ),
+                                    )
+                                }
+                            },
                             _ => panic!("asfkj"),
                         }
                     }
@@ -134,11 +184,13 @@ impl Snailfish {
                 match op {
                     Some(o) => (Some(new_fish), Some(o)),
                     None => {
-                        // same as above, for right hand side
+                        // same as above, for right hand
+                        // side
                         let operation =
                             fishes.1.step(level + 1);
-                        match operation
-                        {
+                        dbg!(&operation);
+
+                        match operation {
                             (
                                 new_fish,
                                 Some(Operation::Explode((
@@ -146,7 +198,7 @@ impl Snailfish {
                                     right,
                                 ))),
                             ) => {
-                                match fishes.0 {
+                                match &fishes.0 {
                                     box Number(num) => {
                                         if let Some(
                                             op_num,
@@ -163,7 +215,10 @@ impl Snailfish {
                                                 Box::new(Number(
                                                     new_num,
                                                 )),
-                                                Box::new(Number(0)),
+                                                match new_fish {
+                                                    Some(fish) => Box::new(fish),
+                                                    None => Box::new(Number(0)),
+                                                },
                                                
                                             ))),
                                             Some(
@@ -173,17 +228,18 @@ impl Snailfish {
                                             ),
                                         )
                                         } else {
+                                            dbg!(&num, &new_fish);
                                             (
                                        Some( Fish((
                                            
                                             Box::new(Number(
-                                                num,
+                                                *num,
                                             )),
                                             Box::new(new_fish.unwrap()),
                                         ))),
                                         Some(
                                             Operation::Explode(
-                                                (left, None),
+                                                (None, right),
                                             ),
                                         ),
 
@@ -192,7 +248,10 @@ impl Snailfish {
 
                                         // let new_op =
                                     }
-                                    box Fish(_) => todo!(),
+                                    box Fish(fishy) => {
+                                        dbg!(fishy.clone());
+                                        todo!();
+                                    },
                                     _ => panic!("asfkj"),
                                 }
                             }
@@ -209,9 +268,7 @@ impl Snailfish {
                                 new_fish,
                                 Some(Operation::Stop),
                             ),
-                            (fish, None) => {
-                                (fish, None)
-                            }
+                            (fish, None) => (fish, None),
                         }
                     }
                 }
@@ -384,7 +441,7 @@ mod tests {
 
     #[test]
     fn test_add_explode_left() {
-        let (_, mut input_fish) =
+        let (_,  input_fish) =
             snailfish("[[[[[9,8],1],2],3],4]").unwrap();
         let (_, answer) =
             snailfish("[[[[0,9],2],3],4]").unwrap();
@@ -392,7 +449,7 @@ mod tests {
     }
     #[test]
     fn test_add_explode_right() {
-        let (_, mut input_fish) =
+        let (_,  input_fish) =
             snailfish("[7,[6,[5,[4,[3,2]]]]]").unwrap();
         let (_, answer) =
             snailfish("[7,[6,[5,[7,0]]]]").unwrap();
@@ -401,7 +458,7 @@ mod tests {
 
     #[test]
     fn test_add_explode_both() {
-        let (_, mut input_fish) =
+        let (_,  input_fish) =
             snailfish("[[6,[5,[4,[3,2]]]],1]").unwrap();
         let (_, answer) =
             snailfish("[[6,[5,[7,0]]],3]").unwrap();
@@ -409,21 +466,25 @@ mod tests {
     }
     #[test]
     fn test_add_explode_unaffected() {
-        let (_, mut input_fish) =
-            snailfish("[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]").unwrap();
+        let (_,  input_fish) = snailfish(
+            "[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]",
+        )
+        .unwrap();
         let (_, answer) =
-            snailfish("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]").unwrap();
+            snailfish("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]")
+                .unwrap();
         assert_eq!(answer, input_fish.reduce());
     }
     #[test]
     fn test_add_explode_something() {
-        let (_, mut input_fish) =
-            snailfish("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]").unwrap();
+        let (_,  input_fish) =
+            snailfish("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]")
+                .unwrap();
         let (_, answer) =
-            snailfish("[[3,[2,[8,0]]],[9,[5,[7,0]]]]").unwrap();
+            snailfish("[[3,[2,[8,0]]],[9,[5,[7,0]]]]")
+                .unwrap();
         assert_eq!(answer, input_fish.reduce());
     }
-
 
     // #[test]
     // fn part2_test_demo_data() {
