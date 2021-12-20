@@ -127,8 +127,9 @@ impl Snailfish {
 
                                 // let new_op =
                             }
-                            box Fish(fishy) => {
-                                dbg!(fishy.clone());
+                            box Fish((box Number(num), fishy)) => {
+                                // TODO: merge top number
+                                // dbg!(fishy.clone());
                                 if let Some(op_num) = right
                                 {
                                     dbg!(op_num, num, &new_fish);
@@ -142,9 +143,11 @@ impl Snailfish {
                                                     Some(fish) => Box::new(fish),
                                                     None => Box::new(Number(0)),
                                                 },
-                                                Box::new(Number(
+                                                Box::new(Fish((
+                                                    Box::new(Number(
                                                     new_num,
-                                                )),
+                                                )),fishy.clone())
+                                            )),
                                             )),
                                             Some(
                                                 Operation::Explode(
@@ -156,9 +159,11 @@ impl Snailfish {
                                     (
                                         Fish((
                                             Box::new(new_fish.unwrap()),
-                                            Box::new(Number(
+                                            Box::new(Fish((
+                                                Box::new(Number(
                                                 *num,
-                                            )),
+                                            )),fishy.clone())
+                                        ))
                                         )),
                                         Some(
                                             Operation::Explode(
@@ -248,11 +253,69 @@ impl Snailfish {
 
                                         // let new_op =
                                     }
-                                    box Fish(fishy) => {
-                                        dbg!(fishy.clone());
-                                        todo!();
+                                    box Fish((fishy, box Number(num)))=> {
+                                        if let Some(
+                                            op_num,
+                                        ) = left
+                                        {
+                                            dbg!(
+                                                op_num, num
+                                            );
+                                            let new_num =
+                                                op_num
+                                                    + num;
+                                            (
+                                           Some(Fish((
+                                            Box::new(Fish((
+                                                fishy.clone(),
+                                                Box::new(Number(
+                                                new_num,
+                                            ))))),
+                                                match new_fish {
+                                                    Some(fish) => Box::new(fish),
+                                                    None => Box::new(Number(0)),
+                                                },
+                                               
+                                            ))),
+                                            Some(
+                                                Operation::Explode(
+                                                    (None,right),
+                                                ),
+                                            ),
+                                        )
+                                        } else {
+                                            dbg!(&num, &new_fish);
+                                            (
+                                       Some( Fish((
+                                           
+                                        Box::new(Fish((
+                                            fishy.clone(),
+                                            Box::new(Number(
+                                            *num,
+                                        ))))),
+                                            Box::new(new_fish.unwrap()),
+                                        ))),
+                                        Some(
+                                            Operation::Explode(
+                                                (None, right),
+                                            ),
+                                        ),
+
+                                    )
+                                        }
+
+                                        // let new_op =
                                     },
-                                    _ => panic!("asfkj"),
+                                    fish => {
+                                        match op {
+                                            Some(_) => panic!("unhandled op"),
+                                            None => ( Some(Fish((
+                                                   fish.clone(), Box::new(new_fish.unwrap())
+                                                ))), None)
+                                        }
+                                        
+                                        
+                                    },
                                 }
                             }
                             (
