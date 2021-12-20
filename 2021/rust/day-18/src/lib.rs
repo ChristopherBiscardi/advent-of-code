@@ -1,7 +1,7 @@
 #![feature(box_patterns)]
 
 use core::fmt;
-use std::{cmp::Ordering, ops::Add, iter::Sum};
+use std::{cmp::Ordering, iter::Sum, ops::Add};
 
 use itertools::Itertools;
 use ndarray::{concatenate, Array2, Axis};
@@ -28,13 +28,15 @@ enum Snailfish {
 }
 use Snailfish::*;
 impl fmt::Display for Snailfish {
-    // This trait requires `fmt` with this exact signature.
+    // This trait requires `fmt` with this exact
+    // signature.
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Number(n) =>  write!(f, "{}", n),
-            Fish((box a, box b)) =>  write!(f, "[{},{}]", a,b),
+            Number(n) => write!(f, "{}", n),
+            Fish((box a, box b)) => {
+                write!(f, "[{},{}]", a, b)
+            }
         }
-       
     }
 }
 impl Add for Snailfish {
@@ -47,25 +49,22 @@ impl Add for Snailfish {
 impl Sum<Snailfish> for Snailfish {
     fn sum<I>(iter: I) -> Self
     where
-    I: Iterator<Item = Snailfish>
+        I: Iterator<Item = Snailfish>,
     {
         let final_fish = iter.reduce(|acc, fish| {
             println!("{} + {}", &acc, &fish);
-            let result = (acc+fish).reduce_all_the_way();
+            let result = (acc + fish).reduce_all_the_way();
             println!("result {}", &result);
             result
         });
         match final_fish {
-            Some(f) => {
-                f
-            } 
+            Some(f) => f,
             None => {
                 dbg!(":askdfl;jasfkljas");
                 Number(0)
             }
         }
     }
-
 }
 #[derive(Debug)]
 enum Operation {
@@ -80,35 +79,43 @@ impl Snailfish {
             Fish((box Number(a), box Number(b))) => {
                 let left: usize = 3_usize * (*a as usize);
                 let right: usize = 2_usize * (*b as usize);
-                println!("{} + {} = {}", left, right, left+right);
+                println!(
+                    "{} + {} = {}",
+                    left,
+                    right,
+                    left + right
+                );
                 left + right
             }
             Fish((fish_a, fish_b)) => {
                 let left = fish_a.magnitude();
                 let right = fish_b.magnitude();
-                println!("mag {} + mag {} = {}", left, right, 3*left + 2*right);
-                3*left + 2*right
+                println!(
+                    "mag {} + mag {} = {}",
+                    left,
+                    right,
+                    3 * left + 2 * right
+                );
+                3 * left + 2 * right
             }
             Number(n) => *n as usize,
         }
     }
-    
-  
+
     fn reduce_all_the_way(&self) -> Self {
         println!("Starting Fish {}", &self);
         let mut fish = self.clone();
         loop {
-          let new_fish = fish.reduce();
-          println!("new fish {}", &new_fish);
+            let new_fish = fish.reduce();
+            println!("new fish {}", &new_fish);
 
-          if new_fish == fish {
-              break;
-          } else {
-              fish = new_fish;
-          }
-        };
+            if new_fish == fish {
+                break;
+            } else {
+                fish = new_fish;
+            }
+        }
         fish
-       
     }
     fn reduce(&self) -> Self {
         let (fish, applied_operation) = self.step(0);
@@ -117,39 +124,44 @@ impl Snailfish {
             None => {
                 let fish = self.try_split();
                 fish
-            },
-            panic_op=> {
+            }
+            panic_op => {
                 dbg!(panic_op);
                 panic!("shouldn't be possible to have alt operations")
-            },
+            }
         }
-
     }
-    fn try_split(&self) -> Self
-    {
-
+    fn try_split(&self) -> Self {
         match self {
             Number(num) => {
                 // dbg!(num);
                 Number(*num);
                 if *num >= 10 {
-                    let split_num = num/2;
+                    let split_num = num / 2;
                     Fish((
                         Box::new(Number(split_num)),
-                        Box::new(Number(split_num + *num % 2))
+                        Box::new(Number(
+                            split_num + *num % 2,
+                        )),
                     ))
                 } else {
                     Number(*num)
                 }
-            },
+            }
             Fish((fish_a, fish_b)) => {
-let new_fish_a =                fish_a.try_split();
-if new_fish_a != **fish_a {
-    // split happened
-    Fish((Box::new(new_fish_a), fish_b.clone()))
-} else {
-Fish((fish_a.clone(),    Box::new(fish_b.try_split())))
-}
+                let new_fish_a = fish_a.try_split();
+                if new_fish_a != **fish_a {
+                    // split happened
+                    Fish((
+                        Box::new(new_fish_a),
+                        fish_b.clone(),
+                    ))
+                } else {
+                    Fish((
+                        fish_a.clone(),
+                        Box::new(fish_b.try_split()),
+                    ))
+                }
             }
         }
     }
@@ -162,7 +174,7 @@ Fish((fish_a.clone(),    Box::new(fish_b.try_split())))
             Number(num) => {
                 // dbg!(num);
                 (Some(Number(*num)), None)
-            },
+            }
             Fish((box Number(a), box Number(b))) => {
                 // dbg!(a,b);
                 if level >= 4 {
@@ -201,7 +213,8 @@ Fish((fish_a.clone(),    Box::new(fish_b.try_split())))
 
                                 if let Some(op_num) = right
                                 {
-                                    // dbg!(op_num, num, &new_fish);
+                                    // dbg!(op_num, num,
+                                    // &new_fish);
 
                                     let new_num =
                                         op_num + num;
@@ -240,14 +253,18 @@ Fish((fish_a.clone(),    Box::new(fish_b.try_split())))
 
                                 // let new_op =
                             }
-                            box Fish((box Number(num), fishy)) => {
+                            box Fish((
+                                box Number(num),
+                                fishy,
+                            )) => {
                                 // dbg!(num);
 
                                 // TODO: merge top number
                                 // dbg!(fishy.clone());
                                 if let Some(op_num) = right
                                 {
-                                    // dbg!(op_num, num, &new_fish);
+                                    // dbg!(op_num, num,
+                                    // &new_fish);
 
                                     let new_num =
                                         op_num + num;
@@ -287,39 +304,59 @@ Fish((fish_a.clone(),    Box::new(fish_b.try_split())))
                                         ),
                                     )
                                 }
-                            },
-                            fish => {
-                                match right {
-                                    Some(value) => {
-                                        let fish_fish = munge_leftmost(&fish, value);
-                                        ( Fish((
+                            }
+                            fish => match right {
+                                Some(value) => {
+                                    let fish_fish =
+                                        munge_leftmost(
+                                            &fish, value,
+                                        );
+                                    ( Fish((
                                             Box::new(new_fish.unwrap()),
 Box::new(                                                  fish_fish.clone())
                                        )), Some(Operation::Explode((left, None))))
-                                    },
-                                    None => ( Fish((
-                                        Box::new(new_fish.unwrap()),
-                                              fish.clone()
-                                   )), Some(Operation::Explode((left, right)))),
                                 }
-                                
+                                None => (
+                                    Fish((
+                                        Box::new(
+                                            new_fish
+                                                .unwrap(),
+                                        ),
+                                        fish.clone(),
+                                    )),
+                                    Some(
+                                        Operation::Explode(
+                                            (left, right),
+                                        ),
+                                    ),
+                                ),
                             },
                             // fish => {
                             //     match left {
                             //         Some(value) => {
-                            //             let fish_fish = munge_rightmost(&fish, value);
+                            //             let fish_fish =
+                            // munge_rightmost(&fish,
+                            // value);
                             //             ( Some(Fish((
-                            //                 Box::new(fish_fish.clone()),
-                            //                 Box::new(new_right_fish.unwrap())
-                            //      ))), Some(Operation::Explode((left, right))))
+                            //                 
+                            // Box::new(fish_fish.clone()),
+                            //                 
+                            // Box::new(new_right_fish.
+                            // unwrap())
+                            //      ))), Some(Operation::
+                            // Explode((left, right))))
                             //         },
-                            //         None =>   ( Some(Fish((
+                            //         None =>   (
+                            // Some(Fish((
                             //             fish.clone(),
-                            //             Box::new(new_right_fish.unwrap())
-                            //  ))), Some(Operation::Explode((left, right)))),
+                            //             
+                            // Box::new(new_right_fish.
+                            // unwrap())
+                            //  ))), Some(Operation::
+                            // Explode((left, right)))),
                             //     }
                             //     // dbg!(&op);
-                              
+
                             // },
                         }
                     }
@@ -337,7 +374,9 @@ Box::new(                                                  fish_fish.clone())
                 };
                 // dbg!(&new_fish);
                 match op {
-                    Some(o) => (Some(new_left_fish), Some(o)),
+                    Some(o) => {
+                        (Some(new_left_fish), Some(o))
+                    }
                     None => {
                         // same as above, for right hand
                         // side
@@ -361,7 +400,8 @@ Box::new(                                                  fish_fish.clone())
                                         ) = left
                                         {
                                             // dbg!(
-                                            //     op_num, num
+                                            //     op_num,
+                                            // num
                                             // );
                                             let new_num =
                                                 op_num
@@ -384,7 +424,9 @@ Box::new(                                                  fish_fish.clone())
                                             ),
                                         )
                                         } else {
-                                            // dbg!(&num, &new_right_fish);
+                                            // dbg!(&num,
+                                            // &new_right_fish);
+                                            //
                                             (
                                        Some( Fish((
                                             Box::new(Number(
@@ -403,8 +445,14 @@ Box::new(                                                  fish_fish.clone())
 
                                         // let new_op =
                                     }
-                                    box Fish((fishy, box Number(num)))=> {
-                                        println!("{} -- {}", &fishy, num);
+                                    box Fish((
+                                        fishy,
+                                        box Number(num),
+                                    )) => {
+                                        println!(
+                                            "{} -- {}",
+                                            &fishy, num
+                                        );
 
                                         // dbg!(num);
                                         if let Some(
@@ -412,7 +460,8 @@ Box::new(                                                  fish_fish.clone())
                                         ) = left
                                         {
                                             // dbg!(
-                                            //     op_num, num
+                                            //     op_num,
+                                            // num
                                             // );
                                             let new_num =
                                                 op_num
@@ -437,7 +486,9 @@ Box::new(                                                  fish_fish.clone())
                                             ),
                                         )
                                         } else {
-                                            // dbg!(&num, &new_right_fish);
+                                            // dbg!(&num,
+                                            // &new_right_fish);
+                                            //
                                             (
                                        Some( Fish((
                                            
@@ -458,7 +509,7 @@ Box::new(                                                  fish_fish.clone())
                                         }
 
                                         // let new_op =
-                                    },
+                                    }
                                     fish => {
                                         match left {
                                             Some(value) => {
@@ -474,8 +525,7 @@ Box::new(                                                  fish_fish.clone())
                                      ))), Some(Operation::Explode((left, right)))),
                                         }
                                         // dbg!(&op);
-                                      
-                                    },
+                                    }
                                 }
                             }
                             (
@@ -501,28 +551,43 @@ Box::new(                                                  fish_fish.clone())
     fn explode(&self) {}
     fn split() {}
 }
-fn munge_rightmost(fish: &Snailfish, value: u32) -> Snailfish {
+fn munge_rightmost(
+    fish: &Snailfish,
+    value: u32,
+) -> Snailfish {
     match fish {
-        Number(n) =>panic!("helpmeee"),
-        Fish((a,b)) => {
-            Fish((a.clone(), match b {
-                box Number(n) => Box::new(Number(n + value)),
-                box fishy => Box::new(munge_rightmost(&fishy, value)),
-            }))
-        },
+        Number(n) => panic!("helpmeee"),
+        Fish((a, b)) => Fish((
+            a.clone(),
+            match b {
+                box Number(n) => {
+                    Box::new(Number(n + value))
+                }
+                box fishy => {
+                    Box::new(munge_rightmost(&fishy, value))
+                }
+            },
+        )),
     }
 }
-fn munge_leftmost(fish: &Snailfish, value: u32) -> Snailfish {
+fn munge_leftmost(
+    fish: &Snailfish,
+    value: u32,
+) -> Snailfish {
     match fish {
-        Number(n) =>panic!("helpmeee"),
-        Fish((a,b)) => {
-            Fish((match a {
-                box Number(n) => Box::new(Number(n + value)),
-                box fishy => Box::new(munge_leftmost(&fishy, value)),
-            }, b.clone()))
-        },
+        Number(n) => panic!("helpmeee"),
+        Fish((a, b)) => Fish((
+            match a {
+                box Number(n) => {
+                    Box::new(Number(n + value))
+                }
+                box fishy => {
+                    Box::new(munge_leftmost(&fishy, value))
+                }
+            },
+            b.clone(),
+        )),
     }
-
 }
 fn snailfish(input: &str) -> IResult<&str, Snailfish> {
     let has_snailfish: IResult<&str, &str> =
@@ -550,13 +615,12 @@ fn snailfish(input: &str) -> IResult<&str, Snailfish> {
     Ok((input, fish_number))
 }
 
-
 // x=20..30, y=-10..-5
 pub fn process_part1(input: &str) -> usize {
     let result: Snailfish = input
-                                .lines()
-                                .map(|line| snailfish(line).unwrap().1)
-                                .sum();
+        .lines()
+        .map(|line| snailfish(line).unwrap().1)
+        .sum();
     result.magnitude()
 }
 
@@ -564,10 +628,12 @@ pub fn process_part2(input: &str) -> usize {
     let fish = input
         .lines()
         .map(|line| snailfish(line).unwrap().1);
-    let max = fish.clone()
+    let max = fish
+        .clone()
         .cartesian_product(fish.clone())
-        .map(|(a,b)| (a+b).reduce_all_the_way()
-                            .magnitude())
+        .map(|(a, b)| {
+            (a + b).reduce_all_the_way().magnitude()
+        })
         .max();
     max.unwrap()
 }
@@ -587,7 +653,8 @@ mod tests {
     #[test]
     // #[ignore]
     fn test_multi_addition_reduction() {
-        let TEST_INPUT = "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
+        let TEST_INPUT =
+            "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
 [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]
 [[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]
 [[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]
@@ -598,14 +665,17 @@ mod tests {
 [[[5,[7,4]],7],1]
 [[[[4,2],2],6],[8,7]]";
 
-let (_, answer) = snailfish("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]").unwrap();
-        assert_eq!(answer, TEST_INPUT
-            .lines()
-            .map(|line| snailfish(line).unwrap().1)
-            .inspect(|s| {
-                println!("inspect {}", s);
-            })
-            .sum())
+        let (_, answer) = snailfish("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]").unwrap();
+        assert_eq!(
+            answer,
+            TEST_INPUT
+                .lines()
+                .map(|line| snailfish(line).unwrap().1)
+                .inspect(|s| {
+                    println!("inspect {}", s);
+                })
+                .sum()
+        )
     }
 
     #[test]
@@ -615,11 +685,16 @@ let (_, answer) = snailfish("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]
 [3,3]
 [4,4]";
 
-let (_, answer) = snailfish("[[[[1,1],[2,2]],[3,3]],[4,4]]").unwrap();
-        assert_eq!(answer, TEST_INPUT
-            .lines()
-            .map(|line| snailfish(line).unwrap().1)
-            .sum())
+        let (_, answer) =
+            snailfish("[[[[1,1],[2,2]],[3,3]],[4,4]]")
+                .unwrap();
+        assert_eq!(
+            answer,
+            TEST_INPUT
+                .lines()
+                .map(|line| snailfish(line).unwrap().1)
+                .sum()
+        )
     }
 
     #[test]
@@ -630,11 +705,16 @@ let (_, answer) = snailfish("[[[[1,1],[2,2]],[3,3]],[4,4]]").unwrap();
 [4,4]
 [5,5]";
 
-let (_, answer) = snailfish("[[[[3,0],[5,3]],[4,4]],[5,5]]").unwrap();
-        assert_eq!(answer, TEST_INPUT
-            .lines()
-            .map(|line| snailfish(line).unwrap().1)
-            .sum())
+        let (_, answer) =
+            snailfish("[[[[3,0],[5,3]],[4,4]],[5,5]]")
+                .unwrap();
+        assert_eq!(
+            answer,
+            TEST_INPUT
+                .lines()
+                .map(|line| snailfish(line).unwrap().1)
+                .sum()
+        )
     }
 
     #[test]
@@ -646,14 +726,17 @@ let (_, answer) = snailfish("[[[[3,0],[5,3]],[4,4]],[5,5]]").unwrap();
 [5,5]
 [6,6]";
 
-let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
-        assert_eq!(answer, TEST_INPUT
-            .lines()
-            .map(|line| snailfish(line).unwrap().1)
-            .sum())
+        let (_, answer) =
+            snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]")
+                .unwrap();
+        assert_eq!(
+            answer,
+            TEST_INPUT
+                .lines()
+                .map(|line| snailfish(line).unwrap().1)
+                .sum()
+        )
     }
-
-
 
     #[test]
     fn test_parse_snailfish_A() {
@@ -758,7 +841,7 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
 
     #[test]
     fn test_add_explode_left() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[[[[9,8],1],2],3],4]").unwrap();
         let (_, answer) =
             snailfish("[[[[0,9],2],3],4]").unwrap();
@@ -766,7 +849,7 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
     }
     #[test]
     fn test_add_explode_right() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[7,[6,[5,[4,[3,2]]]]]").unwrap();
         let (_, answer) =
             snailfish("[7,[6,[5,[7,0]]]]").unwrap();
@@ -775,7 +858,7 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
 
     #[test]
     fn test_add_explode_both() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[6,[5,[4,[3,2]]]],1]").unwrap();
         let (_, answer) =
             snailfish("[[6,[5,[7,0]]],3]").unwrap();
@@ -783,7 +866,7 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
     }
     #[test]
     fn test_add_explode_unaffected() {
-        let (_,  input_fish) = snailfish(
+        let (_, input_fish) = snailfish(
             "[[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]",
         )
         .unwrap();
@@ -794,7 +877,7 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
     }
     #[test]
     fn test_add_explode_something() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]")
                 .unwrap();
         let (_, answer) =
@@ -805,15 +888,14 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
 
     #[test]
     fn test_add_split_and_explode() {
-        let (_,  input_fish_a) =
+        let (_, input_fish_a) =
             snailfish("[[[[4,3],4],4],[7,[[8,4],9]]]")
                 .unwrap();
-        let (_,  input_fish_b) =
-            snailfish("[1,1]")
-                .unwrap();
-        let (_, after_addition) =
-            snailfish("[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]")
-                .unwrap();
+        let (_, input_fish_b) = snailfish("[1,1]").unwrap();
+        let (_, after_addition) = snailfish(
+            "[[[[[4,3],4],4],[7,[[8,4],9]]],[1,1]]",
+        )
+        .unwrap();
         let (_, after_explode_1) =
             snailfish("[[[[0,7],4],[7,[[8,4],9]]],[1,1]]")
                 .unwrap();
@@ -823,17 +905,18 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
         let (_, after_split_1) =
             snailfish("[[[[0,7],4],[[7,8],[0,13]]],[1,1]]")
                 .unwrap();
-        let (_, after_split_2) =
-            snailfish("[[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]]")
-                .unwrap();
+        let (_, after_split_2) = snailfish(
+            "[[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]]",
+        )
+        .unwrap();
         let (_, after_explode_3) =
             snailfish("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]")
                 .unwrap();
-             
+
         println!("--step--");
         let op_fish = input_fish_a + input_fish_b;
         assert_eq!(after_addition, op_fish);
-        
+
         println!("--step--");
         let op_fish_2 = op_fish.reduce();
         assert_eq!(after_explode_1, op_fish_2);
@@ -849,7 +932,7 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
         println!("--step--");
         let op_fish_5 = op_fish_4.reduce();
         assert_eq!(after_split_2, op_fish_5);
-        
+
         println!("--step--");
         let op_fish_6 = op_fish_5.reduce();
         assert_eq!(after_explode_3, op_fish_6);
@@ -857,59 +940,61 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
 
     #[test]
     fn test_add_step_1() {
-        let (_,  input_fish_a) =
-            snailfish("[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]")
-                .unwrap();
-                let (_, input_fish_b) =
+        let (_, input_fish_a) = snailfish(
+            "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]",
+        )
+        .unwrap();
+        let (_, input_fish_b) =
             snailfish("[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]")
                 .unwrap();
         let (_, answer) =
             snailfish("[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]")
                 .unwrap();
-        assert_eq!(answer.to_string(), (input_fish_a + input_fish_b).reduce_all_the_way().to_string());
+        assert_eq!(
+            answer.to_string(),
+            (input_fish_a + input_fish_b)
+                .reduce_all_the_way()
+                .to_string()
+        );
     }
-
-    
-  
 
     #[test]
     fn test_magnitude_A() {
-        let (_,  input_fish) =
-            snailfish("[[1,2],[[3,4],5]]")
-                .unwrap();
-        
+        let (_, input_fish) =
+            snailfish("[[1,2],[[3,4],5]]").unwrap();
+
         assert_eq!(143, input_fish.magnitude());
     }
     #[test]
     fn test_magnitude_B() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[[[0,7],4],[[7,8],[6,0]]],[8,1]]")
                 .unwrap();
-        
+
         assert_eq!(1384, input_fish.magnitude());
     }
     #[test]
     fn test_magnitude_C() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[[[1,1],[2,2]],[3,3]],[4,4]]")
                 .unwrap();
-        
+
         assert_eq!(445, input_fish.magnitude());
     }
     #[test]
     fn test_magnitude_D() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[[[3,0],[5,3]],[4,4]],[5,5]]")
                 .unwrap();
-        
+
         assert_eq!(791, input_fish.magnitude());
     }
     #[test]
     fn test_magnitude_E() {
-        let (_,  input_fish) =
+        let (_, input_fish) =
             snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]")
                 .unwrap();
-        
+
         assert_eq!(1137, input_fish.magnitude());
     }
     #[test]
@@ -917,10 +1002,10 @@ let (_, answer) = snailfish("[[[[5,0],[7,4]],[5,5]],[6,6]]").unwrap();
         let (_,  input_fish) =
             snailfish("[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]")
                 .unwrap();
-        
+
         assert_eq!(3488, input_fish.magnitude());
     }
- 
+
     #[test]
     fn part2_test_demo_data() {
         assert_eq!(3993, process_part2(INPUT));
