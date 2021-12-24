@@ -1,0 +1,114 @@
+[
+    {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug unit tests in library 'day-05'",
+        "cargo": {
+            "args": [
+                "test",
+                "--no-run",
+                "--lib",
+                "--package=day-05"
+            ],
+            "filter": {
+                "name": "day-05",
+                "kind": "lib"
+            }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    },
+    {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug executable 'part1'",
+        "cargo": {
+            "args": [
+                "build",
+                "--bin=part1",
+                "--package=day-05"
+            ],
+            "filter": {
+                "name": "part1",
+                "kind": "bin"
+            }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    },
+    {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug unit tests in executable 'part1'",
+        "cargo": {
+            "args": [
+                "test",
+                "--no-run",
+                "--bin=part1",
+                "--package=day-05"
+            ],
+            "filter": {
+                "name": "part1",
+                "kind": "bin"
+            }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    },
+    {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug executable 'part2'",
+        "cargo": {
+            "args": [
+                "build",
+                "--bin=part2",
+                "--package=day-05"
+            ],
+            "filter": {
+                "name": "part2",
+                "kind": "bin"
+            }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    },
+    {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug unit tests in executable 'part2'",
+        "cargo": {
+            "args": [
+                "test",
+                "--no-run",
+                "--bin=part2",
+                "--package=day-05"
+            ],
+            "filter": {
+                "name": "part2",
+                "kind": "bin"
+            }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    },
+    {
+        "type": "lldb",
+        "request": "launch",
+        "name": "Debug benchmark 'my_benchmark'",
+        "cargo": {
+            "args": [
+                "test",
+                "--no-run",
+                "--bench=my_benchmark",
+                "--package=day-05"
+            ],
+            "filter": {
+                "name": "my_benchmark",
+                "kind": "bench"
+            }
+        },
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    }
+]
