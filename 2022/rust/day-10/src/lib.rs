@@ -1,14 +1,91 @@
 use itertools::Itertools;
 use nom::{
     branch::alt,
-    bytes::complete::{is_a, tag},
-    character::complete::{self, alpha1, digit1, newline},
-    combinator::verify,
-    multi::{many1, separated_list1},
-    sequence::{preceded, separated_pair},
+    bytes::complete::tag,
+    character::complete::{self, newline},
+    multi::separated_list1,
+    sequence::preceded,
     *,
 };
-use std::collections::{BTreeMap, HashSet};
+use std::{
+    collections::BTreeMap, fmt::Display,
+    ops::RangeInclusive,
+};
+
+struct Computer {
+    x: i32,
+    cycles: u32,
+    pixels: String,
+}
+impl Display for Computer {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.pixels
+                .chars()
+                .chunks(40)
+                .into_iter()
+                .map(|chunk| chunk.collect::<String>())
+                .join("\n")
+        )
+    }
+}
+impl Computer {
+    fn new() -> Self {
+        Computer {
+            x: 1,
+            cycles: 0,
+            pixels: "".to_string(),
+        }
+    }
+    fn sprite_range(&self) -> RangeInclusive<i32> {
+        (self.x - 1)..=(self.x + 1)
+    }
+    fn interpret(&mut self, instruction: &Instruction) {
+        for _ in 0..instruction.cycles() {
+            let cycle_guard = self.start_cycle();
+
+            if cycle_guard
+                .computer
+                .sprite_range()
+                .contains(&(cycle_guard.pixel as i32))
+            {
+                cycle_guard.computer.pixels.push_str("#");
+            } else {
+                cycle_guard.computer.pixels.push_str(".");
+            }
+        }
+
+        match instruction {
+            Noop => {}
+            Add(num) => {
+                self.x += num;
+            }
+        };
+    }
+    fn start_cycle(&mut self) -> Cycle {
+        Cycle {
+            cycle: self.cycles,
+            pixel: self.cycles % 40,
+            computer: self,
+        }
+    }
+}
+
+struct Cycle<'a> {
+    cycle: u32,
+    pixel: u32,
+    computer: &'a mut Computer,
+}
+impl<'a> Drop for Cycle<'a> {
+    fn drop(&mut self) {
+        self.computer.cycles += 1;
+    }
+}
 
 #[derive(Debug)]
 enum Instruction {
@@ -82,37 +159,16 @@ pub fn process_part1(input: &str) -> String {
 
 pub fn process_part2(input: &str) -> String {
     let (_, instructions) = instruction_set(input).unwrap();
-    let mut x: i32 = 1;
-    let mut cycles: u32 = 0;
-    let mut crt_pixels: String = "".to_string();
 
-    for instruction in instructions.iter() {
-        for cycle_add in 0..instruction.cycles() {
-            let pixel_id =
-                (cycles as i32 + cycle_add as i32) % 40;
+    let computer = instructions.iter().fold(
+        Computer::new(),
+        |mut computer, instruction| {
+            computer.interpret(instruction);
+            computer
+        },
+    );
 
-            if ((x - 1)..=(x + 1)).contains(&pixel_id) {
-                crt_pixels.push_str("#");
-            } else {
-                crt_pixels.push_str(".");
-            }
-        }
-
-        cycles += instruction.cycles();
-        match instruction {
-            Noop => {}
-            Add(num) => {
-                x += num;
-            }
-        };
-    }
-
-    crt_pixels
-        .chars()
-        .chunks(40)
-        .into_iter()
-        .map(|chunk| chunk.collect::<String>())
-        .join("\n")
+    computer.to_string()
 }
 
 #[cfg(test)]
