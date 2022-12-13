@@ -20,37 +20,42 @@ fn main() {
         .cartesian_product(0..grid[0].len())
         .flat_map(|(y, x)| {
             let neighbors = vec![(x + 1, y), (x, y + 1)];
-            let current_node_id = (x, y);
-            neighbors.iter().filter_map(|cell| {
-                grid.get(cell.1 as usize)
-                    .and_then(|vec| {
-                        vec.get(cell.0 as usize)
-                    })
-                    .and_then(|existing_cell| {
-                        // if reachable
-                        let current_node_height =
-                            grid[y as usize][x as usize];
+            neighbors
+                .into_iter()
+                .zip(std::iter::repeat((x, y)))
+                .filter_map(|(cell, (x, y))| {
+                    let current_node_id = (x, y);
 
-                        if current_node_height as u8 + 1
-                            >= *existing_cell as u8
-                        {
-                            Some((
-                                (
-                                    current_node_id.0,
-                                    current_node_id.1,
-                                    current_node_height,
-                                ),
-                                (
-                                    cell.0,
-                                    cell.1,
-                                    *existing_cell,
-                                ),
-                            ))
-                        } else {
-                            None
-                        }
-                    })
-            })
+                    grid.get(cell.1 as usize)
+                        .and_then(|vec| {
+                            vec.get(cell.0 as usize)
+                        })
+                        .and_then(|existing_cell| {
+                            // if reachable
+                            let current_node_height = grid
+                                [y as usize]
+                                [x as usize];
+
+                            if current_node_height as u8 + 1
+                                >= *existing_cell as u8
+                            {
+                                Some((
+                                    (
+                                        current_node_id.0,
+                                        current_node_id.1,
+                                        current_node_height,
+                                    ),
+                                    (
+                                        cell.0,
+                                        cell.1,
+                                        *existing_cell,
+                                    ),
+                                ))
+                            } else {
+                                None
+                            }
+                        })
+                })
         })
         .collect::<Vec<(
             (usize, usize, char),
