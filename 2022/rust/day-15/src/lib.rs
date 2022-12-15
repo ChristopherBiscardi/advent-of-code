@@ -8,7 +8,10 @@ use nom::{
     *,
 };
 use rayon::prelude::*;
-use std::collections::BTreeMap;
+use std::{
+    collections::BTreeMap,
+    ops::{RangeBounds, RangeInclusive},
+};
 
 #[derive(Ord, PartialOrd, Eq, PartialEq, Debug)]
 struct Sensor {
@@ -107,49 +110,133 @@ pub fn process_part2(input: &str, limit: i32) -> String {
             )
         })
         .collect();
-    let possible_beacon_location = (0..=limit)
-        .cartesian_product(0..=limit)
-        .par_bridge()
-        .find_any(|(y, x)| {
-            if y < &0 || x < &0 || y > &limit || x > &limit
-            {
-                return false;
-            }
-            let is_beacon = map
-                .values()
-                .contains(&Beacon { x: *x, y: *y });
-            if is_beacon {
-                return false;
-            }
-            let is_sensed = distances
-                .iter()
-                .filter(|(sensor, distance)| {
-                    let sensor_range = (sensor.y
-                        - **distance)
-                        ..(sensor.y + **distance);
-                    sensor_range.contains(&y)
-                })
-                .find(|(sensor, max_distance)| {
+
+    let mut low_high: BTreeMap<
+        i32,
+        Vec<RangeInclusive<i32>>,
+    > = BTreeMap::new();
+    for (y, range) in distances.iter().flat_map(
+        |(sensor, max_distance)| {
+            ((sensor.y - max_distance)
+                ..(sensor.y + max_distance))
+                .map(|y| {
                     let distance_to_line = sensor.y - y;
 
-                    let max_distance_on_line =
-                        **max_distance
-                            - distance_to_line.abs();
+                    let max_distance_on_line = *max_distance
+                        - distance_to_line.abs();
 
-                    let sensor_range = (sensor.x
-                        - max_distance_on_line)
-                        ..=(sensor.x
-                            + max_distance_on_line);
-                    sensor_range.contains(x)
-                });
-            // if position is not sensed by sensor
-            is_sensed.is_none()
-        });
+                    (
+                        y,
+                        ((sensor.x - max_distance_on_line)
+                            .max(0))
+                            ..=((sensor.x
+                                + max_distance_on_line)
+                                .min(limit)),
+                    )
+                })
+        },
+    )
+    // .inspect(|x| {
+    //     if x.0 == 11 {
+    //         dbg!(x);
+    //     }
+    // })
+    {
+        if y >= 0 && y <= limit {
+            low_high
+                .entry(y)
+                .and_modify(|lh| lh.push(range.clone()))
+                .or_insert(vec![range]);
+        }
+    }
+    println!("counting");
 
-    let Some(beacon) = possible_beacon_location else {
-        panic!("ohnooooo");
-    };
-    (beacon.1 * 4000000 + beacon.0).to_string()
+    let v: Vec<(i32, i32)> = low_high
+        .into_iter()
+        .filter_map(|(key, mut ranges)| {
+            // println!("{}", key);
+            ranges.sort_by(|a, b| a.start().cmp(b.start()));
+            let result: (RangeInclusive<i32>, Option<i32>) =
+                ranges.iter().fold(
+                    (0..=0, None),
+                    |mut acc, range| {
+                        if acc.1.is_some() {
+                            return acc;
+                        }
+                        if acc.0.end() + 1 >= *range.start()
+                        {
+                            acc.0 = *acc.0.start()
+                                ..=(*acc
+                                    .0
+                                    .end()
+                                    .max(range.end()));
+                        } else {
+                            dbg!(&acc, range);
+                            acc.1 = Some(acc.0.end() + 1);
+                        }
+
+                        acc
+                    },
+                );
+            result.1.map(|x| {
+                dbg!(ranges);
+                (x, key)
+            })
+        })
+        .collect();
+    println!("done counting");
+    dbg!(&v);
+    let x = v[0].0;
+    let y = v[0].1;
+    // let row = low_high
+    //     .iter()
+    //     .filter(|(key, bounds)| {
+    //         (bounds.0..bounds.1).len() < limit as usize
+    //     })
+    //     .collect::<Vec<_>>();
+    // dbg!(row);
+    // let y = row_index;
+    // let possible_beacon_location =
+    //     (0..=limit).into_par_iter().find_any(|x| {
+    //         if y < &0 || x < &0 || y > &limit || x > &limit
+    //         {
+    //             return false;
+    //         }
+    //         let is_beacon = map
+    //             .values()
+    //             .contains(&Beacon { x: *x, y: *y });
+    //         if is_beacon {
+    //             return false;
+    //         }
+    //         let is_sensed = distances
+    //             .iter()
+    //             .filter(|(sensor, distance)| {
+    //                 let sensor_range = (sensor.y
+    //                     - **distance)
+    //                     ..(sensor.y + **distance);
+    //                 sensor_range.contains(&y)
+    //             })
+    //             .find(|(sensor, max_distance)| {
+    //                 let distance_to_line = sensor.y - y;
+
+    //                 let max_distance_on_line =
+    //                     **max_distance
+    //                         - distance_to_line.abs();
+
+    //                 let sensor_range = (sensor.x
+    //                     - max_distance_on_line)
+    //                     ..=(sensor.x
+    //                         + max_distance_on_line);
+    //                 sensor_range.contains(x)
+    //             });
+    //         // if position is not sensed by sensor
+    //         is_sensed.is_none()
+    //     });
+
+    // let Some(beacon_x) = possible_beacon_location else {
+    //     panic!("ohnooooo");
+    // };
+    (x * 4000000 + y).to_string()
 }
 
 #[cfg(test)]
