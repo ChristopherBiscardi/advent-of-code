@@ -1,0 +1,13 @@
+[package]
+name = "day-19"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bevy = "0.9.1"
+glam = "0.22.0"
+itertools = "0.10.5"
+nom = "7.1.1"
+rayon = "1.6.1"
