@@ -1,0 +1,14 @@
+[package]
+name = "day-21"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+itertools = "0.10.5"
+nom = "7.1.1"
+petgraph = "0.6.2"
+rayon = "1.6.1"
+tracing = "0.1.37"
+tracing-subscriber = "0.3.16"
