@@ -1,0 +1,405 @@
+<svg xmlns="http://www.w3.org/2000/svg" opacity=".55" viewBox="0 0 1422 800">
+    <g fill="none" stroke="hsl(105, 69%, 30%)" stroke-linecap="round" stroke-width="3.5">
+        <path d="m0 0 54 54" opacity=".99"/>
+        <path d="M108 0 54 54" opacity=".09"/>
+        <path d="m108 0 54 54" opacity=".66"/>
+        <path d="m216 0-54 54" opacity=".17"/>
+        <path d="m270 0-54 54" opacity=".16"/>
+        <path d="m270 0 54 54" opacity=".59"/>
+        <path d="m378 0-54 54" opacity=".8"/>
+        <path d="m432 0-54 54" opacity=".93"/>
+        <path d="m432 0 54 54" opacity=".32"/>
+        <path d="m486 0 54 54" opacity=".73"/>
+        <path d="m594 0-54 54" opacity=".46"/>
+        <path d="m648 0-54 54" opacity=".32"/>
+        <path d="m648 0 54 54" opacity=".51"/>
+        <path d="m702 0 54 54" opacity=".73"/>
+        <path d="m810 0-54 54" opacity=".27"/>
+        <path d="m810 0 54 54" opacity=".19"/>
+        <path d="m864 0 54 54" opacity=".97"/>
+        <path d="m918 0 54 54" opacity=".67"/>
+        <path d="m972 0 54 54" opacity=".35"/>
+        <path d="m1026 0 54 54" opacity=".59"/>
+        <path d="m1134 0-54 54" opacity=".23"/>
+        <path d="m1188 0-54 54" opacity=".5"/>
+        <path d="m1188 0 54 54" opacity=".53"/>
+        <path d="m1242 0 54 54" opacity=".69"/>
+        <path d="m1350 0-54 54" opacity=".78"/>
+        <path d="m1404 0-54 54" opacity=".38"/>
+        <path d="m1458 0-54 54" opacity=".53"/>
+        <path d="m0 54 54 54" opacity=".85"/>
+        <path d="m54 54 54 54" opacity=".39"/>
+        <path d="m162 54-54 54" opacity=".22"/>
+        <path d="m216 54-54 54" opacity=".12"/>
+        <path d="m216 54 54 54" opacity=".63"/>
+        <path d="m324 54-54 54" opacity=".13"/>
+        <path d="m378 54-54 54" opacity=".7"/>
+        <path d="m432 54-54 54" opacity=".85"/>
+        <path d="m432 54 54 54" opacity=".25"/>
+        <path d="m486 54 54 54" opacity=".66"/>
+        <path d="m540 54 54 54" opacity=".37"/>
+        <path d="m648 54-54 54" opacity=".51"/>
+        <path d="m648 54 54 54" opacity=".83"/>
+        <path d="m756 54-54 54" opacity=".67"/>
+        <path d="m810 54-54 54" opacity=".84"/>
+        <path d="m810 54 54 54" opacity=".94"/>
+        <path d="m864 54 54 54" opacity=".92"/>
+        <path d="m918 54 54 54" opacity=".68"/>
+        <path d="m1026 54-54 54" opacity=".2"/>
+        <path d="m1080 54-54 54" opacity=".87"/>
+        <path d="m1080 54 54 54" opacity=".94"/>
+        <path d="m1188 54-54 54" opacity=".64"/>
+        <path d="m1188 54 54 54" opacity=".33"/>
+        <path d="m1296 54-54 54" opacity=".89"/>
+        <path d="m1350 54-54 54" opacity=".96"/>
+        <path d="m1404 54-54 54" opacity=".91"/>
+        <path d="m1458 54-54 54" opacity=".54"/>
+        <path d="M54 108 0 162" opacity=".22"/>
+        <path d="m108 108-54 54" opacity=".3"/>
+        <path d="m162 108-54 54" opacity=".16"/>
+        <path d="m216 108-54 54" opacity=".9"/>
+        <path d="m216 108 54 54" opacity=".31"/>
+        <path d="m270 108 54 54" opacity=".84"/>
+        <path d="m378 108-54 54" opacity=".66"/>
+        <path d="m378 108 54 54" opacity=".42"/>
+        <path d="m432 108 54 54" opacity=".57"/>
+        <path d="m540 108-54 54" opacity=".73"/>
+        <path d="m594 108-54 54" opacity=".62"/>
+        <path d="m648 108-54 54" opacity=".1"/>
+        <path d="m648 108 54 54" opacity=".3"/>
+        <path d="m702 108 54 54" opacity=".85"/>
+        <path d="m810 108-54 54" opacity=".8"/>
+        <path d="m810 108 54 54" opacity=".91"/>
+        <path d="m864 108 54 54" opacity=".28"/>
+        <path d="m918 108 54 54" opacity=".96"/>
+        <path d="m1026 108-54 54" opacity=".62"/>
+        <path d="m1080 108-54 54" opacity=".71"/>
+        <path d="m1134 108-54 54" opacity=".13"/>
+        <path d="m1134 108 54 54" opacity=".62"/>
+        <path d="m1242 108-54 54" opacity=".28"/>
+        <path d="m1296 108-54 54" opacity=".56"/>
+        <path d="m1350 108-54 54" opacity=".72"/>
+        <path d="m1404 108-54 54" opacity=".82"/>
+        <path d="m1458 108-54 54" opacity=".49"/>
+        <path d="M54 162 0 216" opacity=".66"/>
+        <path d="m108 162-54 54" opacity=".97"/>
+        <path d="m162 162-54 54" opacity=".34"/>
+        <path d="m216 162-54 54" opacity=".2"/>
+        <path d="m216 162 54 54" opacity=".21"/>
+        <path d="m324 162-54 54" opacity=".61"/>
+        <path d="m378 162-54 54" opacity=".86"/>
+        <path d="m378 162 54 54" opacity=".7"/>
+        <path d="m432 162 54 54" opacity=".3"/>
+        <path d="m486 162 54 54" opacity=".53"/>
+        <path d="m540 162 54 54" opacity=".24"/>
+        <path d="m594 162 54 54" opacity=".33"/>
+        <path d="m648 162 54 54" opacity=".75"/>
+        <path d="m702 162 54 54" opacity=".12"/>
+        <path d="m756 162 54 54" opacity=".77"/>
+        <path d="m810 162 54 54" opacity=".61"/>
+        <path d="m918 162-54 54" opacity=".52"/>
+        <path d="m918 162 54 54" opacity=".14"/>
+        <path d="m972 162 54 54" opacity=".72"/>
+        <path d="m1026 162 54 54" opacity=".95"/>
+        <path d="m1080 162 54 54" opacity=".71"/>
+        <path d="m1134 162 54 54" opacity=".97"/>
+        <path d="m1242 162-54 54" opacity=".7"/>
+        <path d="m1242 162 54 54" opacity=".46"/>
+        <path d="m1350 162-54 54" opacity=".72"/>
+        <path d="m1404 162-54 54" opacity=".12"/>
+        <path d="m1404 162 54 54" opacity=".49"/>
+        <path d="m0 216 54 54" opacity=".69"/>
+        <path d="m54 216 54 54" opacity=".94"/>
+        <path d="m108 216 54 54" opacity=".15"/>
+        <path d="m216 216-54 54" opacity=".2"/>
+        <path d="m270 216-54 54" opacity=".49"/>
+        <path d="m324 216-54 54" opacity=".76"/>
+        <path d="m324 216 54 54" opacity=".91"/>
+        <path d="m378 216 54 54" opacity=".78"/>
+        <path d="m432 216 54 54" opacity=".48"/>
+        <path d="m486 216 54 54" opacity=".75"/>
+        <path d="m540 216 54 54" opacity=".46"/>
+        <path d="m594 216 54 54" opacity=".22"/>
+        <path d="m648 216 54 54" opacity=".43"/>
+        <path d="m702 216 54 54" opacity=".24"/>
+        <path d="m756 216 54 54" opacity=".98"/>
+        <path d="m864 216-54 54" opacity=".69"/>
+        <path d="m918 216-54 54" opacity=".48"/>
+        <path d="m972 216-54 54" opacity=".11"/>
+        <path d="m1026 216-54 54" opacity=".88"/>
+        <path d="m1080 216-54 54" opacity=".25"/>
+        <path d="m1134 216-54 54" opacity=".22"/>
+        <path d="m1188 216-54 54" opacity=".74"/>
+        <path d="m1188 216 54 54" opacity=".31"/>
+        <path d="m1242 216 54 54" opacity=".54"/>
+        <path d="m1350 216-54 54" opacity=".2"/>
+        <path d="m1404 216-54 54" opacity=".98"/>
+        <path d="m1458 216-54 54" opacity=".93"/>
+        <path d="m0 270 54 54" opacity=".4"/>
+        <path d="m108 270-54 54" opacity=".88"/>
+        <path d="m108 270 54 54" opacity=".49"/>
+        <path d="m162 270 54 54" opacity=".16"/>
+        <path d="m216 270 54 54" opacity=".37"/>
+        <path d="m270 270 54 54M378 270l-54 54" opacity=".41"/>
+        <path d="m432 270-54 54" opacity=".69"/>
+        <path d="m432 270 54 54" opacity=".18"/>
+        <path d="m540 270-54 54" opacity=".34"/>
+        <path d="m594 270-54 54" opacity=".38"/>
+        <path d="m594 270 54 54" opacity=".6"/>
+        <path d="m702 270-54 54" opacity=".69"/>
+        <path d="m702 270 54 54" opacity=".62"/>
+        <path d="m756 270 54 54" opacity=".98"/>
+        <path d="m810 270 54 54" opacity=".75"/>
+        <path d="m864 270 54 54" opacity=".11"/>
+        <path d="m918 270 54 54" opacity=".47"/>
+        <path d="m972 270 54 54" opacity=".98"/>
+        <path d="m1080 270-54 54" opacity=".46"/>
+        <path d="m1080 270 54 54" opacity=".87"/>
+        <path d="m1188 270-54 54" opacity=".82"/>
+        <path d="m1188 270 54 54" opacity=".2"/>
+        <path d="m1242 270 54 54" opacity=".69"/>
+        <path d="m1350 270-54 54" opacity=".89"/>
+        <path d="m1350 270 54 54" opacity=".92"/>
+        <path d="m1404 270 54 54" opacity=".48"/>
+        <path d="m0 324 54 54" opacity=".97"/>
+        <path d="m108 324-54 54" opacity=".86"/>
+        <path d="m108 324 54 54" opacity=".68"/>
+        <path d="m162 324 54 54" opacity=".4"/>
+        <path d="m270 324-54 54" opacity=".86"/>
+        <path d="m324 324-54 54" opacity=".42"/>
+        <path d="m378 324-54 54" opacity=".84"/>
+        <path d="m378 324 54 54" opacity=".66"/>
+        <path d="m486 324-54 54M486 324l54 54" opacity=".93"/>
+        <path d="m594 324-54 54" opacity=".21"/>
+        <path d="m648 324-54 54" opacity=".18"/>
+        <path d="m648 324 54 54" opacity=".29"/>
+        <path d="m702 324 54 54" opacity=".71"/>
+        <path d="m810 324-54 54" opacity=".15"/>
+        <path d="m810 324 54 54" opacity=".63"/>
+        <path d="m918 324-54 54" opacity=".81"/>
+        <path d="m972 324-54 54" opacity=".22"/>
+        <path d="m1026 324-54 54" opacity=".31"/>
+        <path d="m1026 324 54 54" opacity=".72"/>
+        <path d="m1134 324-54 54" opacity=".9"/>
+        <path d="m1134 324 54 54" opacity=".98"/>
+        <path d="m1242 324-54 54" opacity=".55"/>
+        <path d="m1296 324-54 54" opacity=".42"/>
+        <path d="m1350 324-54 54" opacity=".15"/>
+        <path d="m1404 324-54 54" opacity=".47"/>
+        <path d="m1404 324 54 54" opacity=".39"/>
+        <path d="M54 378 0 432" opacity=".62"/>
+        <path d="m54 378 54 54" opacity=".26"/>
+        <path d="m162 378-54 54" opacity=".97"/>
+        <path d="m216 378-54 54" opacity=".38"/>
+        <path d="m270 378-54 54" opacity=".54"/>
+        <path d="m270 378 54 54" opacity=".17"/>
+        <path d="m378 378-54 54" opacity=".32"/>
+        <path d="m432 378-54 54" opacity=".39"/>
+        <path d="m486 378-54 54" opacity=".8"/>
+        <path d="m486 378 54 54" opacity=".15"/>
+        <path d="m594 378-54 54" opacity=".71"/>
+        <path d="m648 378-54 54" opacity=".92"/>
+        <path d="m648 378 54 54" opacity=".83"/>
+        <path d="m756 378-54 54" opacity=".19"/>
+        <path d="m756 378 54 54" opacity=".74"/>
+        <path d="m810 378 54 54" opacity=".52"/>
+        <path d="m918 378-54 54" opacity=".78"/>
+        <path d="m972 378-54 54" opacity=".1"/>
+        <path d="m1026 378-54 54" opacity=".4"/>
+        <path d="m1026 378 54 54" opacity=".94"/>
+        <path d="m1134 378-54 54" opacity=".16"/>
+        <path d="m1188 378-54 54" opacity=".6"/>
+        <path d="m1242 378-54 54" opacity=".96"/>
+        <path d="m1242 378 54 54" opacity=".84"/>
+        <path d="m1296 378 54 54" opacity=".79"/>
+        <path d="m1350 378 54 54" opacity=".24"/>
+        <path d="m1458 378-54 54" opacity=".84"/>
+        <path d="m0 432 54 54" opacity=".44"/>
+        <path d="m54 432 54 54" opacity=".71"/>
+        <path d="m108 432 54 54" opacity=".32"/>
+        <path d="m162 432 54 54" opacity=".07"/>
+        <path d="m270 432-54 54" opacity=".75"/>
+        <path d="m270 432 54 54" opacity=".28"/>
+        <path d="m378 432-54 54" opacity=".44"/>
+        <path d="m432 432-54 54" opacity=".63"/>
+        <path d="m486 432-54 54" opacity=".33"/>
+        <path d="m540 432-54 54" opacity=".65"/>
+        <path d="m594 432-54 54" opacity=".24"/>
+        <path d="m648 432-54 54" opacity=".42"/>
+        <path d="m702 432-54 54" opacity=".94"/>
+        <path d="m756 432-54 54" opacity=".85"/>
+        <path d="m756 432 54 54" opacity=".59"/>
+        <path d="m864 432-54 54" opacity=".34"/>
+        <path d="m918 432-54 54" opacity=".54"/>
+        <path d="m918 432 54 54" opacity=".91"/>
+        <path d="m972 432 54 54" opacity=".35"/>
+        <path d="m1080 432-54 54" opacity=".54"/>
+        <path d="m1080 432 54 54" opacity=".14"/>
+        <path d="m1134 432 54 54" opacity=".19"/>
+        <path d="m1188 432 54 54" opacity=".15"/>
+        <path d="m1296 432-54 54" opacity=".67"/>
+        <path d="m1350 432-54 54" opacity=".35"/>
+        <path d="m1350 432 54 54" opacity=".54"/>
+        <path d="m1404 432 54 54" opacity=".93"/>
+        <path d="m0 486 54 54" opacity=".61"/>
+        <path d="m54 486 54 54" opacity=".08"/>
+        <path d="m162 486-54 54" opacity=".5"/>
+        <path d="m216 486-54 54" opacity=".09"/>
+        <path d="m270 486-54 54" opacity=".43"/>
+        <path d="m324 486-54 54" opacity=".72"/>
+        <path d="m378 486-54 54" opacity=".33"/>
+        <path d="m432 486-54 54" opacity=".83"/>
+        <path d="m432 486 54 54" opacity=".54"/>
+        <path d="m540 486-54 54" opacity=".34"/>
+        <path d="m540 486 54 54" opacity=".85"/>
+        <path d="m648 486-54 54" opacity=".95"/>
+        <path d="m702 486-54 54" opacity=".78"/>
+        <path d="m702 486 54 54" opacity=".11"/>
+        <path d="m810 486-54 54" opacity=".14"/>
+        <path d="m810 486 54 54" opacity=".47"/>
+        <path d="m864 486 54 54" opacity=".26"/>
+        <path d="m918 486 54 54" opacity=".67"/>
+        <path d="m1026 486-54 54" opacity=".94"/>
+        <path d="m1026 486 54 54" opacity=".23"/>
+        <path d="m1080 486 54 54" opacity=".28"/>
+        <path d="m1134 486 54 54" opacity=".77"/>
+        <path d="m1242 486-54 54" opacity=".31"/>
+        <path d="m1242 486 54 54" opacity=".1"/>
+        <path d="m1296 486 54 54" opacity=".33"/>
+        <path d="m1350 486 54 54" opacity=".93"/>
+        <path d="m1458 486-54 54" opacity=".49"/>
+        <path d="M54 540 0 594" opacity=".52"/>
+        <path d="m108 540-54 54" opacity=".09"/>
+        <path d="m162 540-54 54" opacity=".3"/>
+        <path d="m162 540 54 54" opacity=".42"/>
+        <path d="m216 540 54 54" opacity=".5"/>
+        <path d="m324 540-54 54" opacity=".77"/>
+        <path d="m324 540 54 54" opacity=".88"/>
+        <path d="m432 540-54 54" opacity=".66"/>
+        <path d="m432 540 54 54" opacity=".52"/>
+        <path d="m540 540-54 54" opacity=".54"/>
+        <path d="m594 540-54 54" opacity=".56"/>
+        <path d="m594 540 54 54" opacity=".76"/>
+        <path d="m648 540 54 54" opacity=".52"/>
+        <path d="m756 540-54 54" opacity=".76"/>
+        <path d="m810 540-54 54" opacity=".78"/>
+        <path d="m810 540 54 54" opacity=".32"/>
+        <path d="m864 540 54 54" opacity=".78"/>
+        <path d="m972 540-54 54" opacity=".23"/>
+        <path d="m972 540 54 54" opacity=".44"/>
+        <path d="m1080 540-54 54" opacity=".87"/>
+        <path d="m1134 540-54 54" opacity=".39"/>
+        <path d="m1134 540 54 54" opacity=".86"/>
+        <path d="m1188 540 54 54" opacity=".9"/>
+        <path d="m1296 540-54 54" opacity=".61"/>
+        <path d="m1296 540 54 54" opacity=".25"/>
+        <path d="m1404 540-54 54" opacity=".3"/>
+        <path d="m1458 540-54 54M0 594l54 54" opacity=".56"/>
+        <path d="m108 594-54 54" opacity=".68"/>
+        <path d="m162 594-54 54" opacity=".33"/>
+        <path d="m216 594-54 54" opacity=".36"/>
+        <path d="m216 594 54 54" opacity=".16"/>
+        <path d="m324 594-54 54" opacity=".77"/>
+        <path d="m324 594 54 54" opacity=".08"/>
+        <path d="m432 594-54 54" opacity=".13"/>
+        <path d="m486 594-54 54" opacity=".64"/>
+        <path d="m486 594 54 54" opacity=".57"/>
+        <path d="m540 594 54 54" opacity=".18"/>
+        <path d="m648 594-54 54" opacity=".27"/>
+        <path d="m702 594-54 54" opacity=".66"/>
+        <path d="m702 594 54 54" opacity=".97"/>
+        <path d="m810 594-54 54" opacity=".98"/>
+        <path d="m810 594 54 54" opacity=".69"/>
+        <path d="m864 594 54 54" opacity=".66"/>
+        <path d="m972 594-54 54" opacity=".27"/>
+        <path d="m972 594 54 54" opacity=".94"/>
+        <path d="m1080 594-54 54" opacity=".79"/>
+        <path d="m1134 594-54 54" opacity=".19"/>
+        <path d="m1134 594 54 54" opacity=".58"/>
+        <path d="m1242 594-54 54" opacity=".94"/>
+        <path d="m1242 594 54 54" opacity=".25"/>
+        <path d="m1296 594 54 54" opacity=".74"/>
+        <path d="m1404 594-54 54" opacity=".54"/>
+        <path d="m1458 594-54 54" opacity=".26"/>
+        <path d="M54 648 0 702" opacity=".3"/>
+        <path d="m108 648-54 54" opacity=".17"/>
+        <path d="m108 648 54 54" opacity=".98"/>
+        <path d="m162 648 54 54" opacity=".16"/>
+        <path d="m216 648 54 54" opacity=".36"/>
+        <path d="m270 648 54 54" opacity=".46"/>
+        <path d="m378 648-54 54" opacity=".11"/>
+        <path d="m378 648 54 54" opacity=".22"/>
+        <path d="m486 648-54 54" opacity=".95"/>
+        <path d="m486 648 54 54" opacity=".49"/>
+        <path d="m540 648 54 54" opacity=".28"/>
+        <path d="m648 648-54 54" opacity=".96"/>
+        <path d="m702 648-54 54" opacity=".62"/>
+        <path d="m702 648 54 54" opacity=".77"/>
+        <path d="m810 648-54 54" opacity=".29"/>
+        <path d="m864 648-54 54" opacity=".97"/>
+        <path d="m918 648-54 54" opacity=".93"/>
+        <path d="m972 648-54 54" opacity=".81"/>
+        <path d="m972 648 54 54" opacity=".9"/>
+        <path d="m1080 648-54 54" opacity=".74"/>
+        <path d="m1080 648 54 54" opacity=".59"/>
+        <path d="m1188 648-54 54" opacity=".42"/>
+        <path d="m1188 648 54 54" opacity=".13"/>
+        <path d="m1296 648-54 54" opacity=".71"/>
+        <path d="m1296 648 54 54" opacity=".89"/>
+        <path d="m1404 648-54 54" opacity=".92"/>
+        <path d="m1458 648-54 54M54 702 0 756" opacity=".43"/>
+        <path d="m108 702-54 54" opacity=".37"/>
+        <path d="m108 702 54 54" opacity=".72"/>
+        <path d="m162 702 54 54" opacity=".54"/>
+        <path d="m270 702-54 54" opacity=".62"/>
+        <path d="m324 702-54 54" opacity=".52"/>
+        <path d="m324 702 54 54" opacity=".07"/>
+        <path d="m378 702 54 54" opacity=".53"/>
+        <path d="m486 702-54 54" opacity=".44"/>
+        <path d="m540 702-54 54" opacity=".75"/>
+        <path d="m540 702 54 54" opacity=".08"/>
+        <path d="m648 702-54 54" opacity=".12"/>
+        <path d="m648 702 54 54" opacity=".17"/>
+        <path d="m702 702 54 54" opacity=".21"/>
+        <path d="m756 702 54 54" opacity=".43"/>
+        <path d="m864 702-54 54" opacity=".49"/>
+        <path d="m918 702-54 54" opacity=".15"/>
+        <path d="m972 702-54 54" opacity=".18"/>
+        <path d="m972 702 54 54" opacity=".9"/>
+        <path d="m1026 702 54 54" opacity=".97"/>
+        <path d="m1080 702 54 54" opacity=".69"/>
+        <path d="m1188 702-54 54" opacity=".18"/>
+        <path d="m1188 702 54 54" opacity=".74"/>
+        <path d="m1242 702 54 54" opacity=".38"/>
+        <path d="m1350 702-54 54" opacity=".17"/>
+        <path d="m1404 702-54 54" opacity=".34"/>
+        <path d="m1458 702-54 54" opacity=".44"/>
+        <path d="M54 756 0 810" opacity=".27"/>
+        <path d="m108 756-54 54" opacity=".11"/>
+        <path d="m162 756-54 54" opacity=".24"/>
+        <path d="m216 756-54 54" opacity=".67"/>
+        <path d="m216 756 54 54" opacity=".47"/>
+        <path d="m324 756-54 54" opacity=".99"/>
+        <path d="m378 756-54 54" opacity=".16"/>
+        <path d="m378 756 54 54" opacity=".1"/>
+        <path d="m432 756 54 54" opacity=".68"/>
+        <path d="m486 756 54 54" opacity=".48"/>
+        <path d="m594 756-54 54" opacity=".83"/>
+        <path d="m648 756-54 54" opacity=".68"/>
+        <path d="m648 756 54 54" opacity=".07"/>
+        <path d="m702 756 54 54" opacity=".27"/>
+        <path d="m810 756-54 54" opacity=".66"/>
+        <path d="m864 756-54 54" opacity=".83"/>
+        <path d="m864 756 54 54" opacity=".23"/>
+        <path d="m918 756 54 54" opacity=".19"/>
+        <path d="m972 756 54 54" opacity=".83"/>
+        <path d="m1080 756-54 54" opacity=".26"/>
+        <path d="m1080 756 54 54" opacity=".79"/>
+        <path d="m1134 756 54 54" opacity=".75"/>
+        <path d="m1242 756-54 54" opacity=".8"/>
+        <path d="m1296 756-54 54" opacity=".33"/>
+        <path d="m1296 756 54 54" opacity=".96"/>
+        <path d="m1350 756 54 54" opacity=".34"/>
+        <path d="m1458 756-54 54" opacity=".55"/>
+    </g>
+</svg>

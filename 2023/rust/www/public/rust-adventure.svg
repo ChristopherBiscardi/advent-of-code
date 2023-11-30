@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="700">
+    <defs>
+        <radialGradient id="a">
+            <stop offset="0%" stop-color="hsl(357, 100%, 72%)"/>
+            <stop offset="100%" stop-color="hsl(16, 100%, 50%)"/>
+        </radialGradient>
+        <filter id="b" width="140%" height="140%" x="-20%" y="-20%" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+            <feTurbulence width="100%" height="100%" x="0%" y="0%" baseFrequency="0.005 0.003" numOctaves="2" result="turbulence" seed="2" stitchTiles="stitch" type="fractalNoise"/>
+            <feGaussianBlur width="100%" height="100%" x="0%" y="0%" in="turbulence" result="blur" stdDeviation="29 24"/>
+            <feBlend width="100%" height="100%" x="0%" y="0%" in="SourceGraphic" in2="blur" mode="color-dodge" result="blend"/>
+        </filter>
+    </defs>
+    <path fill="url(#a)" d="M0 0h700v700H0z" filter="url(#b)"/>
+</svg>
