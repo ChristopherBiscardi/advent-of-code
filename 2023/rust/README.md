@@ -13,6 +13,12 @@ cargo bench
 cargo flamegraph
 ```
 
+## Prepare for a new day
+
+```shell
+just create <day>
+```
+
 ## Just
 
 Just is used to partially document all tasks, so you (the person reading this) can see what commands we were running and perhaps run them yourself on your own codebase.
