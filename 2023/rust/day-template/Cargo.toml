@@ -1,5 +1,5 @@
 [package]
-name = "day-01"
+name = "{{project-name}}"
 version = "0.1.0"
 edition = "2021"
 
@@ -17,9 +17,8 @@ dhat = { workspace = true }
 [dev-dependencies]
 divan = { workspace = true }
 
-
 [[bench]]
-name = "day-01"
+name = "{{project-name}}"
 path = "benches/benchmarks.rs"
 harness = false
 
