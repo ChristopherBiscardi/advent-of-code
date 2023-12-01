@@ -5,7 +5,6 @@ www-watch:
 www-build:
    cargo +nightly leptos build --project www --release
 lint day:
-    clippy-tracing --action check --exclude target --exclude benches --exclude www
     cargo clippy -p {{day}}
 test part +FLAGS='-p day-01':
     cargo nextest run {{FLAGS}} {{part}}

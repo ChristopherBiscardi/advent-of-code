@@ -38,6 +38,7 @@ fn process_line(line: &str) -> u32 {
     }
 }
 
+#[tracing::instrument]
 fn from_matchables(input: &str) -> u32 {
     match input {
         "one" => 1,
@@ -69,6 +70,7 @@ mod tests {
 
     use rstest::rstest;
 
+    #[tracing::instrument]
     #[rstest]
     #[case("two1nine", 29)]
     #[case("eightwothree", 83)]

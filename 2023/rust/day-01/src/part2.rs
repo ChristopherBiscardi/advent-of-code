@@ -15,28 +15,32 @@ fn process_line(line: &str) -> u32 {
     let mut it = (0..line.len()).filter_map(|index| {
         let reduced_line = &line[index..];
         let result = if reduced_line.starts_with("one") {
-            '1'
+            Some(1)
         } else if reduced_line.starts_with("two") {
-            '2'
+            Some(2)
         } else if reduced_line.starts_with("three") {
-            '3'
+            Some(3)
         } else if reduced_line.starts_with("four") {
-            '4'
+            Some(4)
         } else if reduced_line.starts_with("five") {
-            '5'
+            Some(5)
         } else if reduced_line.starts_with("six") {
-            '6'
+            Some(6)
         } else if reduced_line.starts_with("seven") {
-            '7'
+            Some(7)
         } else if reduced_line.starts_with("eight") {
-            '8'
+            Some(8)
         } else if reduced_line.starts_with("nine") {
-            '9'
+            Some(9)
         } else {
-            reduced_line.chars().next().unwrap()
+            reduced_line
+                .chars()
+                .next()
+                .unwrap()
+                .to_digit(10)
         };
 
-        result.to_digit(10)
+        result
     });
     let first = it.next().expect("should be a number");
 
@@ -52,6 +56,7 @@ mod tests {
 
     use rstest::rstest;
 
+    #[tracing::instrument]
     #[rstest]
     #[case("two1nine", 29)]
     #[case("eightwothree", 83)]
