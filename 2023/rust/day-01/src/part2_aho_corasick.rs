@@ -33,11 +33,9 @@ fn process_line(line: &str) -> u32 {
         .last()
         .map(|mat| from_matchables(PATTERNS[mat.pattern()]))
     {
-        Some(num) => format!("{first}{num}"),
-        None => format!("{first}{first}"),
+        Some(num) => first * 10 + num,
+        None => first * 10 + first,
     }
-    .parse::<u32>()
-    .expect("should be a valid number")
 }
 
 fn from_matchables(input: &str) -> u32 {

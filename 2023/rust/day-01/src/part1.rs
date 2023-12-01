@@ -15,11 +15,9 @@ pub fn process(
                 it.next().expect("should be a number");
 
             match it.last() {
-                Some(num) => format!("{first}{num}"),
-                None => format!("{first}{first}"),
+                Some(num) => first * 10 + num,
+                None => first * 10 + first,
             }
-            .parse::<u32>()
-            .expect("should be a valid number")
         })
         .sum::<u32>();
 
