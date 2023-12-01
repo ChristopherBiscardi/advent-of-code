@@ -1,6 +1,19 @@
-Benchmarks are run ad-hoc without closing everything else on an Apple m1 max macbook pro with 64gb ram.
+Benchmarks are run ad-hoc without closing everything else.
+
+* mac is: Apple m1 max macbook pro with 64gb ram.
+* PC is: AMD Ryzen 9 7950X 16-Core Processor, 64gb ram.
+
+## Mac
 
 day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
 ├─ part1               40.08 µs      │ 67.24 µs      │ 40.31 µs      │ 41.04 µs      │ 100     │ 100
 ├─ part2               134.9 µs      │ 211.3 µs      │ 135.2 µs      │ 138.4 µs      │ 100     │ 100
 ╰─ part2_aho_corasick  26.82 ms      │ 28.14 ms      │ 27 ms         │ 27.11 ms      │ 100     │ 100
+
+
+## Windows 
+
+day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1               16.49 µs      │ 55.39 µs      │ 19.29 µs      │ 21.51 µs      │ 100     │ 100
+├─ part2               91.09 µs      │ 125.3 µs      │ 95.39 µs      │ 98.37 µs      │ 100     │ 100
+╰─ part2_aho_corasick  18.93 ms      │ 23.89 ms      │ 20.21 ms      │ 20.21 ms      │ 100     │ 100
