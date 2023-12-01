@@ -6,10 +6,9 @@ Benchmarks are run ad-hoc without closing everything else.
 ## Mac
 
 day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ part1               40.08 µs      │ 67.24 µs      │ 40.31 µs      │ 41.04 µs      │ 100     │ 100
-├─ part2               134.9 µs      │ 211.3 µs      │ 135.2 µs      │ 138.4 µs      │ 100     │ 100
-╰─ part2_aho_corasick  26.82 ms      │ 28.14 ms      │ 27 ms         │ 27.11 ms      │ 100     │ 100
-
+├─ part1               36.87 µs      │ 60.2 µs       │ 37.08 µs      │ 37.59 µs      │ 100     │ 100
+├─ part2               134.8 µs      │ 147.1 µs      │ 136.4 µs      │ 138.7 µs      │ 100     │ 100
+╰─ part2_aho_corasick  26.77 ms      │ 29.07 ms      │ 27.04 ms      │ 27.35 ms      │ 100     │ 100
 
 ## Windows 
 
