@@ -70,7 +70,6 @@ mod tests {
 
     use rstest::rstest;
 
-    #[tracing::instrument]
     #[rstest]
     #[case("two1nine", 29)]
     #[case("eightwothree", 83)]
