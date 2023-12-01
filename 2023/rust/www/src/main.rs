@@ -4,11 +4,13 @@ async fn main() {
     use axum::{routing::post, Router};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
+    use tower_http::trace::TraceLayer;
     use www::app::*;
     use www::fileserv::file_and_error_handler;
 
-    simple_logger::init_with_level(log::Level::Info)
-        .expect("couldn't initialize logging");
+    // simple_logger::init_with_level(log::Level::Info)
+    //     .expect("couldn't initialize logging");
+    tracing_subscriber::fmt::init();
 
     // Setting get_configuration(None) means we'll be
     // using cargo-leptos's env values
@@ -25,6 +27,7 @@ async fn main() {
 
     // build our application with a route
     let app = Router::new()
+        .layer(TraceLayer::new_for_http())
         .route(
             "/api/*fn_name",
             post(leptos_axum::handle_server_fns),
@@ -36,17 +39,10 @@ async fn main() {
     // run our app with hyper
     // `axum::Server` is a re-export of
     // `hyper::Server`
-    log::info!("listening on http://{}", &addr);
+    // log::info!("listening on http://{}", &addr);
+    tracing::info!("listening on http://{}", &addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();
-}
-
-#[cfg(not(feature = "ssr"))]
-pub fn main() {
-    // no client-side main function
-    // unless we want this to work with e.g.,
-    // Trunk for a purely client-side app
-    // see lib.rs for hydration function instead
 }

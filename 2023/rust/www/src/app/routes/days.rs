@@ -1,5 +1,6 @@
 use leptos::*;
 use leptos_router::*;
+use tracing::*;
 
 #[derive(Params, PartialEq, Clone)]
 struct Day {
@@ -7,6 +8,7 @@ struct Day {
     part: String,
 }
 
+#[tracing::instrument]
 #[component]
 pub fn SolutionPage() -> impl IntoView {
     let params = use_params::<Day>();
@@ -54,6 +56,7 @@ pub fn SolutionPage() -> impl IntoView {
     }
 }
 
+#[tracing::instrument]
 #[component]
 pub fn Hero() -> impl IntoView {
     return view! {
@@ -78,14 +81,14 @@ pub fn Hero() -> impl IntoView {
     };
 }
 
+#[tracing::instrument]
 #[server]
 async fn solve(
     day: String,
     part: String,
     input: String,
 ) -> Result<Vec<()>, ServerFnError> {
-    // do some server-only work here to access the database
-    dbg!(day, part, input);
+    info!(day, part, input);
     let posts = vec![];
     Ok(posts)
 }

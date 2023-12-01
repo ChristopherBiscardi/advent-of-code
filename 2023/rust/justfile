@@ -1,9 +1,9 @@
 work day part:
     cargo watch -x "check -p {{day}}" -s "just test -p {{day}}" -s "just lint {{day}}" -s "just bench {{day}} {{part}}" -s "just flamegraph {{day}} {{part}}"
 www-watch:
-   cargo +nightly leptos watch --project www
+   RUST_LOG=info cargo +nightly leptos watch --project www
 www-build:
-   cargo +nightlyleptos build --project www --release
+   cargo +nightly leptos build --project www --release
 lint day:
     clippy-tracing --action check --exclude target --exclude benches --exclude www
     cargo clippy -p {{day}}

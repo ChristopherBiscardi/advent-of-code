@@ -8,6 +8,7 @@ use leptos_router::*;
 mod footer;
 mod routes;
 
+#[tracing::instrument]
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets,

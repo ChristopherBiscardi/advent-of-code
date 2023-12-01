@@ -1,5 +1,6 @@
 use leptos::*;
 
+#[tracing::instrument]
 #[component]
 pub fn Footer() -> impl IntoView {
     view! {

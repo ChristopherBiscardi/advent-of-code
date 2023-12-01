@@ -1,5 +1,6 @@
 use leptos::*;
 
+#[tracing::instrument]
 #[component]
 pub fn IndexPage() -> impl IntoView {
     let days = RwSignal::new(0..25);
@@ -24,6 +25,7 @@ pub fn IndexPage() -> impl IntoView {
         }
 }
 
+#[tracing::instrument]
 #[component]
 pub fn Hero() -> impl IntoView {
     return view! {
