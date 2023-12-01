@@ -1,3 +1,6 @@
-day_01    fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ part1  92.45 µs      │ 179.5 µs      │ 92.74 µs      │ 94.95 µs      │ 100     │ 100
-╰─ part2  170.7 µs      │ 181 µs        │ 171.2 µs      │ 171.6 µs      │ 100     │ 100
+Benchmarks are run ad-hoc without closing everything else on an Apple m1 max macbook pro with 64gb ram.
+
+day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1               85.49 µs      │ 146.9 µs      │ 86.31 µs      │ 88.37 µs      │ 100     │ 100
+├─ part2               176 µs        │ 188.2 µs      │ 176.6 µs      │ 179 µs        │ 100     │ 100
+╰─ part2_aho_corasick  26.79 ms      │ 28.35 ms      │ 26.94 ms      │ 27.09 ms      │ 100     │ 100
