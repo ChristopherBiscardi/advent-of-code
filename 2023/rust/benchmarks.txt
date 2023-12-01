@@ -13,6 +13,6 @@ day_01                 fastest       │ slowest       │ median        │ mea
 ## Windows 
 
 day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ part1               16.49 µs      │ 55.39 µs      │ 19.29 µs      │ 21.51 µs      │ 100     │ 100
-├─ part2               91.09 µs      │ 125.3 µs      │ 95.39 µs      │ 98.37 µs      │ 100     │ 100
-╰─ part2_aho_corasick  18.93 ms      │ 23.89 ms      │ 20.21 ms      │ 20.21 ms      │ 100     │ 100
+├─ part1               15.99 µs      │ 48.19 µs      │ 16.09 µs      │ 17.01 µs      │ 100     │ 100
+├─ part2               84.99 µs      │ 123.7 µs      │ 86.39 µs      │ 90.46 µs      │ 100     │ 100
+╰─ part2_aho_corasick  18.71 ms      │ 21.87 ms      │ 19.17 ms      │ 19.46 ms      │ 100     │ 100
