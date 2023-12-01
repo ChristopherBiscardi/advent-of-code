@@ -13,6 +13,13 @@ cargo bench
 cargo flamegraph
 ```
 
+## Quick setup
+``` shell
+rustup default nightly
+cargo install cargo-nextest cargo-generate flamegraph
+brew install just tracy
+```
+
 ## Prepare for a new day
 
 ```shell
@@ -25,11 +32,19 @@ Just is used to partially document all tasks, so you (the person reading this) c
 
 I also thought it would be neat to maybe have scripts that run flamegraphs for all of the days and parts easily, so that they could be checked in and viewable on github and generally make it easier to run and document the running of various tools.
 
+```shell
+brew install just
+```
+
 ## cargo-flamegraph
 
 Flamegraphs are great for identifying what's taking up time in a program!
 
 [cargo-flamegraph][cargo-flamegraph] will output an SVG that contains a flamegraph of the given program.
+
+```shell
+cargo install flamegraph
+```
 
 ## Divan
 
@@ -46,6 +61,10 @@ You can learn more about Divan in the [announcement post][divan-announcement].
 As of this year's AoC, [cargo-nextest][cargo-nextest] doesn't run doctests yet, so while that won't be an issue for us it is something to be aware of if you're using nextest in a "real project". (Basically that means you also run `cargo test --doc`).
 
 cargo-nextest has what I consider [a positive relationship with the regular `cargo test`](https://nexte.st/book/how-it-works.html#contributing-features-back-to-cargo) and is rightfully a nice place to be experimenting with new testing UX. `cargo test` works well and `cargo nextest` is a forward-looking place for experimentation.
+
+```shell
+cargo install cargo-nextest
+```
 
 ## tracing
 
