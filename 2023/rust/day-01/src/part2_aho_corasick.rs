@@ -1,4 +1,5 @@
 use crate::custom_error::AocError;
+use aho_corasick::{AhoCorasick, MatchKind, PatternID};
 
 #[tracing::instrument]
 pub fn process(
@@ -12,40 +13,60 @@ pub fn process(
 
 #[tracing::instrument]
 fn process_line(line: &str) -> u32 {
-    let mut it = (0..line.len()).filter_map(|index| {
-        let reduced_line = &line[index..];
-        let result = if reduced_line.starts_with("one") {
-            '1'
-        } else if reduced_line.starts_with("two") {
-            '2'
-        } else if reduced_line.starts_with("three") {
-            '3'
-        } else if reduced_line.starts_with("four") {
-            '4'
-        } else if reduced_line.starts_with("five") {
-            '5'
-        } else if reduced_line.starts_with("six") {
-            '6'
-        } else if reduced_line.starts_with("seven") {
-            '7'
-        } else if reduced_line.starts_with("eight") {
-            '8'
-        } else if reduced_line.starts_with("nine") {
-            '9'
-        } else {
-            reduced_line.chars().next().unwrap()
-        };
+    let patterns = &[
+        "one", "two", "three", "four", "five", "six",
+        "seven", "eight", "nine", "0", "1", "2", "3", "4",
+        "5", "6", "7", "8", "9",
+    ];
 
-        result.to_digit(10)
-    });
-    let first = it.next().expect("should be a number");
+    // let ac = AhoCorasick::new(patterns).unwrap();
+    let ac = AhoCorasick::builder()
+        // .match_kind(MatchKind::LeftmostFirst)
+        .build(patterns)
+        .unwrap();
 
-    match it.last() {
+    let mut it = ac.find_overlapping_iter(line);
+    let first = from_matchables(
+        patterns[it
+            .next()
+            .expect("should be a number")
+            .pattern()],
+    );
+
+    match it
+        .last()
+        .map(|mat| from_matchables(patterns[mat.pattern()]))
+    {
         Some(num) => format!("{first}{num}"),
         None => format!("{first}{first}"),
     }
     .parse::<u32>()
     .expect("should be a valid number")
+}
+
+fn from_matchables(input: &str) -> u32 {
+    match input {
+        "one" => 1,
+        "two" => 2,
+        "three" => 3,
+        "four" => 4,
+        "five" => 5,
+        "six" => 6,
+        "seven" => 7,
+        "eight" => 8,
+        "nine" => 9,
+        "0" => 0,
+        "1" => 1,
+        "2" => 2,
+        "3" => 3,
+        "4" => 4,
+        "5" => 5,
+        "6" => 6,
+        "7" => 7,
+        "8" => 8,
+        "9" => 9,
+        _ => panic!("unexpected number!"),
+    }
 }
 
 #[cfg(test)]
