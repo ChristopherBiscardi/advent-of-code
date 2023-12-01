@@ -1,5 +1,5 @@
 use crate::custom_error::AocError;
-use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+use aho_corasick::AhoCorasick;
 
 #[tracing::instrument]
 pub fn process(
@@ -11,23 +11,19 @@ pub fn process(
     Ok(output.to_string())
 }
 
+const PATTERNS: [&str; 19] = [
+    "one", "two", "three", "four", "five", "six", "seven",
+    "eight", "nine", "0", "1", "2", "3", "4", "5", "6",
+    "7", "8", "9",
+];
+
 #[tracing::instrument]
 fn process_line(line: &str) -> u32 {
-    let patterns = &[
-        "one", "two", "three", "four", "five", "six",
-        "seven", "eight", "nine", "0", "1", "2", "3", "4",
-        "5", "6", "7", "8", "9",
-    ];
-
-    // let ac = AhoCorasick::new(patterns).unwrap();
-    let ac = AhoCorasick::builder()
-        // .match_kind(MatchKind::LeftmostFirst)
-        .build(patterns)
-        .unwrap();
+    let ac = AhoCorasick::new(PATTERNS).unwrap();
 
     let mut it = ac.find_overlapping_iter(line);
     let first = from_matchables(
-        patterns[it
+        PATTERNS[it
             .next()
             .expect("should be a number")
             .pattern()],
@@ -35,7 +31,7 @@ fn process_line(line: &str) -> u32 {
 
     match it
         .last()
-        .map(|mat| from_matchables(patterns[mat.pattern()]))
+        .map(|mat| from_matchables(PATTERNS[mat.pattern()]))
     {
         Some(num) => format!("{first}{num}"),
         None => format!("{first}{first}"),
