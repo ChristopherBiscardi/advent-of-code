@@ -12,16 +12,22 @@ tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 miette = { workspace = true }
 thiserror = { workspace = true }
-dhat = { workspace = true }
-rstest = { workspace = true }
 aho-corasick = "1.1.2"
 
 [dev-dependencies]
+criterion = { workspace = true }
 divan = { workspace = true }
+dhat = { workspace = true }
+rstest = { workspace = true }
 
 [[bench]]
 name = "day-01"
 path = "benches/benchmarks.rs"
+harness = false
+
+[[bench]]
+name = "day-01-criterion"
+path = "benches/benchmarks-criterion.rs"
 harness = false
 
 [features]
