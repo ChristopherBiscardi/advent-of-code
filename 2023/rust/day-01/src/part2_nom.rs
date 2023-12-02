@@ -10,11 +10,8 @@ use nom::{
 use crate::custom_error::AocError;
 
 #[tracing::instrument]
-pub fn process(
-    input: &str,
-) -> miette::Result<String, AocError> {
-    let output =
-        input.lines().map(process_line).sum::<u32>();
+pub fn process(input: &str) -> miette::Result<String, AocError> {
+    let output = input.lines().fold(0, |acc, line| acc + process_line(line));
 
     Ok(output.to_string())
 }
@@ -83,10 +80,7 @@ mod tests {
     /// it tests two overlapping numbers
     /// where the second number should succeed
     #[case("fivezg8jmf6hrxnhgxxttwoneg", 51)]
-    fn line_test(
-        #[case] line: &str,
-        #[case] expected: u32,
-    ) {
+    fn line_test(#[case] line: &str, #[case] expected: u32) {
         assert_eq!(expected, process_line(line))
     }
 

@@ -2,19 +2,15 @@ use crate::custom_error::AocError;
 use aho_corasick::AhoCorasick;
 
 #[tracing::instrument]
-pub fn process(
-    input: &str,
-) -> miette::Result<String, AocError> {
-    let output =
-        input.lines().map(process_line).sum::<u32>();
+pub fn process(input: &str) -> miette::Result<String, AocError> {
+    let output = input.lines().fold(0, |acc, line| acc + process_line(line));
 
     Ok(output.to_string())
 }
 
 const PATTERNS: [&str; 19] = [
-    "one", "two", "three", "four", "five", "six", "seven",
-    "eight", "nine", "0", "1", "2", "3", "4", "5", "6",
-    "7", "8", "9",
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "0", "1", "2", "3",
+    "4", "5", "6", "7", "8", "9",
 ];
 
 #[tracing::instrument]
@@ -22,12 +18,7 @@ fn process_line(line: &str) -> u32 {
     let ac = AhoCorasick::new(PATTERNS).unwrap();
 
     let mut it = ac.find_overlapping_iter(line);
-    let first = from_matchables(
-        PATTERNS[it
-            .next()
-            .expect("should be a number")
-            .pattern()],
-    );
+    let first = from_matchables(PATTERNS[it.next().expect("should be a number").pattern()]);
 
     match it
         .last()
@@ -82,10 +73,7 @@ mod tests {
     /// it tests two overlapping numbers
     /// where the second number should succeed
     #[case("fivezg8jmf6hrxnhgxxttwoneg", 51)]
-    fn line_test(
-        #[case] line: &str,
-        #[case] expected: u32,
-    ) {
+    fn line_test(#[case] line: &str, #[case] expected: u32) {
         assert_eq!(expected, process_line(line))
     }
 
