@@ -19,7 +19,11 @@ day_01                 fastest       │ slowest       │ median        │ mea
 ├─ part2               134.9 µs      │ 222.4 µs      │ 139.5 µs      │ 141.3 µs      │ 100     │ 100
 ├─ part2_aho_corasick  27.6 ms       │ 29.34 ms      │ 28.48 ms      │ 28.41 ms      │ 100     │ 100
 ╰─ part2_nom           361.2 µs      │ 455.5 µs      │ 375.9 µs      │ 378.3 µs      │ 100     │ 100
+```
 
+Here's each run side-by-side for ease of viewing
+
+```
 ├─ part2_nom           467.4 µs      │ 568.4 µs      │ 472.3 µs      │ 480.6 µs      │ 100     │ 100
 ╰─ part2_nom           361.2 µs      │ 455.5 µs      │ 375.9 µs      │ 378.3 µs      │ 100     │ 100
 ```
