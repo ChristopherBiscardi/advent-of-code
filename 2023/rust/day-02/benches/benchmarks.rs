@@ -20,3 +20,11 @@ fn part2() {
     )))
     .unwrap();
 }
+
+#[divan::bench]
+fn part2_nom_iterator() {
+    part2_nom_iterator::process(divan::black_box(
+        include_str!("../input2.txt",),
+    ))
+    .unwrap();
+}

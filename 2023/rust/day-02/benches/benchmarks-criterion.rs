@@ -21,6 +21,13 @@ fn criterion_benchmark_part2(c: &mut Criterion) {
     group.bench_with_input("part2", input, |b, input| {
         b.iter(|| part2::process(input))
     });
+    group.bench_with_input(
+        "part2_nom_iterator",
+        input,
+        |b, input| {
+            b.iter(|| part2_nom_iterator::process(input))
+        },
+    );
 
     group.finish();
 }
