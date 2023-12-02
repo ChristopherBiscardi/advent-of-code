@@ -20,12 +20,12 @@ divan = { workspace = true }
 rstest = { workspace = true }
 
 [[bench]]
-name = "{{project-name}}"
+name = "{{project-name}}-bench"
 path = "benches/benchmarks.rs"
 harness = false
 
 [[bench]]
-name = "{{project-name}}-criterion"
+name = "{{project-name}}-bench-criterion"
 path = "benches/benchmarks-criterion.rs"
 harness = false
 

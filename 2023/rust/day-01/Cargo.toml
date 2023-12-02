@@ -21,12 +21,12 @@ divan = { workspace = true }
 rstest = { workspace = true }
 
 [[bench]]
-name = "day-01"
+name = "day-01-bench"
 path = "benches/benchmarks.rs"
 harness = false
 
 [[bench]]
-name = "day-01-criterion"
+name = "day-01-bench-criterion"
 path = "benches/benchmarks-criterion.rs"
 harness = false
 
