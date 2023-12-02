@@ -13,11 +13,11 @@ tracing-subscriber = { workspace = true }
 miette = { workspace = true }
 thiserror = { workspace = true }
 aho-corasick = "1.1.2"
+dhat = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
 divan = { workspace = true }
-dhat = { workspace = true }
 rstest = { workspace = true }
 
 [[bench]]

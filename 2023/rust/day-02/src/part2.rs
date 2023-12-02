@@ -20,11 +20,13 @@ struct Cube<'a> {
 
 #[derive(Debug)]
 struct Game<'a> {
+    #[allow(dead_code)]
     id: &'a str,
     rounds: Vec<Vec<Cube<'a>>>,
 }
 
 impl<'a> Game<'a> {
+    #[allow(dead_code)]
     fn valid_for_cube_set(
         &self,
         map: &BTreeMap<&str, u32>,

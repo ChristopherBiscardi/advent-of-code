@@ -16,7 +16,9 @@ pub fn process(
                 .expect("should be a number");
 
             let last = it
-                .rfind(|character| character.is_digit(10))
+                .rfind(|character| {
+                    character.is_ascii_digit()
+                })
                 .map(|character| {
                     character.to_digit(10).unwrap()
                 })

@@ -46,7 +46,7 @@ fn parser(input: &str) -> IResult<&str, Vec<u32>> {
     // let (input, output) = many1(numbers)(input)?;
     let mut it = iterator(input, numbers);
 
-    let output = it.filter_map(|v| v).collect();
+    let output = it.flatten().collect();
     let (input, _) = it.finish()?;
 
     Ok((input, output))

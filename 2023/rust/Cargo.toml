@@ -2,6 +2,7 @@
 resolver = "2"
 
 members = ["day-*", "www"]
+default-members = ["day-*"]
 
 [workspace.dependencies]
 glam = "0.24.2"
