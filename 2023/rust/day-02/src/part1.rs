@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::{collections::BTreeMap, ops::Not};
 
 use nom::{
     bytes::complete::tag,
@@ -31,14 +31,15 @@ impl<'a> Game<'a> {
     ) -> Option<u32> {
         self.rounds
             .iter()
-            .all(|round| {
-                round.iter().all(|shown_cube| {
+            .any(|round| {
+                round.iter().any(|shown_cube| {
                     shown_cube.amount
-                        <= *map
+                        > *map
                             .get(shown_cube.color)
                             .expect("a valid cube")
                 })
             })
+            .not()
             .then_some(
                 self.id.parse::<u32>().expect(
                     "game id should a parsable u32",
