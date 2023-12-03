@@ -31,10 +31,10 @@ fn parse_grid(input: Span) -> IResult<Span, Vec<Value>> {
         alt((
             digit1
                 .map(|span| with_xy(span))
-                .map(|digit| Value::Number(digit)),
+                .map(Value::Number),
             is_not(".\n0123456789")
                 .map(|span| with_xy(span))
-                .map(|s| Value::Symbol(s)),
+                .map(Value::Symbol),
             take_till1(|c: char| {
                 c.is_ascii_digit() || c != '.' && c != '\n'
             })
@@ -92,8 +92,7 @@ pub fn process(
                     };
                     surrounding_positions
                         .iter()
-                        .find(|pos| pos == &&sym.extra)
-                        .is_some()
+                        .any(|pos| pos == &sym.extra)
                 })
                 .then_some(
                     num.fragment()
@@ -295,8 +294,8 @@ mod tests {
                 .iter()
                 .filter_map(|v| match v {
                     Value::Empty => None,
-                    Value::Symbol(v) => None,
-                    Value::Number(v) => Some(()),
+                    Value::Symbol(_v) => None,
+                    Value::Number(_v) => Some(()),
                 })
                 .count()
         );

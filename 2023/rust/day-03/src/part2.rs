@@ -75,7 +75,7 @@ pub fn process(
     // map: entire grid
     // numbers: sequential numbers
     let mut total = 0;
-    for symbol in map.iter().filter(|(key, value)| {
+    for symbol in map.iter().filter(|(_key, value)| {
         matches!(value, Value::Symbol('*'))
     }) {
         // (x,y)
@@ -108,8 +108,7 @@ pub fn process(
             {
                 if num_list
                     .iter()
-                    .find(|(num_pos, _)| num_pos == &pos)
-                    .is_some()
+                    .any(|(num_pos, _)| num_pos == &pos)
                 {
                     indexes_of_numbers.push(i);
                 }
