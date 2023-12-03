@@ -5,10 +5,8 @@ use nom::{
         self, alpha1, digit1, line_ending,
     },
     combinator::{eof, iterator, recognize},
-    multi::{fold_many1},
-    sequence::{
-        delimited, separated_pair,
-    },
+    multi::fold_many1,
+    sequence::{delimited, separated_pair},
     IResult,
 };
 use std::collections::BTreeMap;
