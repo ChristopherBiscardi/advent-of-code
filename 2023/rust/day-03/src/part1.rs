@@ -91,7 +91,7 @@ pub fn process(
         ];
         let num_positions: Vec<(i32, i32)> = num_list
             .iter()
-            .map(|((y, x), _)| (*x as i32, *y as i32))
+            .map(|((y, x), _)| (*x, *y))
             .collect();
         let pos_to_check: Vec<(i32, i32)> = num_list
             .iter()
@@ -99,8 +99,8 @@ pub fn process(
                 positions.iter().map(|outer_pos| {
                     // outer_pos.x + pos.x, .y + .y
                     (
-                        outer_pos.0 + pos.1 as i32,
-                        outer_pos.1 + pos.0 as i32,
+                        outer_pos.0 + pos.1,
+                        outer_pos.1 + pos.0,
                     )
                 })
             })
@@ -111,7 +111,8 @@ pub fn process(
         // dbg!(pos_to_check.len(), pos_to_check);
         let is_part_number =
             pos_to_check.iter().any(|pos| {
-                let value = map.get(&pos);
+                let value = map.get(pos);
+                #[allow(clippy::match_like_matches_macro)]
                 if let Some(Value::Symbol(_)) = value {
                     true
                 } else {
