@@ -13,6 +13,8 @@ tracing-subscriber = { workspace = true }
 miette = { workspace = true }
 thiserror = { workspace = true }
 dhat = { workspace = true }
+glam = { workspace = true }
+nom_locate = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
