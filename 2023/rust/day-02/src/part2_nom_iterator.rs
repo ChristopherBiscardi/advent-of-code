@@ -5,9 +5,9 @@ use nom::{
         self, alpha1, digit1, line_ending,
     },
     combinator::{eof, iterator, recognize},
-    multi::{fold_many1, many1, separated_list1},
+    multi::{fold_many1},
     sequence::{
-        delimited, preceded, separated_pair, terminated,
+        delimited, separated_pair,
     },
     IResult,
 };
