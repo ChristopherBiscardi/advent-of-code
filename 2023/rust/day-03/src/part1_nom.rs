@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use crate::custom_error::AocError;
 use glam::IVec2;
 use nom::{
@@ -56,6 +58,15 @@ pub fn process(
 ) -> miette::Result<String, AocError> {
     let objects = parse_grid(Span::new(input)).unwrap().1;
 
+    let symbol_map = objects
+        .iter()
+        .filter_map(|value| match value {
+            Value::Empty => None,
+            Value::Symbol(sym) => Some(sym.extra),
+            Value::Number(_) => None,
+        })
+        .collect::<HashSet<IVec2>>();
+
     let result = objects
         .iter()
         .filter_map(|value| {
@@ -84,16 +95,9 @@ pub fn process(
             .map(|pos| pos + num.extra)
             .collect::<Vec<IVec2>>();
 
-            objects
+            surrounding_positions
                 .iter()
-                .any(|symbol| {
-                    let Value::Symbol(sym) = symbol else {
-                        return false;
-                    };
-                    surrounding_positions
-                        .iter()
-                        .any(|pos| pos == &sym.extra)
-                })
+                .any(|pos| symbol_map.contains(pos))
                 .then_some(
                     num.fragment()
                         .parse::<u32>()
