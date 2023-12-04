@@ -33,12 +33,8 @@ fn parse_grid(input: Span) -> IResult<Span, Vec<Value>> {
     let mut it = iterator(
         input,
         alt((
-            digit1
-                .map(|span| with_xy(span))
-                .map(Value::Number),
-            tag("*")
-                .map(|span| with_xy(span))
-                .map(Value::Symbol),
+            digit1.map(with_xy).map(Value::Number),
+            tag("*").map(with_xy).map(Value::Symbol),
             take_till1(|c: char| {
                 c.is_ascii_digit() || c == '*'
             })
