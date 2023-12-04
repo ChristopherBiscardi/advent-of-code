@@ -22,7 +22,8 @@ miette = { version = "5.10", features = ["fancy"] }
 thiserror = "1.0.50"
 dhat = "0.3.2"
 criterion = { version = "0.4", features = ["html_reports"] }
-nom_locate = { version = "4.2.0" }
+nom_locate = "4.2.0"
+nom-supreme = "0.8.0"
 
 [profile.flamegraph]
 inherits = "release"
