@@ -28,3 +28,10 @@ fn part2() {
     )))
     .unwrap();
 }
+#[divan::bench]
+fn part2_nom() {
+    part2_nom::process(divan::black_box(include_str!(
+        "../input2.txt",
+    )))
+    .unwrap();
+}
