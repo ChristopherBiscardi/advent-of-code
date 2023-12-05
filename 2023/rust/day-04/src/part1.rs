@@ -27,10 +27,7 @@ impl Card {
             .intersection(&self.my_numbers)
             .count() as u32;
 
-        match power.checked_sub(1) {
-            Some(num) => 2u32.pow(num),
-            None => 0,
-        }
+        2u32.pow(power + 1) >> 2
     }
 }
 
