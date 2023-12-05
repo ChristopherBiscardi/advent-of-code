@@ -29,7 +29,7 @@ impl Card {
             .intersection(&self.my_numbers)
             .count() as u32;
 
-        2u32.pow(power + 1) >> 2
+        2u32.pow(power) >> 1
     }
 }
 
