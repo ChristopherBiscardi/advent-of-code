@@ -98,22 +98,22 @@ pub fn process(
     let (_, (seeds, maps)) =
         parse_seedmaps(input).expect("a valid parse");
 
-    let locations = seeds
-        .iter()
-        .flat_map(|range| range.clone().into_iter())
-        .collect::<Vec<u64>>();
-    let locations = locations
+    // let count = seeds
+    //     .iter()
+    //     .map(|range| range.end - range.start)
+    //     .sum();
+    // let count = seeds.len() as u64;
+    let minimum_location = seeds
         .into_par_iter()
-        .progress()
+        // .progress_count(count)
+        .flat_map(|range| range.clone())
         .map(|seed| {
             maps.iter()
                 .fold(seed, |seed, map| map.translate(seed))
         })
-        .collect::<Vec<u64>>();
+        .min();
 
-    Ok(locations
-        .iter()
-        .min()
+    Ok(minimum_location
         .expect("should have a minimum location value")
         .to_string())
 }
