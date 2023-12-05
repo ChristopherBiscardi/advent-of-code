@@ -27,6 +27,7 @@ nom-supreme = "0.8.0"
 test-log = { version = "0.2.13", default-features = false, features = [
     "trace",
 ] }
+indicatif = { version = "0.17.7", features = ["rayon"] }
 
 [profile.flamegraph]
 inherits = "release"
