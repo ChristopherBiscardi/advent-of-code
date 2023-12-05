@@ -1,7 +1,9 @@
 use std::ops::Range;
 
 use crate::custom_error::AocError;
-use indicatif::ProgressIterator;
+use indicatif::{
+    ParallelProgressIterator, ProgressIterator,
+};
 use nom::{
     bytes::complete::take_until,
     character::complete::{self, line_ending, space1},
@@ -10,6 +12,7 @@ use nom::{
     IResult, Parser,
 };
 use nom_supreme::{tag::complete::tag, ParserExt};
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use tracing::info;
 
 // struct SeedId(u64);
@@ -100,7 +103,7 @@ pub fn process(
         .flat_map(|range| range.clone().into_iter())
         .collect::<Vec<u64>>();
     let locations = locations
-        .into_iter()
+        .into_par_iter()
         .progress()
         .map(|seed| {
             maps.iter()
