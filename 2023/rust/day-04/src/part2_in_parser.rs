@@ -1,16 +1,19 @@
 use std::collections::{BTreeMap, HashSet};
 
 use nom::{
+    branch::alt,
     bytes::complete::tag,
     character::complete::{
         self, digit1, line_ending, space0, space1,
     },
+    combinator::{eof, iterator},
     multi::{fold_many1, separated_list1},
     sequence::{
         delimited, separated_pair, terminated, tuple,
     },
     IResult, Parser,
 };
+use tracing::{info, span, Level};
 
 use crate::custom_error::AocError;
 
@@ -22,12 +25,14 @@ struct Card {
 
 impl Card {
     #[allow(dead_code)]
+    #[tracing::instrument]
     fn score(&self) -> u32 {
         match self.num_matches().checked_sub(1) {
             Some(num) => 2u32.pow(num as u32),
             None => 0,
         }
     }
+    #[tracing::instrument]
     fn num_matches(&self) -> usize {
         self.winning_numbers
             .intersection(&self.my_numbers)
@@ -35,6 +40,7 @@ impl Card {
     }
 }
 
+#[tracing::instrument]
 fn set(input: &str) -> IResult<&str, HashSet<u32>> {
     fold_many1(
         terminated(complete::u32, space0),
@@ -46,6 +52,7 @@ fn set(input: &str) -> IResult<&str, HashSet<u32>> {
     )(input)
 }
 
+#[tracing::instrument]
 fn card(input: &str) -> IResult<&str, Card> {
     let (input, _) = delimited(
         tuple((tag("Card"), space1)),
@@ -59,42 +66,61 @@ fn card(input: &str) -> IResult<&str, Card> {
         })
         .parse(input)
 }
-fn cards(input: &str) -> IResult<&str, Vec<Card>> {
-    separated_list1(line_ending, card)(input)
+
+#[tracing::instrument(skip(input))]
+fn cards(input: &str) -> IResult<&str, u32> {
+    let mut it = iterator(
+        input,
+        terminated(card, alt((line_ending, eof))),
+    );
+
+    let result = it.enumerate().fold(
+        (0, BTreeMap::<usize, u32>::new()),
+        |(mut sum, mut acc), (index, card)| {
+            let my_span = span!(
+                Level::INFO,
+                "fold_span",
+                card = index + 1,
+                num_matches = card.num_matches(),
+                // duplicates = acc.get(&index)
+            );
+            my_span.in_scope(|| {
+                info!(?acc);
+                let duplicates = match acc.get(&index) {
+                    Some(num) => num + 1,
+                    None => 1,
+                };
+                info!(duplicates);
+                sum += duplicates;
+
+                for i in (index + 1)
+                    ..(index + 1 + card.num_matches())
+                {
+                    acc.entry(i)
+                        .and_modify(|value| {
+                            *value += duplicates;
+                        })
+                        .or_insert(duplicates);
+                }
+                (sum, acc)
+            })
+        },
+    );
+
+    let res: IResult<&str, ()> = it.finish();
+
+    info!(result = ?result.1);
+    res.map(|(input, _)| (input, result.0))
 }
 
-#[tracing::instrument]
+#[tracing::instrument(skip(input), fields(short_input = &input[0..20]))]
 pub fn process(
     input: &str,
 ) -> miette::Result<String, AocError> {
     let (_, card_data) =
         cards(input).expect("a valid parse");
-    let data = card_data
-        .iter()
-        .map(|card| card.num_matches())
-        .collect::<Vec<_>>();
 
-    let store = (0..card_data.len())
-        .map(|index| (index, 1))
-        .collect::<BTreeMap<usize, u32>>();
-    let result = data
-        .iter()
-        .enumerate()
-        .fold(store, |mut acc, (index, card_score)| {
-            let to_add = *acc.get(&index).unwrap();
-
-            for i in (index + 1)..(index + 1 + *card_score)
-            {
-                acc.entry(i).and_modify(|value| {
-                    *value += to_add;
-                });
-            }
-            acc
-        })
-        .values()
-        .sum::<u32>();
-
-    Ok(result.to_string())
+    Ok(card_data.to_string())
 }
 
 #[cfg(test)]
@@ -138,7 +164,7 @@ mod tests {
         assert_eq!(expected, card.score())
     }
 
-    #[test]
+    #[test_log::test]
     fn test_process() -> miette::Result<()> {
         let input = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19

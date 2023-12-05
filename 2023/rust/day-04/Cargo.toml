@@ -19,6 +19,7 @@ nom-supreme = { workspace = true }
 criterion = { workspace = true }
 divan = { workspace = true }
 rstest = { workspace = true }
+test-log = { workspace = true }
 
 [[bench]]
 name = "day-04-bench"

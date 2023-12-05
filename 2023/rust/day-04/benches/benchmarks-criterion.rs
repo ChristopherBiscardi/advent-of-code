@@ -11,6 +11,14 @@ fn criterion_benchmark_part1(c: &mut Criterion) {
         b.iter(|| part1::process(input))
     });
 
+    group.bench_with_input(
+        "part1_nom_supreme",
+        input,
+        |b, input| {
+            b.iter(|| part1_nom_supreme::process(input))
+        },
+    );
+
     group.finish();
 }
 
@@ -21,7 +29,13 @@ fn criterion_benchmark_part2(c: &mut Criterion) {
     group.bench_with_input("part2", input, |b, input| {
         b.iter(|| part2::process(input))
     });
-
+    group.bench_with_input(
+        "part2_in_parser",
+        input,
+        |b, input| {
+            b.iter(|| part2_in_parser::process(input))
+        },
+    );
     group.finish();
 }
 

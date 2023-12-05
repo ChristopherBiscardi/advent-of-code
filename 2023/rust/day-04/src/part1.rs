@@ -67,7 +67,7 @@ pub fn process(
     input: &str,
 ) -> miette::Result<String, AocError> {
     let (_, card_data) =
-        cards(&input).expect("a valid parse");
+        cards(input).expect("a valid parse");
     let result = card_data
         .iter()
         .map(|card| card.score())
