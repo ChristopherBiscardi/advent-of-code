@@ -66,7 +66,7 @@ fn seed_map(input: &str) -> IResult<&str, SeedMap> {
         )
         .parse(input)
 }
-#[tracing::instrument(skip(input), fields(input_first_line = input.split("\n").next().unwrap()))]
+#[tracing::instrument(skip(input), fields(input_first_line = input.split('\n').next().unwrap()))]
 fn parse_seedmaps(
     input: &str,
 ) -> IResult<&str, (Vec<u64>, Vec<SeedMap>)> {

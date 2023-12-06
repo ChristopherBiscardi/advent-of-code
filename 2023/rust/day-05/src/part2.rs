@@ -1,9 +1,7 @@
 use std::ops::Range;
 
 use crate::custom_error::AocError;
-use indicatif::{
-    ParallelProgressIterator, ProgressIterator,
-};
+
 use nom::{
     bytes::complete::take_until,
     character::complete::{self, line_ending, space1},
@@ -70,7 +68,7 @@ fn seed_map(input: &str) -> IResult<&str, SeedMap> {
         )
         .parse(input)
 }
-#[tracing::instrument(skip(input), fields(input_first_line = input.split("\n").next().unwrap()))]
+#[tracing::instrument(skip(input), fields(input_first_line = input.split('\n').next().unwrap()))]
 fn parse_seedmaps(
     input: &str,
 ) -> IResult<&str, (Vec<Range<u64>>, Vec<SeedMap>)> {
