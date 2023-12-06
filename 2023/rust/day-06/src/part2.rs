@@ -1,7 +1,7 @@
 use nom::{
     bytes::complete::is_not,
     character::complete::{
-        self, digit1, line_ending, space1,
+        digit1, line_ending, space1,
     },
     multi::separated_list1,
     sequence::separated_pair,
