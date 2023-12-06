@@ -6,20 +6,20 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-itertools = { workspace = true }
-nom = { workspace = true }
-tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
-miette = { workspace = true }
-thiserror = { workspace = true }
-dhat = { workspace = true }
-nom-supreme = { workspace = true }
+itertools.workspace = true
+nom.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+miette.workspace = true
+thiserror.workspace = true
+dhat.workspace = true
+nom-supreme.workspace = true
 
 [dev-dependencies]
-criterion = { workspace = true }
-divan = { workspace = true }
-rstest = { workspace = true }
-test-log = { workspace = true }
+criterion.workspace = true
+divan.workspace = true
+rstest.workspace = true
+test-log.workspace = true
 
 [[bench]]
 name = "day-04-bench"

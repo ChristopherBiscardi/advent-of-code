@@ -6,19 +6,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-itertools = { workspace = true }
-nom = { workspace = true }
-tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
-miette = { workspace = true }
-thiserror = { workspace = true }
+itertools.workspace = true
+nom.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+miette.workspace = true
+thiserror.workspace = true
 aho-corasick = "1.1.2"
-dhat = { workspace = true }
+dhat.workspace = true
 
 [dev-dependencies]
-criterion = { workspace = true }
-divan = { workspace = true }
-rstest = { workspace = true }
+criterion.workspace = true
+divan.workspace = true
+rstest.workspace = true
 
 [[bench]]
 name = "day-01-bench"
