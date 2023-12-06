@@ -32,13 +32,12 @@ pub fn process(
 ) -> miette::Result<String, AocError> {
     let (_, (time, record_distance)) =
         parse_times(input).expect("a valid parse");
-    let result = (0..time)
-        .filter_map(|speed| {
-            let my_distance = (time - speed) * speed;
-            (my_distance > record_distance)
-                .then_some(my_distance)
-        })
-        .count();
+
+        let min_time_held = (0..=time)
+            .find(|time_held| time_held * (time - time_held) > record_distance)
+            .unwrap();
+        let max_time_held = time - min_time_held;
+        let result = max_time_held - min_time_held + 1;
 
     Ok(result.to_string())
 }
