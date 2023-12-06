@@ -13,8 +13,7 @@ pub fn process(
 #[tracing::instrument]
 fn process_line(line: &str) -> u32 {
     let mut it = (0..line.len()).filter_map(|index| {
-        let reduced_line = &line[index..];
-        let result = match reduced_line {
+        match &line[index..] {
             line if line.starts_with("one") => Some(1),
             line if line.starts_with("two") => Some(2),
             line if line.starts_with("three") => Some(3),
@@ -27,9 +26,7 @@ fn process_line(line: &str) -> u32 {
             line => {
                 line.chars().next().unwrap().to_digit(10)
             }
-        };
-
-        result
+        }
     });
     let first = it.next().expect("should be a number");
 
