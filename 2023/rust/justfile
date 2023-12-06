@@ -25,6 +25,12 @@ create day:
 # 2) right-click -> inspect -> click the "Application" tab.
 # 3) Refresh
 # 5) Click https://adventofcode.com under "Cookies"
-# 6) Grab the value for session. Fill it in.
+# 6) Grab the value for session. Fill it into your .env file
+# 
+# example .env:
+#
+# ```
+# SESSION=PASTE_COOKIE_VALUE_HERE
+# ```
 get day:
-    curl https://adventofcode.com/2023/day/{{day}}/input --cookie "session=<SESSION>"
+    curl https://adventofcode.com/2023/day/{{day}}/input --cookie "session=$SESSION"
