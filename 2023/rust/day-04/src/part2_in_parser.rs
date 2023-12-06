@@ -7,7 +7,7 @@ use nom::{
         self, digit1, line_ending, space0, space1,
     },
     combinator::{eof, iterator},
-    multi::{fold_many1},
+    multi::fold_many1,
     sequence::{
         delimited, separated_pair, terminated, tuple,
     },
