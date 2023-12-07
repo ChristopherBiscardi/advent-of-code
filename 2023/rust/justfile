@@ -19,6 +19,7 @@ dhat day part:
     cargo run --profile dhat --features dhat-heap --package {{day}} --bin {{part}}
 create day:
     cargo generate --path ./daily-template --name {{day}}
+    just get-input {{day}}
 
 # You can find SESSION by using Chrome tools:
 # 1) Go to https://adventofcode.com/2022/day/1/input
@@ -32,5 +33,5 @@ create day:
 # ```
 # SESSION=PASTE_COOKIE_VALUE_HERE
 # ```
-get day:
-    curl https://adventofcode.com/2023/day/{{day}}/input --cookie "session=$SESSION"
+get-input day:
+    ./scripts/get-aoc-input.rs --day {{day}} --current-working-directory {{justfile_directory()}}
