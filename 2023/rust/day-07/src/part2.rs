@@ -15,11 +15,11 @@ enum HandType {
     HighCard = 0,
 }
 
-#[derive(Debug)]
-struct Hand {
-    hand: HandType,
-    first_card: char,
-}
+// #[derive(Debug)]
+// struct Hand {
+//     hand: HandType,
+//     first_card: char,
+// }
 fn score_hand(
     hand: &str,
 ) -> (HandType, (u32, u32, u32, u32, u32)) {

@@ -36,9 +36,10 @@ day_06_bench  fastest       │ slowest       │ median        │ mean        
 ├─ part1      415.6 ns      │ 15.29 µs      │ 457.6 ns      │ 603.7 ns      │ 100     │ 100
 ╰─ part2      15.51 ms      │ 24.51 ms      │ 15.89 ms      │ 16.52 ms      │ 100     │ 100
 
-day_07_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ part1      331.7 µs      │ 450.9 µs      │ 342.5 µs      │ 355 µs        │ 100     │ 100
-╰─ part2      327.6 µs      │ 472.6 µs      │ 342.5 µs      │ 351 µs        │ 100     │ 100
+day_07_bench    fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1        311.7 µs      │ 383.7 µs      │ 315.1 µs      │ 318.6 µs      │ 100     │ 100
+├─ part1_enums  387.5 µs      │ 450.9 µs      │ 390.7 µs      │ 394.1 µs      │ 100     │ 100
+╰─ part2        314.7 µs      │ 397.4 µs      │ 317.8 µs      │ 321.5 µs      │ 100     │ 100
 
 ## Windows 
 

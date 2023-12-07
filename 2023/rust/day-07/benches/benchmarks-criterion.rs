@@ -10,7 +10,11 @@ fn criterion_benchmark_part1(c: &mut Criterion) {
     group.bench_with_input("part1", input, |b, input| {
         b.iter(|| part1::process(input))
     });
-
+    group.bench_with_input(
+        "part1_enums",
+        input,
+        |b, input| b.iter(|| part1_enums::process(input)),
+    );
     group.finish();
 }
 
