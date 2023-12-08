@@ -4,11 +4,10 @@ use nom::{
     branch::alt,
     bytes::complete::tag,
     character::complete::{
-        self, alpha1, alphanumeric1, line_ending,
-        multispace1,
+        self, alphanumeric1, line_ending, multispace1,
     },
     combinator::eof,
-    multi::{fold_many1, many1, separated_list1},
+    multi::{fold_many1, many1},
     sequence::{delimited, separated_pair, terminated},
     IResult, Parser,
 };
