@@ -15,7 +15,7 @@ use nom::{
 
 use crate::custom_error::AocError;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Direction {
     Left,
     Right,
@@ -70,51 +70,100 @@ pub fn process(
     let (input, (instructions, map)) =
         parser(input).expect("should validly parse");
 
+    dbg!(map.len());
     debug_assert_eq!(input, "");
 
-    let mut current_nodes: Vec<&str> = map
+    let starting_nodes: Vec<&str> = map
         .keys()
         .filter(|key| key.ends_with("A"))
         .cloned()
         .collect();
 
-    let Some(step_count) =
-        instructions.iter().cycle().enumerate().find_map(
-            |(index, instruction)| {
-                if index % 1000000 == 0 {
-                    println!("{}", index);
-                }
-                let next_nodes: Vec<&str> = current_nodes
-                    .iter()
-                    .map(|current_node| {
-                        let options =
-                        map.get(*current_node).expect(
+    let results = starting_nodes
+        .iter()
+        .map(|node| {
+            let mut visited_nodes = vec![*node];
+            let mut current_node = *node;
+            // find_cycle
+            instructions
+                .clone()
+                .iter()
+                .cycle()
+                .enumerate()
+                .position(|(index, instruction)| {
+                    let options =
+                        map.get(current_node).expect(
                             "always exist at a valid node",
                         );
-                        let next_node = match instruction {
-                            Direction::Left => options.0,
-                            Direction::Right => options.1,
-                        };
-                        next_node
-                    })
-                    .collect();
+                    let next_node = match instruction {
+                        Direction::Left => options.0,
+                        Direction::Right => options.1,
+                    };
+                    current_node = next_node;
+                    next_node.ends_with("Z")
+                })
+                // .find_map(|(index, instruction)| {
+                //     let options =
+                //         map.get(current_node).expect(
+                //             "always exist at a valid node",
+                //         );
+                //     let next_node = match instruction {
+                //         Direction::Left => options.0,
+                //         Direction::Right => options.1,
+                //     };
+                //     if visited_nodes.contains(&next_node) {
+                //         let offset = visited_nodes
+                //             .iter()
+                //             .position(|node| {
+                //                 node == &next_node
+                //             })
+                //             .unwrap();
+                //         let cycle_length =
+                //             visited_nodes.len() - offset;
+                //         // dbg!(offset);
+                //         // dbg!(index);
+                //         Some((offset - 1, cycle_length))
+                //     } else {
+                //         current_node = next_node;
+                //         visited_nodes.push(next_node);
+                //         None
+                //     }
+                // })
+                .expect("should find a cycle")
+                + 1
+        })
+        .collect::<Vec<usize>>();
 
-                if next_nodes
-                    .iter()
-                    .all(|node| node.ends_with("Z"))
-                {
-                    Some(index + 1)
-                } else {
-                    current_nodes = next_nodes;
-                    None
-                }
-            },
-        )
-    else {
-        panic!("infinite iterator can't produce None")
-    };
+    // let cycle_lengths: Vec<usize> = results
+    //     .iter()
+    //     .map(|(_, cycle_length)| *cycle_length)
+    //     .collect();
 
-    Ok(step_count.to_string())
+    // let cycle_lengths: usize = results
+    // .iter()
+    // .map(|(offset, cycle_length)| *)
+    // .collect();
+    dbg!(&results);
+    let min_cycle = lcm(&results);
+    dbg!(min_cycle);
+    todo!()
+    // Ok(.to_string())
+}
+
+pub fn lcm(nums: &[usize]) -> usize {
+    if nums.len() == 1 {
+        return nums[0];
+    }
+    let a = nums[0];
+    let b = lcm(&nums[1..]);
+    a * b / gcd_of_two_numbers(a, b)
+}
+
+fn gcd_of_two_numbers(a: usize, b: usize) -> usize {
+    if b == 0 {
+        return a;
+    }
+    gcd_of_two_numbers(b, a % b)
 }
 
 #[cfg(test)]
