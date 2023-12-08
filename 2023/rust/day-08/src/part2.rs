@@ -70,7 +70,6 @@ pub fn process(
     let (input, (instructions, map)) =
         parser(input).expect("should validly parse");
 
-    dbg!(map.len());
     debug_assert_eq!(input, "");
 
     let starting_nodes: Vec<&str> = map
@@ -84,13 +83,14 @@ pub fn process(
         .map(|node| {
             let mut visited_nodes = vec![*node];
             let mut current_node = *node;
-            // find_cycle
+            // cycle is magically "the first Z",
+            // and other assorted conditions due
+            // to how the input is constructed.
             instructions
-                .clone()
                 .iter()
                 .cycle()
                 .enumerate()
-                .position(|(index, instruction)| {
+                .find_map(|(index, instruction)| {
                     let options =
                         map.get(current_node).expect(
                             "always exist at a valid node",
@@ -99,55 +99,21 @@ pub fn process(
                         Direction::Left => options.0,
                         Direction::Right => options.1,
                     };
-                    current_node = next_node;
-                    next_node.ends_with("Z")
+                    if next_node.ends_with("Z") {
+                        Some(index + 1)
+                    } else {
+                        visited_nodes.push(next_node);
+                        current_node = next_node;
+                        None
+                    }
                 })
-                // .find_map(|(index, instruction)| {
-                //     let options =
-                //         map.get(current_node).expect(
-                //             "always exist at a valid node",
-                //         );
-                //     let next_node = match instruction {
-                //         Direction::Left => options.0,
-                //         Direction::Right => options.1,
-                //     };
-                //     if visited_nodes.contains(&next_node) {
-                //         let offset = visited_nodes
-                //             .iter()
-                //             .position(|node| {
-                //                 node == &next_node
-                //             })
-                //             .unwrap();
-                //         let cycle_length =
-                //             visited_nodes.len() - offset;
-                //         // dbg!(offset);
-                //         // dbg!(index);
-                //         Some((offset - 1, cycle_length))
-                //     } else {
-                //         current_node = next_node;
-                //         visited_nodes.push(next_node);
-                //         None
-                //     }
-                // })
                 .expect("should find a cycle")
-                + 1
         })
         .collect::<Vec<usize>>();
 
-    // let cycle_lengths: Vec<usize> = results
-    //     .iter()
-    //     .map(|(_, cycle_length)| *cycle_length)
-    //     .collect();
-
-    // let cycle_lengths: usize = results
-    // .iter()
-    // .map(|(offset, cycle_length)| *)
-    // .collect();
-    dbg!(&results);
     let min_cycle = lcm(&results);
-    dbg!(min_cycle);
-    todo!()
-    // Ok(.to_string())
+
+    Ok(min_cycle.to_string())
 }
 
 pub fn lcm(nums: &[usize]) -> usize {
