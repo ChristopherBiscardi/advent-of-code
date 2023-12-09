@@ -12,10 +12,24 @@ fn part1() {
     )))
     .unwrap();
 }
+#[divan::bench]
+fn part1_math() {
+    part1_math::process(divan::black_box(include_str!(
+        "../input1.txt",
+    )))
+    .unwrap();
+}
 
 #[divan::bench]
 fn part2() {
     part2::process(divan::black_box(include_str!(
+        "../input2.txt",
+    )))
+    .unwrap();
+}
+#[divan::bench]
+fn part2_math() {
+    part2_math::process(divan::black_box(include_str!(
         "../input2.txt",
     )))
     .unwrap();
