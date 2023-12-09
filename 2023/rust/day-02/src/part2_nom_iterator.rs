@@ -98,8 +98,8 @@ fn parse_power(input: &str) -> IResult<&str, u32> {
     )(input)?;
     Ok((input, cubes.values().product()))
 }
-// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-// output: product of max cube values
+// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue;
+// 2 green output: product of max cube values
 fn game(input: &str) -> IResult<&str, u32> {
     let (input, _id) =
         delimited(tag("Game "), digit1, tag(": "))(input)?;

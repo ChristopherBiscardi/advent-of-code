@@ -80,7 +80,8 @@ fn round(input: &str) -> IResult<&str, Vec<Cube>> {
         separated_list1(tag(", "), cube)(input)?;
     Ok((input, cubes))
 }
-// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue;
+// 2 green
 fn game(input: &str) -> IResult<&str, Game> {
     let (input, id) =
         preceded(tag("Game "), digit1)(input)?;

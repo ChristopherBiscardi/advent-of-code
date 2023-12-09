@@ -20,8 +20,10 @@ impl AppError {
     }
 }
 
-// A basic function to display errors served by the error boundaries.
-// Feel free to do more complicated things here than just displaying the error.
+// A basic function to display errors served by
+// the error boundaries. Feel free to do more
+// complicated things here than just displaying
+// the error.
 #[component]
 pub fn ErrorTemplate(
     #[prop(optional)] outside_errors: Option<Errors>,
@@ -31,21 +33,27 @@ pub fn ErrorTemplate(
         Some(e) => create_rw_signal(e),
         None => match errors {
             Some(e) => e,
-            None => panic!("No Errors found and we expected errors!"),
+            None => panic!(
+                "No Errors found and we expected errors!"
+            ),
         },
     };
     // Get Errors from Signal
     let errors = errors.get_untracked();
 
-    // Downcast lets us take a type that implements `std::error::Error`
+    // Downcast lets us take a type that implements
+    // `std::error::Error`
     let errors: Vec<AppError> = errors
         .into_iter()
-        .filter_map(|(_k, v)| v.downcast_ref::<AppError>().cloned())
+        .filter_map(|(_k, v)| {
+            v.downcast_ref::<AppError>().cloned()
+        })
         .collect();
     println!("Errors: {errors:#?}");
 
-    // Only the response code for the first error is actually sent from the server
-    // this may be customized by the specific application
+    // Only the response code for the first error is
+    // actually sent from the server this may be
+    // customized by the specific application
     cfg_if! { if #[cfg(feature="ssr")] {
         let response = use_context::<ResponseOptions>();
         if let Some(response) = response {

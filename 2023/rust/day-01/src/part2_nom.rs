@@ -41,8 +41,8 @@ fn numbers(input: &str) -> IResult<&str, Option<u32>> {
 }
 
 fn parser(input: &str) -> IResult<&str, Vec<u32>> {
-    // can do this more simply than iterator, but it costs
-    // some microseconds it
+    // can do this more simply than iterator, but it
+    // costs some microseconds it
     // let (input, output) = many1(numbers)(input)?;
     let mut it = iterator(input, numbers);
 
