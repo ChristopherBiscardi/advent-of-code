@@ -18,11 +18,18 @@ aho-corasick = "1.1.2"
 
 [dev-dependencies]
 divan = { workspace = true }
+criterion = { version = "0.4", features = ["html_reports"] }
 
 [[bench]]
 name = "day-01"
 path = "benches/benchmarks.rs"
 harness = false
+
+[[bench]]
+name = "day-01-bench-criterion"
+path = "benches/benchmarks-criterion.rs"
+harness = false
+
 
 [features]
 dhat-heap = []
