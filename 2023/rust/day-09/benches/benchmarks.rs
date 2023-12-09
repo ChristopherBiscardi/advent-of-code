@@ -34,3 +34,17 @@ fn part2() {
     )))
     .unwrap();
 }
+#[divan::bench]
+fn part2_successors() {
+    part2_successors::process(divan::black_box(
+        include_str!("../input1.txt",),
+    ))
+    .unwrap();
+}
+#[divan::bench]
+fn part2_one_vec() {
+    part2_one_vec::process(divan::black_box(include_str!(
+        "../input1.txt",
+    )))
+    .unwrap();
+}
