@@ -17,6 +17,11 @@ fn criterion_benchmark_part1(c: &mut Criterion) {
             b.iter(|| part1_successors::process(input))
         },
     );
+    group.bench_with_input(
+        "part1_one_vec",
+        input,
+        |b, input| b.iter(|| part1_one_vec::process(input)),
+    );
     group.finish();
 }
 
