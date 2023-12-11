@@ -54,6 +54,17 @@ day_09_bench         fastest       │ slowest       │ median        │ mean 
 ├─ part2             201.7 µs      │ 446.8 µs      │ 208.1 µs      │ 213.1 µs      │ 100     │ 100
 ├─ part2_one_vec     102.1 µs      │ 137.2 µs      │ 105.7 µs      │ 106.5 µs      │ 100     │ 100
 ╰─ part2_successors  149.4 µs      │ 186.8 µs      │ 155.4 µs      │ 155.2 µs      │ 100     │ 100
+
+day_11_bench   fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1       21.45 ms      │ 45.73 ms      │ 21.78 ms      │ 22.18 ms      │ 100     │ 100
+╰─ part2                     │               │               │               │         │
+   ├─ 2        21.67 ms      │ 22.96 ms      │ 21.94 ms      │ 21.96 ms      │ 100     │ 100
+   ├─ 10       21.65 ms      │ 22.69 ms      │ 21.94 ms      │ 21.94 ms      │ 100     │ 100
+   ├─ 100      21.75 ms      │ 22.76 ms      │ 21.93 ms      │ 21.95 ms      │ 100     │ 100
+   ├─ 1000     21.68 ms      │ 22.53 ms      │ 21.93 ms      │ 21.92 ms      │ 100     │ 100
+   ├─ 100000   21.73 ms      │ 22.55 ms      │ 21.93 ms      │ 21.94 ms      │ 100     │ 100
+   ╰─ 1000000  21.64 ms      │ 23.5 ms       │ 21.92 ms      │ 21.96 ms      │ 100     │ 100
+
 ## Windows 
 
 day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
