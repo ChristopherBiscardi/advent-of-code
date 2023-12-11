@@ -1,10 +1,10 @@
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{HashMap};
 
 use glam::IVec2;
 use nom::{
     branch::alt,
     bytes::complete::tag,
-    character::complete::{self, multispace0},
+    character::complete::{multispace0},
     combinator::all_consuming,
     multi::many1,
     sequence::terminated,

@@ -1,10 +1,10 @@
-use std::collections::{BTreeMap, HashMap, HashSet};
+use std::collections::{HashMap, HashSet};
 
 use glam::IVec2;
 use nom::{
     branch::alt,
     bytes::complete::tag,
-    character::complete::{self, multispace0},
+    character::complete::{multispace0},
     combinator::all_consuming,
     multi::many1,
     sequence::terminated,
@@ -231,11 +231,10 @@ pub fn process(
 
     let path_a = iters.next().expect("path a should_exist");
     let path_b = iters.next().expect("path b should exist");
-    let mut zip_it = path_a.zip(path_b);
+    let zip_it = path_a.zip(path_b);
     let mut pipe_locations: HashSet<IVec2> =
         HashSet::from([*start_position]);
-    while let Some((path_a_node, path_b_node)) =
-        zip_it.next()
+    for (path_a_node, path_b_node) in zip_it
     {
         pipe_locations.insert(path_a_node.1);
         pipe_locations.insert(path_b_node.1);
