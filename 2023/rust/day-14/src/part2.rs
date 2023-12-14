@@ -66,87 +66,112 @@ pub fn process(
     // println!("first grid");
     // print_grid(&rock_map, &boundaries);
     // remember each cycle is 4 directions
-    let cycles = 1000000000;
+    // let cycles = 1000000000;
+    let cycles = 1000000;
     let total_rounds = cycles * 4;
-    let (_, final_map) =
-        (0..total_rounds).into_iter().fold(
-            (
-                HashMap::<
-                    // (usize, HashMap<IVec2, Rock>),
-                    (usize, String),
-                    HashMap<IVec2, Rock>,
-                >::new(),
-                rock_map,
-            ),
-            |(mut cache, old_map), iteration| {
-                if iteration % 1000000 == 0 {
-               dbg!(iteration);
-                }
-                // println!("v-iter-{iteration}-v");
-               let next_state = match cache.get(&(
-                    iteration % 4,
-                    grid_to_string(&old_map, &boundaries),
-                )) {
-                    Some(cached_next_state) => {
-                        // dbg!("hit cache");
-                        cached_next_state.clone()
-                    }
-                    None => {
-                        let next_state = match iteration % 4 {
-                            0 => rock_shift_north(
-                                &old_map,
-                                &boundaries,
-                                &static_rocks,
-                            ),
-                            1 => rock_shift_west(
-                                &old_map,
-                                &boundaries,
-                                &static_rocks,
-                            ),
-                            2 => rock_shift_south(
-                                &old_map,
-                                &boundaries,
-                                &static_rocks,
-                            ),
-                            3 => rock_shift_east(
-                                &old_map,
-                                &boundaries,
-                                &static_rocks,
-                            ),
-                            n => unreachable!(
-                                "shouldn't ever be above 3:  {n}"
-                            ),
-                        };
-                        cache.insert(
-                            (
-                                iteration % 4,
-                                grid_to_string(
-                                    &old_map,
-                                    &boundaries,
-                                ),
-                            ),
-                            next_state.clone(),
-                        );
-                        next_state
-                    },
-                };
-              
-                // print_grid(&next_state, &boundaries);
-                (cache, next_state)
-            },
-        );
+    // let mut cache_hits = 0;
+    let mut iteration_maps: Vec<String> = vec![];
+    let mut cache = HashMap::<
+        // (usize, HashMap<IVec2, Rock>),
+        (usize, String),
+        HashMap<IVec2, Rock>,
+    >::new();
 
-        // println!("-");
-        // print_grid(&final_map, &boundaries);
-    let sum = final_map
-        .iter()
-        .filter_map(|(position, rock)| match rock {
-            Rock::Movable => {
-                Some(boundaries.y - position.y)
+    // |old_map, iteration| {
+    let mut old_map = rock_map;
+    for iteration in (0..total_rounds).into_iter() {
+        // println!("v-iter-{iteration}-v");
+        let next_state = match cache.get(&(
+            iteration % 4,
+            grid_to_string(&old_map, &boundaries),
+        )) {
+            Some(cached_next_state) => {
+                dbg!("cache hit at", iteration);
+                break;
+                // panic!("here");
+                // cache_hits += 1;
+                // dbg!("hit cache");
+                // cached_next_state.clone()
             }
-            Rock::Immovable => None,
+            None => {
+                let next_state = match iteration % 4 {
+                    0 => rock_shift_north(
+                        &old_map,
+                        &boundaries,
+                        &static_rocks,
+                    ),
+                    1 => rock_shift_west(
+                        &old_map,
+                        &boundaries,
+                        &static_rocks,
+                    ),
+                    2 => rock_shift_south(
+                        &old_map,
+                        &boundaries,
+                        &static_rocks,
+                    ),
+                    3 => rock_shift_east(
+                        &old_map,
+                        &boundaries,
+                        &static_rocks,
+                    ),
+                    n => unreachable!(
+                        "shouldn't ever be above 3:  {n}"
+                    ),
+                };
+                let s =
+                    grid_to_string(&old_map, &boundaries);
+                iteration_maps.push(s.clone());
+                cache.insert(
+                    (iteration % 4, s),
+                    next_state.clone(),
+                );
+                next_state
+            }
+        };
+
+        // print_grid(&next_state, &boundaries);
+        old_map = next_state;
+    }
+
+    let last_seen_grid_string =
+        grid_to_string(&old_map, &boundaries);
+    let mut it = iteration_maps.iter();
+    let cycle_start_index = it.position(|grid_string| {
+        grid_string == &last_seen_grid_string
+    });
+    let shouldnt_exist = it
+        .position(|grid_string| {
+            grid_string == &last_seen_grid_string
         })
-        .sum::<i32>();
+        .unwrap();
+    dbg!(cycle_start_index);
+    let map_scores: Vec<i32> = cache
+        .values()
+        .map(|map| {
+            map.iter()
+                .filter_map(|(position, rock)| match rock {
+                    Rock::Movable => {
+                        Some(boundaries.y - position.y)
+                    }
+                    Rock::Immovable => None,
+                })
+                .sum::<i32>()
+        })
+        .collect();
+    dbg!(map_scores);
+    // println!("-");
+    // print_grid(&final_map, &boundaries);
+    let sum = 0;
+    // let sum = final_map
+    //     .iter()
+    //     .filter_map(|(position, rock)| match rock {
+    //         Rock::Movable => {
+    //             Some(boundaries.y - position.y)
+    //         }
+    //         Rock::Immovable => None,
+    //     })
+    //     .sum::<i32>();
 
     Ok(sum.to_string())
 }
