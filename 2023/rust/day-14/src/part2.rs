@@ -1,0 +1,339 @@
+use std::{collections::HashMap, fmt::Display};
+
+use glam::IVec2;
+use itertools::Itertools;
+
+use crate::custom_error::AocError;
+
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
+enum Rock {
+    Movable,
+    Immovable,
+}
+impl Display for Rock {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Rock::Movable => "O",
+                Rock::Immovable => "#",
+            }
+        )
+    }
+}
+
+#[tracing::instrument]
+pub fn process(
+    input: &str,
+) -> miette::Result<String, AocError> {
+    let columns = input.lines().next().unwrap().len();
+    let rows = input.lines().count();
+    let boundaries =
+        IVec2::new(columns as i32, rows as i32);
+    // dbg!(rows, columns);
+    let rock_map = input
+        .lines()
+        .enumerate()
+        .flat_map(|(y, line)| {
+            line.chars().enumerate().filter_map(
+                move |(x, c)| match c {
+                    'O' => Some((
+                        IVec2::new(x as i32, y as i32),
+                        Rock::Movable,
+                    )),
+                    '#' => Some((
+                        IVec2::new(x as i32, y as i32),
+                        Rock::Immovable,
+                    )),
+                    _ => None,
+                },
+            )
+        })
+        .collect::<HashMap<IVec2, Rock>>();
+
+    let static_rocks = rock_map
+        .iter()
+        .filter_map(|(position, rock)| match rock {
+            Rock::Movable => None,
+            Rock::Immovable => Some((*position, *rock)),
+        })
+        .collect::<HashMap<IVec2, Rock>>();
+
+    // println!("first grid");
+    // print_grid(&rock_map, &boundaries);
+    // remember each cycle is 4 directions
+    let cycles = 1000000000;
+    let total_rounds = cycles * 4;
+    let (_, final_map) =
+        (0..total_rounds).into_iter().fold(
+            (
+                HashMap::<
+                    // (usize, HashMap<IVec2, Rock>),
+                    (usize, String),
+                    HashMap<IVec2, Rock>,
+                >::new(),
+                rock_map,
+            ),
+            |(mut cache, old_map), iteration| {
+                if iteration % 1000000 == 0 {
+               dbg!(iteration);
+                }
+                // println!("v-iter-{iteration}-v");
+               let next_state = match cache.get(&(
+                    iteration % 4,
+                    grid_to_string(&old_map, &boundaries),
+                )) {
+                    Some(cached_next_state) => {
+                        // dbg!("hit cache");
+                        cached_next_state.clone()
+                    }
+                    None => {
+                        let next_state = match iteration % 4 {
+                            0 => rock_shift_north(
+                                &old_map,
+                                &boundaries,
+                                &static_rocks,
+                            ),
+                            1 => rock_shift_west(
+                                &old_map,
+                                &boundaries,
+                                &static_rocks,
+                            ),
+                            2 => rock_shift_south(
+                                &old_map,
+                                &boundaries,
+                                &static_rocks,
+                            ),
+                            3 => rock_shift_east(
+                                &old_map,
+                                &boundaries,
+                                &static_rocks,
+                            ),
+                            n => unreachable!(
+                                "shouldn't ever be above 3:  {n}"
+                            ),
+                        };
+                        cache.insert(
+                            (
+                                iteration % 4,
+                                grid_to_string(
+                                    &old_map,
+                                    &boundaries,
+                                ),
+                            ),
+                            next_state.clone(),
+                        );
+                        next_state
+                    },
+                };
+              
+                // print_grid(&next_state, &boundaries);
+                (cache, next_state)
+            },
+        );
+
+        // println!("-");
+        // print_grid(&final_map, &boundaries);
+    let sum = final_map
+        .iter()
+        .filter_map(|(position, rock)| match rock {
+            Rock::Movable => {
+                Some(boundaries.y - position.y)
+            }
+            Rock::Immovable => None,
+        })
+        .sum::<i32>();
+
+    Ok(sum.to_string())
+}
+
+fn print_grid(
+    map: &HashMap<IVec2, Rock>,
+    boundaries: &IVec2,
+) {
+    for y in 0..boundaries.y {
+        for x in 0..boundaries.x {
+            match map.get(&IVec2::new(x, y)) {
+                Some(rock) => {
+                    print!("{rock}");
+                }
+                None => print!("."),
+            }
+        }
+        println!("");
+    }
+}
+
+fn grid_to_string(
+    map: &HashMap<IVec2, Rock>,
+    boundaries: &IVec2,
+) -> String {
+    (0..boundaries.y)
+        .into_iter()
+        .flat_map(|y| {
+            (0..boundaries.x).into_iter().map(move |x| {
+                match map.get(&IVec2::new(x, y)) {
+                    Some(Rock::Immovable) => "#",
+                    Some(Rock::Movable) => "O",
+                    None => ".",
+                }
+            })
+        })
+        .collect::<String>()
+}
+
+fn rock_shift_north(
+    rock_map: &HashMap<IVec2, Rock>,
+    boundaries: &IVec2,
+    static_rocks: &HashMap<IVec2, Rock>,
+) -> HashMap<IVec2, Rock> {
+    let mut results = static_rocks.clone();
+    // dbg!(results);
+    let mut next_potentially_available_position =
+        IVec2::new(0, 0);
+    for x in 0..boundaries.x {
+        next_potentially_available_position =
+            IVec2::new(x, 0);
+        for y in 0..boundaries.y {
+            match rock_map.get(&IVec2::new(x, y)) {
+                Some(Rock::Immovable) => {
+                    next_potentially_available_position =
+                        IVec2::new(x, y + 1);
+                }
+                Some(Rock::Movable) => {
+                    let next_pos =
+                        next_potentially_available_position;
+                    results.insert(next_pos, Rock::Movable);
+
+                    next_potentially_available_position
+                        .y += 1;
+                }
+                None => {}
+            }
+        }
+    }
+    results
+}
+
+fn rock_shift_west(
+    rock_map: &HashMap<IVec2, Rock>,
+    boundaries: &IVec2,
+    static_rocks: &HashMap<IVec2, Rock>,
+) -> HashMap<IVec2, Rock> {
+    let mut results = static_rocks.clone();
+    // dbg!(results);
+    let mut next_potentially_available_position =
+        IVec2::new(0, 0);
+    for y in 0..boundaries.y {
+        next_potentially_available_position =
+            IVec2::new(0, y);
+        for x in 0..boundaries.x {
+            match rock_map.get(&IVec2::new(x, y)) {
+                Some(Rock::Immovable) => {
+                    next_potentially_available_position =
+                        IVec2::new(x + 1, y);
+                }
+                Some(Rock::Movable) => {
+                    let next_pos =
+                        next_potentially_available_position;
+                    results.insert(next_pos, Rock::Movable);
+
+                    next_potentially_available_position
+                        .x += 1;
+                }
+                None => {}
+            }
+        }
+    }
+    results
+}
+
+fn rock_shift_south(
+    rock_map: &HashMap<IVec2, Rock>,
+    boundaries: &IVec2,
+    static_rocks: &HashMap<IVec2, Rock>,
+) -> HashMap<IVec2, Rock> {
+    let mut results = static_rocks.clone();
+    // dbg!(results);
+    let mut next_potentially_available_position =
+        IVec2::new(0, boundaries.y - 1);
+    for x in 0..boundaries.x {
+        next_potentially_available_position =
+            IVec2::new(x, boundaries.y - 1);
+        for y in (0..(boundaries.y)).rev() {
+            match rock_map.get(&IVec2::new(x, y)) {
+                Some(Rock::Immovable) => {
+                    next_potentially_available_position =
+                        IVec2::new(x, y - 1);
+                }
+                Some(Rock::Movable) => {
+                    let next_pos =
+                        next_potentially_available_position;
+                    results.insert(next_pos, Rock::Movable);
+
+                    next_potentially_available_position
+                        .y -= 1;
+                }
+                None => {}
+            }
+        }
+    }
+    results
+}
+
+fn rock_shift_east(
+    rock_map: &HashMap<IVec2, Rock>,
+    boundaries: &IVec2,
+    static_rocks: &HashMap<IVec2, Rock>,
+) -> HashMap<IVec2, Rock> {
+    let mut results = static_rocks.clone();
+    // dbg!(results);
+    let mut next_potentially_available_position =
+        IVec2::new(boundaries.x - 1, 0);
+    for y in 0..boundaries.y {
+        next_potentially_available_position =
+            IVec2::new(boundaries.x - 1, y);
+        for x in (0..boundaries.x).rev() {
+            match rock_map.get(&IVec2::new(x, y)) {
+                Some(Rock::Immovable) => {
+                    next_potentially_available_position =
+                        IVec2::new(x - 1, y);
+                }
+                Some(Rock::Movable) => {
+                    let next_pos =
+                        next_potentially_available_position;
+                    results.insert(next_pos, Rock::Movable);
+
+                    next_potentially_available_position
+                        .x -= 1;
+                }
+                None => {}
+            }
+        }
+    }
+    results
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_process() -> miette::Result<()> {
+        let input = "O....#....
+O.OO#....#
+.....##...
+OO.#O....O
+.O.....O#.
+O.#..O.#.#
+..O..#O..O
+.......O..
+#....###..
+#OO..#....";
+        assert_eq!("64", process(input)?);
+        Ok(())
+    }
+}
