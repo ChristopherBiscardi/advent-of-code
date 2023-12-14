@@ -68,23 +68,19 @@ pub fn process(
     // remember each cycle is 4 directions
     // let cycles = 1000000000;
     let cycles = 1000000;
-    let total_rounds = cycles * 4;
+    // let total_rounds = cycles * 4;
     // let mut cache_hits = 0;
     let mut iteration_maps: Vec<String> = vec![];
-    let mut cache = HashMap::<
-        // (usize, HashMap<IVec2, Rock>),
-        (usize, String),
-        HashMap<IVec2, Rock>,
-    >::new();
+    let mut cache =
+        HashMap::<String, HashMap<IVec2, Rock>>::new();
 
     // |old_map, iteration| {
     let mut old_map = rock_map;
-    for iteration in (0..total_rounds).into_iter() {
+    for iteration in (0..cycles).into_iter() {
         // println!("v-iter-{iteration}-v");
-        let next_state = match cache.get(&(
-            iteration % 4,
-            grid_to_string(&old_map, &boundaries),
-        )) {
+        let next_state = match cache
+            .get(&grid_to_string(&old_map, &boundaries))
+        {
             Some(cached_next_state) => {
                 dbg!("cache hit at", iteration);
                 break;
@@ -94,38 +90,33 @@ pub fn process(
                 // cached_next_state.clone()
             }
             None => {
-                let next_state = match iteration % 4 {
-                    0 => rock_shift_north(
+                let next_state = {
+                    let next_state = rock_shift_north(
                         &old_map,
                         &boundaries,
                         &static_rocks,
-                    ),
-                    1 => rock_shift_west(
-                        &old_map,
+                    );
+                    let next_state = rock_shift_west(
+                        &next_state,
                         &boundaries,
                         &static_rocks,
-                    ),
-                    2 => rock_shift_south(
-                        &old_map,
+                    );
+                    let next_state = rock_shift_south(
+                        &next_state,
                         &boundaries,
                         &static_rocks,
-                    ),
-                    3 => rock_shift_east(
-                        &old_map,
+                    );
+                    let next_state = rock_shift_east(
+                        &next_state,
                         &boundaries,
                         &static_rocks,
-                    ),
-                    n => unreachable!(
-                        "shouldn't ever be above 3:  {n}"
-                    ),
+                    );
+                    next_state
                 };
                 let s =
                     grid_to_string(&old_map, &boundaries);
                 iteration_maps.push(s.clone());
-                cache.insert(
-                    (iteration % 4, s),
-                    next_state.clone(),
-                );
+                cache.insert(s, next_state.clone());
                 next_state
             }
         };
@@ -137,17 +128,16 @@ pub fn process(
     let last_seen_grid_string =
         grid_to_string(&old_map, &boundaries);
     let mut it = iteration_maps.iter();
-    let cycle_start_index = it.position(|grid_string| {
-        grid_string == &last_seen_grid_string
-    });
-    let shouldnt_exist = it
+    let cycle_start_index = it
         .position(|grid_string| {
             grid_string == &last_seen_grid_string
         })
-        .unwrap();
+        .expect("should be a loop");
+
     dbg!(cycle_start_index);
-    let map_scores: Vec<i32> = cache
-        .values()
+    let map_scores: Vec<i32> = iteration_maps
+        .iter()
+        .map(|v| cache.get(v).unwrap())
         .map(|map| {
             map.iter()
                 .filter_map(|(position, rock)| match rock {
@@ -159,7 +149,19 @@ pub fn process(
                 .sum::<i32>()
         })
         .collect();
-    dbg!(map_scores);
+    let loop_size =
+        iteration_maps.len() - cycle_start_index;
+    dbg!(&map_scores);
+    let leftover_cycles =
+        (1_000_000_000 - cycle_start_index) % loop_size;
+    dbg!(
+        leftover_cycles,
+        cycle_start_index,
+        leftover_cycles + cycle_start_index
+    );
+    dbg!(
+        map_scores[leftover_cycles + cycle_start_index - 1]
+    );
     // println!("-");
     // print_grid(&final_map, &boundaries);
     let sum = 0;
