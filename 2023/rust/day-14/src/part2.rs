@@ -82,7 +82,7 @@ pub fn process(
             .get(&grid_to_string(&old_map, &boundaries))
         {
             Some(cached_next_state) => {
-                dbg!("cache hit at", iteration);
+                // dbg!("cache hit at", iteration);
                 break;
                 // panic!("here");
                 // cache_hits += 1;
@@ -134,7 +134,7 @@ pub fn process(
         })
         .expect("should be a loop");
 
-    dbg!(cycle_start_index);
+    // dbg!(cycle_start_index);
     let map_scores: Vec<i32> = iteration_maps
         .iter()
         .map(|v| cache.get(v).unwrap())
@@ -151,31 +151,22 @@ pub fn process(
         .collect();
     let loop_size =
         iteration_maps.len() - cycle_start_index;
-    dbg!(&map_scores);
+    // dbg!(&map_scores);
     let leftover_cycles =
         (1_000_000_000 - cycle_start_index) % loop_size;
-    dbg!(
-        leftover_cycles,
-        cycle_start_index,
-        leftover_cycles + cycle_start_index
-    );
-    dbg!(
-        map_scores[leftover_cycles + cycle_start_index - 1]
-    );
-    // println!("-");
-    // print_grid(&final_map, &boundaries);
-    let sum = 0;
-    // let sum = final_map
-    //     .iter()
-    //     .filter_map(|(position, rock)| match rock {
-    //         Rock::Movable => {
-    //             Some(boundaries.y - position.y)
-    //         }
-    //         Rock::Immovable => None,
-    //     })
-    //     .sum::<i32>();
+    // dbg!(
+    //     leftover_cycles,
+    //     cycle_start_index,
+    //     leftover_cycles + cycle_start_index
+    // );
+    // dbg!(
+    //     map_scores[leftover_cycles + cycle_start_index - 1]
+    // );
 
-    Ok(sum.to_string())
+    Ok(
+        map_scores[leftover_cycles + cycle_start_index - 1]
+            .to_string(),
+    )
 }
 
 fn print_grid(
