@@ -76,6 +76,11 @@ day_14_bench  fastest       │ slowest       │ median        │ mean        
 ├─ part1      751.9 µs      │ 1.04 ms       │ 846.9 µs      │ 848.8 µs      │ 100     │ 100
 ╰─ part2      303 ms        │ 326.5 ms      │ 310.4 ms      │ 311.3 ms      │ 100     │ 100
 
+day_15_bench      fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1          42.99 µs      │ 79.49 µs      │ 43.33 µs      │ 44.37 µs      │ 100     │ 100
+├─ part2          258.8 µs      │ 357.7 µs      │ 259.7 µs      │ 263.2 µs      │ 100     │ 100
+╰─ part2_grouped  365 µs        │ 752.1 µs      │ 396.3 µs      │ 405.1 µs      │ 100     │ 100
+
 ## Windows 
 
 day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
