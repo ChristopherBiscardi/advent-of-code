@@ -14,7 +14,7 @@ tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
 rstest = "0.18.2"
 rstest_reuse = "0.6.0"
-divan = "0.1.4"
+divan = "0.1.7"
 tracing-tracy = "0.10.4"
 tracy-client = "0.16.4"
 tracy-client-sys = "0.22.0"
