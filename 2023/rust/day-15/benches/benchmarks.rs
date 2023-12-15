@@ -24,3 +24,10 @@ fn part2() {
     )))
     .unwrap();
 }
+#[divan::bench]
+fn part2_grouped() {
+    part2_grouped::process(divan::black_box(include_str!(
+        "../input2.txt",
+    )))
+    .unwrap();
+}
