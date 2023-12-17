@@ -2,7 +2,6 @@ use std::{collections::HashMap, fmt::Display};
 
 use glam::IVec2;
 
-
 use crate::custom_error::AocError;
 
 #[derive(Debug, Clone, Copy)]
@@ -85,6 +84,7 @@ pub fn process(
     Ok(sum.to_string())
 }
 
+#[allow(dead_code)]
 fn print_grid(
     map: &HashMap<IVec2, Rock>,
     boundaries: &IVec2,
@@ -107,9 +107,8 @@ fn rock_shift_north(
     static_rocks: &HashMap<IVec2, Rock>,
 ) -> HashMap<IVec2, Rock> {
     let mut results = static_rocks.clone();
-    // dbg!(results);
-    let mut next_potentially_available_position =
-        IVec2::new(0, 0);
+
+    let mut next_potentially_available_position: IVec2;
     for x in 0..boundaries.x {
         next_potentially_available_position =
             IVec2::new(x, 0);

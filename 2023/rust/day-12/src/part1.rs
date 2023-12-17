@@ -89,7 +89,7 @@ impl<'a> Puzzle<'a> {
             })
             .collect::<Vec<u32>>();
         info!(?counts);
-        &self.batches[..] == &counts[..]
+        self.batches[..] == counts[..]
     }
     fn possible_solution_count(&self) -> usize {
         let options = self.generate_permutations();

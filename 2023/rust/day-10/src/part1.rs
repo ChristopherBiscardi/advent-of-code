@@ -1,14 +1,11 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 use glam::IVec2;
 use nom::{
-    branch::alt,
-    bytes::complete::tag,
-    character::complete::{multispace0},
-    combinator::all_consuming,
-    multi::many1,
-    sequence::terminated,
-    IResult, Parser,
+    branch::alt, bytes::complete::tag,
+    character::complete::multispace0,
+    combinator::all_consuming, multi::many1,
+    sequence::terminated, IResult, Parser,
 };
 use nom_locate::LocatedSpan;
 use tracing::info;
@@ -144,41 +141,49 @@ pub fn process(
     let north = *start_position + IVec2::new(0, -1);
     let north_position = grid
         .get(&north)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Vertical
-            | PipeType::SouthWest
-            | PipeType::SouthEast => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Vertical
+                    | PipeType::SouthWest
+                    | PipeType::SouthEast
+            )
         })
         .then_some((Direction::South, north));
     let south = *start_position + IVec2::new(0, 1);
     let south_position = grid
         .get(&south)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Vertical
-            | PipeType::NorthWest
-            | PipeType::NorthEast => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Vertical
+                    | PipeType::NorthWest
+                    | PipeType::NorthEast
+            )
         })
         .then_some((Direction::North, south));
     let east = *start_position + IVec2::new(1, 0);
     let east_position = grid
         .get(&east)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Horizontal
-            | PipeType::NorthWest
-            | PipeType::SouthWest => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Horizontal
+                    | PipeType::NorthWest
+                    | PipeType::SouthWest
+            )
         })
         .then_some((Direction::West, east));
     let west = *start_position + IVec2::new(-1, 0);
     let west_position = grid
         .get(&west)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Horizontal
-            | PipeType::NorthEast
-            | PipeType::SouthEast => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Horizontal
+                    | PipeType::NorthEast
+                    | PipeType::SouthEast
+            )
         })
         .then_some((Direction::East, west));
 

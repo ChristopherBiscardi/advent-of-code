@@ -1,6 +1,5 @@
 use crate::custom_error::AocError;
 use glam::IVec2;
-use itertools::Itertools;
 use nom::{
     character::complete::{line_ending, one_of},
     multi::{many1, separated_list1},

@@ -2,7 +2,6 @@ use std::{collections::HashMap, fmt::Display};
 
 use glam::IVec2;
 
-
 use crate::custom_error::AocError;
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -106,7 +105,7 @@ pub fn process(
                         &boundaries,
                         &static_rocks,
                     );
-                    
+
                     rock_shift_east(
                         &next_state,
                         &boundaries,
@@ -134,7 +133,6 @@ pub fn process(
         })
         .expect("should be a loop");
 
-    // dbg!(cycle_start_index);
     let map_scores: Vec<i32> = iteration_maps
         .iter()
         .map(|v| cache.get(v).unwrap())
@@ -169,6 +167,7 @@ pub fn process(
     )
 }
 
+#[allow(dead_code)]
 fn print_grid(
     map: &HashMap<IVec2, Rock>,
     boundaries: &IVec2,
@@ -209,9 +208,8 @@ fn rock_shift_north(
     static_rocks: &HashMap<IVec2, Rock>,
 ) -> HashMap<IVec2, Rock> {
     let mut results = static_rocks.clone();
-    // dbg!(results);
-    let mut next_potentially_available_position =
-        IVec2::new(0, 0);
+
+    let mut next_potentially_available_position: IVec2;
     for x in 0..boundaries.x {
         next_potentially_available_position =
             IVec2::new(x, 0);
@@ -242,9 +240,8 @@ fn rock_shift_west(
     static_rocks: &HashMap<IVec2, Rock>,
 ) -> HashMap<IVec2, Rock> {
     let mut results = static_rocks.clone();
-    // dbg!(results);
-    let mut next_potentially_available_position =
-        IVec2::new(0, 0);
+
+    let mut next_potentially_available_position: IVec2;
     for y in 0..boundaries.y {
         next_potentially_available_position =
             IVec2::new(0, y);
@@ -276,8 +273,7 @@ fn rock_shift_south(
 ) -> HashMap<IVec2, Rock> {
     let mut results = static_rocks.clone();
     // dbg!(results);
-    let mut next_potentially_available_position =
-        IVec2::new(0, boundaries.y - 1);
+    let mut next_potentially_available_position: IVec2;
     for x in 0..boundaries.x {
         next_potentially_available_position =
             IVec2::new(x, boundaries.y - 1);
@@ -308,9 +304,8 @@ fn rock_shift_east(
     static_rocks: &HashMap<IVec2, Rock>,
 ) -> HashMap<IVec2, Rock> {
     let mut results = static_rocks.clone();
-    // dbg!(results);
-    let mut next_potentially_available_position =
-        IVec2::new(boundaries.x - 1, 0);
+
+    let mut next_potentially_available_position: IVec2;
     for y in 0..boundaries.y {
         next_potentially_available_position =
             IVec2::new(boundaries.x - 1, y);

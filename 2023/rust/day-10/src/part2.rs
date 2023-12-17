@@ -117,11 +117,11 @@ fn parse_grid(
         input,
         output
             .into_iter()
-            .filter_map(|pipe_info| {
-                Some((
+            .map(|pipe_info| {
+                (
                     pipe_info.span.extra,
                     pipe_info.pipe_type,
-                ))
+                )
             })
             .collect(),
     ))
@@ -170,21 +170,25 @@ pub fn process(
     let east = *start_position + IVec2::new(1, 0);
     let east_position = grid
         .get(&east)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Horizontal
-            | PipeType::NorthWest
-            | PipeType::SouthWest => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Horizontal
+                    | PipeType::NorthWest
+                    | PipeType::SouthWest
+            )
         })
         .then_some((Direction::West, east));
     let west = *start_position + IVec2::new(-1, 0);
     let west_position = grid
         .get(&west)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Horizontal
-            | PipeType::NorthEast
-            | PipeType::SouthEast => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Horizontal
+                    | PipeType::NorthEast
+                    | PipeType::SouthEast
+            )
         })
         .then_some((Direction::East, west));
 
