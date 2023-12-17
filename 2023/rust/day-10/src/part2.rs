@@ -2,13 +2,10 @@ use std::collections::{HashMap, HashSet};
 
 use glam::IVec2;
 use nom::{
-    branch::alt,
-    bytes::complete::tag,
-    character::complete::{multispace0},
-    combinator::all_consuming,
-    multi::many1,
-    sequence::terminated,
-    IResult, Parser,
+    branch::alt, bytes::complete::tag,
+    character::complete::multispace0,
+    combinator::all_consuming, multi::many1,
+    sequence::terminated, IResult, Parser,
 };
 use nom_locate::LocatedSpan;
 use tracing::info;
@@ -149,21 +146,25 @@ pub fn process(
     let north = *start_position + IVec2::new(0, -1);
     let north_position = grid
         .get(&north)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Vertical
-            | PipeType::SouthWest
-            | PipeType::SouthEast => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Vertical
+                    | PipeType::SouthWest
+                    | PipeType::SouthEast
+            )
         })
         .then_some((Direction::South, north));
     let south = *start_position + IVec2::new(0, 1);
     let south_position = grid
         .get(&south)
-        .is_some_and(|pipe_type| match pipe_type {
-            PipeType::Vertical
-            | PipeType::NorthWest
-            | PipeType::NorthEast => true,
-            _ => false,
+        .is_some_and(|pipe_type| {
+            matches!(
+                pipe_type,
+                PipeType::Vertical
+                    | PipeType::NorthWest
+                    | PipeType::NorthEast
+            )
         })
         .then_some((Direction::North, south));
     let east = *start_position + IVec2::new(1, 0);
@@ -234,8 +235,7 @@ pub fn process(
     let zip_it = path_a.zip(path_b);
     let mut pipe_locations: HashSet<IVec2> =
         HashSet::from([*start_position]);
-    for (path_a_node, path_b_node) in zip_it
-    {
+    for (path_a_node, path_b_node) in zip_it {
         pipe_locations.insert(path_a_node.1);
         pipe_locations.insert(path_b_node.1);
 

@@ -152,13 +152,11 @@ pub fn process(
                     }
                     March::Split(d1, d2) => {
                         // dbg!("split");
-                        if all_movement
-                            .iter()
-                            .find(|item| {
-                                item == &&(d1, new_position)
-                            })
-                            .is_none()
-                        {
+                        if !all_movement.iter().any(
+                            |item| {
+                                item == &(d1, new_position)
+                            },
+                        ) {
                             next_beams
                                 .push((d1, new_position));
                             energized_cells
@@ -166,13 +164,11 @@ pub fn process(
                             all_movement
                                 .push((d1, new_position));
                         }
-                        if all_movement
-                            .iter()
-                            .find(|item| {
-                                item == &&(d2, new_position)
-                            })
-                            .is_none()
-                        {
+                        if !all_movement.iter().any(
+                            |item| {
+                                item == &(d2, new_position)
+                            },
+                        ) {
                             next_beams
                                 .push((d2, new_position));
                             energized_cells
@@ -185,13 +181,11 @@ pub fn process(
                     }
                     March::Dir(d) => {
                         // dbg!(&d, new_position);
-                        if all_movement
-                            .iter()
-                            .find(|item| {
-                                item == &&(d, new_position)
-                            })
-                            .is_none()
-                        {
+                        if !all_movement.iter().any(
+                            |item| {
+                                item == &(d, new_position)
+                            },
+                        ) {
                             next_beams
                                 .push((d, new_position));
                             energized_cells
@@ -278,6 +272,7 @@ fn march(
     }
 }
 
+#[allow(dead_code)]
 fn print_grid(map: &HashSet<IVec2>, boundaries: &IVec2) {
     for y in 0..boundaries.y {
         for x in 0..boundaries.x {

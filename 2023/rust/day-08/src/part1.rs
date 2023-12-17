@@ -20,6 +20,7 @@ enum Direction {
     Right,
 }
 
+#[allow(clippy::type_complexity)]
 fn parser(
     input: &str,
 ) -> IResult<
