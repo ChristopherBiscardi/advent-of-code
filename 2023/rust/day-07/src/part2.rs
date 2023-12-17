@@ -86,7 +86,7 @@ pub fn process(
     let hands = input
         .lines()
         .map(|line| {
-            let (hand, bid) = line.split_once(" ").unwrap();
+            let (hand, bid) = line.split_once(' ').unwrap();
             (
                 hand,
                 bid.parse::<u32>().unwrap(),

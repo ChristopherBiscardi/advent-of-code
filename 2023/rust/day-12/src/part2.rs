@@ -97,11 +97,11 @@ impl Puzzle {
         &self.batches[..] == &counts[..]
     }
     fn possible_solution_count(&self) -> usize {
-        let count = self
+        
+        self
             .generate_permutations()
             .filter(|option| self.check_option(option))
-            .count();
-        count
+            .count()
     }
 }
 #[tracing::instrument(skip(input))]

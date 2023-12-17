@@ -61,18 +61,18 @@ pub fn detect_vertical_fold(input: &str) -> Option<Fold> {
         })
         .find_map(|((index_a, _), (index_b, _))| {
             let lines_a =
-                (&columns[0..=index_a]).iter().rev();
-            let lines_b = (&columns[index_b..]).iter();
+                columns[0..=index_a].iter().rev();
+            let lines_b = columns[index_b..].iter();
 
             lines_a
                 .zip(lines_b)
-                .inspect(|v| {
+                .inspect(|_v| {
                     // dbg!(v);
                 })
                 .all(|(a, b)| a == b)
                 .then_some(index_a + 1)
         });
-    result.map(|num| Fold::Vertical(num))
+    result.map(Fold::Vertical)
 }
 pub fn detect_horizontal_fold(input: &str) -> Option<Fold> {
     let lines: Vec<&str> = input.lines().collect();
@@ -85,18 +85,18 @@ pub fn detect_horizontal_fold(input: &str) -> Option<Fold> {
         })
         .find_map(|((index_a, _), (index_b, _))| {
             let lines_a =
-                (&lines[0..=index_a]).iter().rev();
-            let lines_b = (&lines[index_b..]).iter();
+                lines[0..=index_a].iter().rev();
+            let lines_b = lines[index_b..].iter();
 
             lines_a
                 .zip(lines_b)
-                .inspect(|v| {
+                .inspect(|_v| {
                     // dbg!(v);
                 })
                 .all(|(a, b)| a == b)
                 .then_some(index_a + 1)
         });
-    result.map(|num| Fold::Horizontal(num))
+    result.map(Fold::Horizontal)
 }
 
 #[cfg(test)]

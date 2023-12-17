@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use itertools::Itertools;
+
 use nom::{
     bytes::complete::is_a,
     character::complete::{self, alpha1},
@@ -139,11 +139,11 @@ pub fn process(
             },
         ).into_iter().enumerate().map(
              |(position, lens)| {
-                let result = (*id as usize + 1)
-                    * (position + 1)
-                    * (lens.focal_length as usize);
+                
 
-                result
+                (*id as usize + 1)
+                    * (position + 1)
+                    * (lens.focal_length as usize)
             },
         ).sum::<usize>()
         })

@@ -26,7 +26,7 @@ pub fn process(
                             &mut [ref mut left, right],
                         ) = it.next()
                         {
-                            *left = *left - right;
+                            *left -= right;
                         }
 
                         nums.pop()

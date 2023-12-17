@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fmt::Display};
 
 use glam::IVec2;
-use itertools::Itertools;
+
 
 use crate::custom_error::AocError;
 
@@ -98,7 +98,7 @@ fn print_grid(
                 None => print!("."),
             }
         }
-        println!("");
+        println!();
     }
 }
 fn rock_shift_north(

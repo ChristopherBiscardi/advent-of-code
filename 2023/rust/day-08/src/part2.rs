@@ -73,7 +73,7 @@ pub fn process(
 
     let starting_nodes: Vec<&str> = map
         .keys()
-        .filter(|key| key.ends_with("A"))
+        .filter(|key| key.ends_with('A'))
         .cloned()
         .collect();
 
@@ -98,7 +98,7 @@ pub fn process(
                         Direction::Left => options.0,
                         Direction::Right => options.1,
                     };
-                    if next_node.ends_with("Z") {
+                    if next_node.ends_with('Z') {
                         Some(index + 1)
                     } else {
                         visited_nodes.push(next_node);

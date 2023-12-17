@@ -211,7 +211,7 @@ fn print_grid(map: &HashSet<IVec2>, boundaries: &IVec2) {
                 None => print!("."),
             }
         }
-        println!("");
+        println!();
     }
 }
 
@@ -230,7 +230,7 @@ fn bootstrap(
         vec![(starting_direction, starting_position)];
 
     loop {
-        if active_beams.len() == 0 {
+        if active_beams.is_empty() {
             break;
         }
         let mut next_beams: Vec<(Direction, IVec2)> =

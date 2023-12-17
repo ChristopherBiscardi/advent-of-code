@@ -37,7 +37,7 @@ pub fn process(
 
             let result = end_numbers
                 .iter()
-                .fold(0, |acc, num| acc + num);
+                .sum::<i64>();
 
             result
         })

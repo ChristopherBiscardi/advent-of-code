@@ -1,4 +1,4 @@
-use itertools::Itertools;
+
 use nom::{
     bytes::complete::is_a,
     character::complete::{self, alpha1},
@@ -84,7 +84,7 @@ pub fn process(
     let (_, ins) =
         instructions(input).expect("should parse");
     let boxes: Vec<Vec<Lens>> =
-        (0..256).into_iter().map(|_| vec![]).collect();
+        (0..256).map(|_| vec![]).collect();
     let filled_boxes = ins.iter().fold(
         boxes,
         |mut boxes, next_instruction| {
@@ -135,11 +135,11 @@ pub fn process(
         .flat_map(|(box_position, r#box)| {
             r#box.into_iter().enumerate().map(
                 move |(position, lens)| {
-                    let result = (box_position + 1)
-                        * (position + 1)
-                        * (lens.focal_length as usize);
+                    
 
-                    result
+                    (box_position + 1)
+                        * (position + 1)
+                        * (lens.focal_length as usize)
                 },
             )
         })

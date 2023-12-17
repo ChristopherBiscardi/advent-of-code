@@ -119,7 +119,7 @@ pub fn process(
         .enumerate()
         .map(|(line_number, line)| {
             let (hand, bid) = line
-                .split_once(" ")
+                .split_once(' ')
                 .ok_or_else(|| AocError::SplitError {
                     src: NamedSource::new(
                         "input1.txt",

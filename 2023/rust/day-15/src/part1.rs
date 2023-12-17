@@ -5,7 +5,7 @@ pub fn process(
     input: &str,
 ) -> miette::Result<String, AocError> {
     let num = input
-        .split(",")
+        .split(',')
         .map(|hash| {
             hash.chars().fold(0, |acc, next_char| {
                 (acc + (next_char as usize)) * 17 % 256

@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fmt::Display};
 
 use glam::IVec2;
-use itertools::Itertools;
+
 
 use crate::custom_error::AocError;
 
@@ -76,12 +76,12 @@ pub fn process(
 
     // |old_map, iteration| {
     let mut old_map = rock_map;
-    for iteration in (0..cycles).into_iter() {
+    for _iteration in 0..cycles {
         // println!("v-iter-{iteration}-v");
         let next_state = match cache
             .get(&grid_to_string(&old_map, &boundaries))
         {
-            Some(cached_next_state) => {
+            Some(_cached_next_state) => {
                 // dbg!("cache hit at", iteration);
                 break;
                 // panic!("here");
@@ -106,12 +106,12 @@ pub fn process(
                         &boundaries,
                         &static_rocks,
                     );
-                    let next_state = rock_shift_east(
+                    
+                    rock_shift_east(
                         &next_state,
                         &boundaries,
                         &static_rocks,
-                    );
-                    next_state
+                    )
                 };
                 let s =
                     grid_to_string(&old_map, &boundaries);
@@ -182,7 +182,7 @@ fn print_grid(
                 None => print!("."),
             }
         }
-        println!("");
+        println!();
     }
 }
 
@@ -191,9 +191,8 @@ fn grid_to_string(
     boundaries: &IVec2,
 ) -> String {
     (0..boundaries.y)
-        .into_iter()
         .flat_map(|y| {
-            (0..boundaries.x).into_iter().map(move |x| {
+            (0..boundaries.x).map(move |x| {
                 match map.get(&IVec2::new(x, y)) {
                     Some(Rock::Immovable) => "#",
                     Some(Rock::Movable) => "O",
