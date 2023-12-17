@@ -94,7 +94,7 @@ impl Puzzle {
             })
             .collect::<Vec<u32>>();
         info!(?counts);
-        self.batches[..] == counts[..]
+        self.batches == counts
     }
     fn possible_solution_count(&self) -> usize {
         self.generate_permutations()
