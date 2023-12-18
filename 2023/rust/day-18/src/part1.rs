@@ -1,4 +1,9 @@
-use std::{ops::{RangeInclusive}, fmt::Write as _, fs::File, io::Write as _};
+use std::{
+    ops::RangeInclusive,
+    fs::File,
+    fmt::Write as _,
+    io::Write as _
+};
 
 use glam::IVec2;
 use itertools::{Itertools, MinMaxResult};
@@ -20,6 +25,7 @@ use crate::custom_error::AocError;
 struct DigInstruction<'a> {
     direction: IVec2,
     count: i32,
+    #[allow(dead_code)]
     color: &'a str,
 }
 

@@ -1,12 +1,10 @@
 use std::{
-    fmt::Write as _,
-    fs::File,
-    io::Write as _,
-    ops::{RangeInclusive},
+    fmt::Write as _, fs::File, io::Write as _,
+    ops::RangeInclusive,
 };
 
 use glam::I64Vec2;
-use itertools::{Itertools};
+use itertools::Itertools;
 use nom::{
     branch::alt,
     bytes::complete::tag,
@@ -18,13 +16,13 @@ use nom::{
     IResult, Parser,
 };
 
-
 use crate::custom_error::AocError;
 
 #[derive(Debug)]
 struct DigInstruction<'a> {
     direction: I64Vec2,
     count: i64,
+    #[allow(dead_code)]
     color: &'a str,
 }
 
