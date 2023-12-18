@@ -178,3 +178,12 @@ day_15_bench      fastest       │ slowest       │ median        │ mean    
 ├─ part1_nosplit  21.79 µs      │ 28.09 µs      │ 21.79 µs      │ 22.18 µs      │ 100     │ 100
 ├─ part2          227.9 µs      │ 390.4 µs      │ 274.8 µs      │ 282 µs        │ 100     │ 100
 ╰─ part2_grouped  444.3 µs      │ 964.3 µs      │ 514 µs        │ 541.8 µs      │ 100     │ 100
+
+day_16_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      5.699 µs      │ 31.89 µs      │ 5.999 µs      │ 6.839 µs      │ 100     │ 100
+╰─ part2      1.379 ms      │ 1.77 ms       │ 1.41 ms       │ 1.439 ms      │ 100     │ 100
+
+day_18_bench       fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1           64.81 ms      │ 76.2 ms       │ 65.72 ms      │ 66.09 ms      │ 100     │ 100
+├─ part1_vertices  44.39 µs      │ 88.89 µs      │ 47.04 µs      │ 49.24 µs      │ 100     │ 100
+╰─ part2           17.79 µs      │ 70.19 µs      │ 22.79 µs      │ 25.85 µs      │ 100     │ 100
