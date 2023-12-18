@@ -11,6 +11,14 @@ fn criterion_benchmark_part1(c: &mut Criterion) {
         b.iter(|| part1::process(input))
     });
 
+    group.bench_with_input(
+        "part1_vertices",
+        input,
+        |b, input| {
+            b.iter(|| part1_vertices::process(input))
+        },
+    );
+
     group.finish();
 }
 

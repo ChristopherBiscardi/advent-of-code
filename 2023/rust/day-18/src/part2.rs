@@ -73,7 +73,7 @@ pub fn process(
 ) -> miette::Result<String, AocError> {
     let (_, digs) =
         instructions(input).expect("should parse");
-    dbg!(&digs);
+    // dbg!(&digs);
     let vertices = digs
         .iter()
         .scan(I64Vec2::new(0, 0), |state, next| {
