@@ -12,7 +12,7 @@ use nom::{
     sequence::terminated,
     IResult,
 };
-use tracing::{info, span, Level};
+
 
 use crate::custom_error::AocError;
 
@@ -92,7 +92,7 @@ pub fn process(
         .sum::<i64>()
         + {
             let one = vertices.iter().last().unwrap();
-            let two = vertices.iter().next().unwrap();
+            let two = vertices.first().unwrap();
             let distance = (*two - *one).abs();
             distance.x + distance.y
         };

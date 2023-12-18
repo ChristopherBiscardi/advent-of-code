@@ -1,4 +1,4 @@
-use std::{ops::{Range, RangeInclusive}, fmt::Write as _, fs::File, io::Write as _};
+use std::{ops::{RangeInclusive}, fmt::Write as _, fs::File, io::Write as _};
 
 use glam::IVec2;
 use itertools::{Itertools, MinMaxResult};

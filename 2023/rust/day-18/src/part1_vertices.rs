@@ -2,11 +2,11 @@ use std::{
     fmt::Write as _,
     fs::File,
     io::Write as _,
-    ops::{Range, RangeInclusive},
+    ops::{RangeInclusive},
 };
 
 use glam::I64Vec2;
-use itertools::{Itertools, MinMaxResult};
+use itertools::{Itertools};
 use nom::{
     branch::alt,
     bytes::complete::tag,
@@ -17,7 +17,7 @@ use nom::{
     sequence::delimited,
     IResult, Parser,
 };
-use tracing::{info, span, Level};
+
 
 use crate::custom_error::AocError;
 
@@ -90,7 +90,7 @@ pub fn process(
         .sum::<i64>()
         + {
             let one = vertices.iter().last().unwrap();
-            let two = vertices.iter().next().unwrap();
+            let two = vertices.first().unwrap();
             let distance = (*two - *one).abs();
             distance.x + distance.y
         };
