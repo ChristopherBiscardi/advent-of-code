@@ -14,8 +14,24 @@ fn part1() {
 }
 
 #[divan::bench]
+fn part1_parser() {
+    part1::parse(divan::black_box(include_str!(
+        "../input1.txt",
+    )))
+    .unwrap();
+}
+
+#[divan::bench]
 fn part2() {
     part2::process(divan::black_box(include_str!(
+        "../input2.txt",
+    )))
+    .unwrap();
+}
+
+#[divan::bench]
+fn part2_parser() {
+    part2::parse(divan::black_box(include_str!(
         "../input2.txt",
     )))
     .unwrap();

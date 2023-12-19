@@ -160,13 +160,13 @@ impl<'a> Rule<'a> {
 }
 
 #[derive(Debug, Eq, PartialEq)]
-struct Workflow<'a> {
+pub struct Workflow<'a> {
     id: &'a str,
     rules: Vec<Rule<'a>>,
 }
 
 #[derive(Debug, Clone)]
-struct Part {
+pub struct Part {
     x: RangeInclusive<u64>,
     m: RangeInclusive<u64>,
     a: RangeInclusive<u64>,
@@ -262,7 +262,7 @@ fn workflows(
     ))
 }
 
-fn parse(
+pub fn parse(
     input: &str,
 ) -> IResult<&str, HashMap<&str, Workflow>> {
     let (input, workflows) = workflows(input)?;

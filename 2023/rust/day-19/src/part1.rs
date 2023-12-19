@@ -74,13 +74,13 @@ impl<'a> Rule<'a> {
 }
 
 #[derive(Debug, Eq, PartialEq)]
-struct Workflow<'a> {
+pub struct Workflow<'a> {
     id: &'a str,
     rules: Vec<Rule<'a>>,
 }
 
 #[derive(Debug, Default)]
-struct Part {
+pub struct Part {
     x: u32,
     m: u32,
     a: u32,
@@ -184,7 +184,7 @@ fn parts(input: &str) -> IResult<&str, Vec<Part>> {
     separated_list1(line_ending, part)(input)
 }
 
-fn parse(
+pub fn parse(
     input: &str,
 ) -> IResult<&str, (Vec<Part>, HashMap<&str, Workflow>)> {
     let (input, workflows) = workflows(input)?;
