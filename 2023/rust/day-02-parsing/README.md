@@ -11,3 +11,17 @@ day_02_parsing_bench        fastest       │ slowest       │ median        �
 ├─ small_nom_supreme_intro  1.301 µs      │ 1.478 µs      │ 1.322 µs      │ 1.335 µs      │ 100     │ 400
 ╰─ small_winnow_intro       864.1 ns      │ 984 ns        │ 879.8 ns      │ 886.4 ns      │ 100     │ 800
 ```
+
+The winnow 0.4 upgrade, continuing from above.
+
+```
+day_02_parsing_bench        fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ big_nom_intro            31.16 µs      │ 72.58 µs      │ 33.29 µs      │ 33.24 µs      │ 100     │ 100
+├─ big_nom_intro_bytes      22.45 µs      │ 31.91 µs      │ 23.2 µs       │ 23.58 µs      │ 100     │ 100
+├─ big_nom_supreme_intro    41.29 µs      │ 49.58 µs      │ 41.87 µs      │ 42.78 µs      │ 100     │ 100
+├─ big_winnow_intro         32.7 µs       │ 43.04 µs      │ 32.95 µs      │ 33.54 µs      │ 100     │ 100
+├─ small_nom_intro          864.1 ns      │ 1.051 µs      │ 916.1 ns      │ 921.4 ns      │ 100     │ 400
+├─ small_nom_intro_bytes    650.6 ns      │ 744.5 ns      │ 676.8 ns      │ 681.1 ns      │ 100     │ 800
+├─ small_nom_supreme_intro  1.082 µs      │ 1.28 µs       │ 1.114 µs      │ 1.124 µs      │ 100     │ 400
+╰─ small_winnow_intro       853.8 ns      │ 958 ns        │ 890.3 ns      │ 894.4 ns      │ 100     │ 800
+```

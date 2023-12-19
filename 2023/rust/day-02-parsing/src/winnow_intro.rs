@@ -2,11 +2,11 @@
 // a the winnow migration guide
 // port to 0.3, upgrade to 0.4, then 0.5
 use winnow::{
+    ascii::{dec_uint, digit1, line_ending, space1},
     branch::alt,
     bytes::tag,
-    character::{dec_uint, digit1, line_ending, space1},
-    combinator::opt,
-    multi::{fold_many1, separated1},
+    combinator::{fold_repeat, opt},
+    multi::separated1,
     sequence::{delimited, separated_pair, terminated},
     IResult, Parser,
 };
@@ -18,13 +18,16 @@ fn parse_color(input: &str) -> IResult<&str, Color> {
         tag("red").map(|_| Color::Red),
         tag("green").map(|_| Color::Green),
         tag("blue").map(|_| Color::Blue),
-    ))(input)
+    ))
+    .parse_next(input)
 }
 fn cube(input: &str) -> IResult<&str, (u32, Color)> {
-    separated_pair(dec_uint, space1, parse_color)(input)
+    separated_pair(dec_uint, space1, parse_color)
+        .parse_next(input)
 }
 fn round(input: &str) -> IResult<&str, Round> {
-    fold_many1(
+    fold_repeat(
+        0..,
         terminated(cube, opt(tag(", "))),
         Round::default,
         |mut round, (count, color)| {
@@ -41,18 +44,20 @@ fn round(input: &str) -> IResult<&str, Round> {
             }
             round
         },
-    )(input)
+    )
+    .parse_next(input)
 }
 pub fn game(input: &str) -> IResult<&str, Game> {
     let (input, id) =
-        delimited(tag("Game "), digit1, tag(": "))(input)?;
+        delimited(tag("Game "), digit1, tag(": "))
+            .parse_next(input)?;
     let (input, rounds) =
-        separated1(round, tag("; "))(input)?;
+        separated1(round, tag("; ")).parse_next(input)?;
     Ok((input, Game { id, rounds }))
 }
 
 pub fn parse(input: &str) -> IResult<&str, Vec<Game>> {
-    separated1(game, line_ending)(input)
+    separated1(game, line_ending).parse_next(input)
 }
 
 #[cfg(test)]
