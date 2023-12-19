@@ -1,7 +1,7 @@
 use std::{
     cmp::Ordering,
     collections::HashMap,
-    ops::{Range, RangeInclusive},
+    ops::{RangeInclusive},
 };
 
 use nom::{
@@ -284,14 +284,14 @@ fn process_part(
                 match rule.apply_to(&current_part) {
                     Apply::Split { pass, fails } => {
                         sum += process_part(
-                            pass.0, &workflows, pass.1,
+                            pass.0, workflows, pass.1,
                         );
                         current_part = fails;
                     }
                     Apply::PassedTest(target) => {
                         sum += process_part(
                             current_part.clone(),
-                            &workflows,
+                            workflows,
                             target,
                         );
                         break;

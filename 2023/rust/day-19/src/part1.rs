@@ -4,7 +4,7 @@ use nom::{
     branch::alt,
     bytes::complete::tag,
     character::complete::{
-        self, alpha1, digit1, line_ending, multispace1,
+        self, alpha1, line_ending, multispace1,
     },
     combinator::opt,
     multi::{fold_many1, separated_list1},
@@ -196,7 +196,7 @@ fn parse(
 pub fn process(
     input: &str,
 ) -> miette::Result<String, AocError> {
-    let (input, (parts, workflows)) =
+    let (_input, (parts, workflows)) =
         parse(input).expect("should parse");
 
     let result = parts
@@ -211,7 +211,7 @@ pub fn process(
                 'rule_loop: for rule in
                     active_workflow.rules.iter()
                 {
-                    match rule.apply_to(&part) {
+                    match rule.apply_to(part) {
                         Some(Target::Accepted) => {
                             // break out of loop loop
                             break 'workflow_loop Target::Accepted;
