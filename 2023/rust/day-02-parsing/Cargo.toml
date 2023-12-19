@@ -1,0 +1,23 @@
+[package]
+name = "day-02-parsing"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+nom.workspace = true
+rstest.workspace = true
+nom-supreme.workspace = true
+winnow = "0.3"
+
+[dev-dependencies]
+divan.workspace = true
+
+[[bench]]
+name = "day-02-parsing-bench"
+path = "benches/benchmarks.rs"
+harness = false
+
+[features]
+dhat-heap = []

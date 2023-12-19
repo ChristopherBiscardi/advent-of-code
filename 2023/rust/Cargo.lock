@@ -698,6 +698,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "day-02-parsing"
+version = "0.1.0"
+dependencies = [
+ "divan",
+ "nom",
+ "nom-supreme",
+ "rstest",
+ "winnow",
+]
+
+[[package]]
 name = "day-03"
 version = "0.1.0"
 dependencies = [
@@ -3869,6 +3880,15 @@ name = "windows_x86_64_msvc"
 version = "0.52.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dff9641d1cd4be8d1a070daf9e3773c5f67e78b4d9d42263020c057706765c04"
+
+[[package]]
+name = "winnow"
+version = "0.3.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "da01e24d23aeb852fb05609f2701ce4da9f73d58857239ed3853667cf178f204"
+dependencies = [
+ "memchr",
+]
 
 [[package]]
 name = "winreg"

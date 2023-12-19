@@ -1,0 +1,79 @@
+// the nom_intro parser with the input type switched out for
+// &[u8]
+use nom::{
+    branch::alt,
+    bytes::complete::tag,
+    character::complete::{
+        self, digit1, line_ending, space1,
+    },
+    combinator::opt,
+    multi::{fold_many1, separated_list1},
+    sequence::{delimited, separated_pair, terminated},
+    IResult, Parser,
+};
+
+use crate::game::*;
+
+fn parse_color(input: &[u8]) -> IResult<&[u8], Color> {
+    alt((
+        tag("red").map(|_| Color::Red),
+        tag("green").map(|_| Color::Green),
+        tag("blue").map(|_| Color::Blue),
+    ))(input)
+}
+fn cube(input: &[u8]) -> IResult<&[u8], (u32, Color)> {
+    separated_pair(complete::u32, space1, parse_color)(
+        input,
+    )
+}
+fn round(input: &[u8]) -> IResult<&[u8], Round> {
+    fold_many1(
+        terminated(cube, opt(tag(", "))),
+        Round::default,
+        |mut round, (count, color)| {
+            match color {
+                Color::Red => {
+                    round.red = count;
+                }
+                Color::Green => {
+                    round.green = count;
+                }
+                Color::Blue => {
+                    round.blue = count;
+                }
+            }
+            round
+        },
+    )(input)
+}
+pub fn game(input: &[u8]) -> IResult<&[u8], Game> {
+    let (input, id) =
+        delimited(tag("Game "), digit1, tag(": "))(input)?;
+    let (input, rounds) =
+        separated_list1(tag("; "), round)(input)?;
+    Ok((
+        input,
+        Game {
+            id: std::str::from_utf8(id).unwrap(),
+            rounds,
+        },
+    ))
+}
+
+pub fn parse(input: &[u8]) -> IResult<&[u8], Vec<Game>> {
+    separated_list1(line_ending, game)(input)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::tests::game_output;
+
+    #[test]
+    fn test_parse() {
+        let (input, game) =
+            parse(&game_output::INPUT.as_bytes()).unwrap();
+        assert_eq!(input, []);
+        assert_eq!(game_output::output(), &game);
+    }
+}
