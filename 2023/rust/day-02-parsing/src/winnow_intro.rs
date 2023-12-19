@@ -3,12 +3,10 @@
 // port to 0.3, upgrade to 0.4, then 0.5
 use winnow::{
     branch::alt,
-    bytes::complete::tag,
-    character::complete::{
-        self, digit1, line_ending, space1,
-    },
+    bytes::tag,
+    character::{dec_uint, digit1, line_ending, space1},
     combinator::opt,
-    multi::{fold_many1, separated_list1},
+    multi::{fold_many1, separated1},
     sequence::{delimited, separated_pair, terminated},
     IResult, Parser,
 };
@@ -23,9 +21,7 @@ fn parse_color(input: &str) -> IResult<&str, Color> {
     ))(input)
 }
 fn cube(input: &str) -> IResult<&str, (u32, Color)> {
-    separated_pair(complete::u32, space1, parse_color)(
-        input,
-    )
+    separated_pair(dec_uint, space1, parse_color)(input)
 }
 fn round(input: &str) -> IResult<&str, Round> {
     fold_many1(
@@ -51,12 +47,12 @@ pub fn game(input: &str) -> IResult<&str, Game> {
     let (input, id) =
         delimited(tag("Game "), digit1, tag(": "))(input)?;
     let (input, rounds) =
-        separated_list1(tag("; "), round)(input)?;
+        separated1(round, tag("; "))(input)?;
     Ok((input, Game { id, rounds }))
 }
 
 pub fn parse(input: &str) -> IResult<&str, Vec<Game>> {
-    separated_list1(line_ending, game)(input)
+    separated1(game, line_ending)(input)
 }
 
 #[cfg(test)]
