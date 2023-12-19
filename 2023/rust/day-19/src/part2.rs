@@ -1,7 +1,6 @@
 use std::{
-    cmp::Ordering,
-    collections::HashMap,
-    ops::{RangeInclusive},
+    cmp::Ordering, collections::HashMap,
+    ops::RangeInclusive,
 };
 
 use nom::{

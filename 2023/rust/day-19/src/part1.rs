@@ -236,11 +236,10 @@ pub fn process(
                 Target::Workflow(_) => {
                     unreachable!("shouldn't end on a workflow")
                 },
-                Target::Accepted => Some(part),
+                Target::Accepted => Some(part.x + part.m + part.a + part.s),
                 Target::Rejected => None,
             }
         })
-        .map(|part| part.x + part.m + part.a + part.s)
         .sum::<u32>();
     Ok(result.to_string())
 }
