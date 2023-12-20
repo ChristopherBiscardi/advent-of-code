@@ -7,15 +7,17 @@ If you want to learn a parsing crate for easier Advent of Coding or real-world u
 There are benchmarks here, but they aren't meant to be "end-all ultimate benchmarks". They're meant to be light overviews to compare on advent input.
 
 ```
-day_02_parsing_bench        fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ big_nom_intro            29.58 µs      │ 71.04 µs      │ 31.7 µs       │ 31.77 µs      │ 100     │ 100
-├─ big_nom_intro_bytes      22.58 µs      │ 31.99 µs      │ 22.83 µs      │ 23.61 µs      │ 100     │ 100
-├─ big_nom_supreme_intro    48.45 µs      │ 80.79 µs      │ 48.87 µs      │ 50.51 µs      │ 100     │ 100
-├─ big_winnow_intro         31.62 µs      │ 44.16 µs      │ 32.08 µs      │ 32.7 µs       │ 100     │ 100
-├─ small_nom_intro          806.9 ns      │ 1.999 µs      │ 838.1 ns      │ 857.9 ns      │ 100     │ 800
-├─ small_nom_intro_bytes    661 ns        │ 859 ns        │ 687.1 ns      │ 695.7 ns      │ 100     │ 800
-├─ small_nom_supreme_intro  1.385 µs      │ 4.207 µs      │ 1.426 µs      │ 1.458 µs      │ 100     │ 400
-╰─ small_winnow_intro       827.8 ns      │ 890.3 ns      │ 859 ns        │ 855.3 ns      │ 100     │ 800
+day_02_parsing_bench         fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ big_nom_intro             29.54 µs      │ 69.95 µs      │ 29.74 µs      │ 30.78 µs      │ 100     │ 100
+├─ big_nom_intro_bytes       22.12 µs      │ 30.24 µs      │ 22.24 µs      │ 22.7 µs       │ 100     │ 100
+├─ big_nom_supreme_intro     48.37 µs      │ 60.62 µs      │ 48.91 µs      │ 49.74 µs      │ 100     │ 100
+├─ big_winnow_intro          33.12 µs      │ 101.9 µs      │ 34.37 µs      │ 37.11 µs      │ 100     │ 100
+├─ big_winnow_intro_bytes    28.95 µs      │ 104.3 µs      │ 29.58 µs      │ 32.36 µs      │ 100     │ 100
+├─ small_nom_intro           827.8 ns      │ 7.947 µs      │ 890.3 ns      │ 970 ns        │ 100     │ 800
+├─ small_nom_intro_bytes     635.1 ns      │ 692.4 ns      │ 645.4 ns      │ 649 ns        │ 100     │ 800
+├─ small_nom_supreme_intro   1.415 µs      │ 6.207 µs      │ 1.457 µs      │ 1.527 µs      │ 100     │ 100
+├─ small_winnow_intro        890.3 ns      │ 973.5 ns      │ 905.9 ns      │ 915 ns        │ 100     │ 800
+╰─ small_winnow_intro_bytes  760 ns        │ 827.8 ns      │ 775.6 ns      │ 777.8 ns      │ 100     │ 800
 ```
 
 ## nom -> winnow upgrade benchmarks

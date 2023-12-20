@@ -13,7 +13,7 @@ use winnow::{
 
 use crate::game::*;
 
-fn parse_color(input: &mut &str) -> PResult<Color> {
+fn parse_color(input: &mut &[u8]) -> PResult<Color> {
     alt((
         tag("red").map(|_| Color::Red),
         tag("green").map(|_| Color::Green),
@@ -21,11 +21,11 @@ fn parse_color(input: &mut &str) -> PResult<Color> {
     ))
     .parse_next(input)
 }
-fn cube(input: &mut &str) -> PResult<(u32, Color)> {
+fn cube(input: &mut &[u8]) -> PResult<(u32, Color)> {
     separated_pair(dec_uint, space1, parse_color)
         .parse_next(input)
 }
-fn round(input: &mut &str) -> PResult<Round> {
+fn round(input: &mut &[u8]) -> PResult<Round> {
     fold_repeat(
         0..,
         terminated(cube, opt(tag(", "))),
@@ -47,16 +47,19 @@ fn round(input: &mut &str) -> PResult<Round> {
     )
     .parse_next(input)
 }
-pub fn game<'i>(input: &mut &'i str) -> PResult<Game<'i>> {
+pub fn game<'i>(input: &mut &'i [u8]) -> PResult<Game<'i>> {
     let id = delimited(tag("Game "), digit1, tag(": "))
         .parse_next(input)?;
     let rounds = separated(0.., round, tag("; "))
         .parse_next(input)?;
-    Ok(Game { id, rounds })
+    Ok(Game {
+        id: std::str::from_utf8(id).unwrap(),
+        rounds,
+    })
 }
 
 pub fn parse<'i>(
-    input: &mut &'i str,
+    input: &mut &'i [u8],
 ) -> PResult<Vec<Game<'i>>> {
     separated(0.., game, line_ending).parse_next(input)
 }
@@ -68,8 +71,9 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let mut input = game_output::INPUT;
-        let game = parse(&mut input).unwrap();
+        let game =
+            parse(&mut game_output::INPUT.as_bytes())
+                .unwrap();
         assert_eq!(game_output::output(), &game);
     }
 }

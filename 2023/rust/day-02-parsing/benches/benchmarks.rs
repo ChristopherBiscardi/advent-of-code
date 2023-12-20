@@ -61,3 +61,18 @@ fn big_winnow_intro() {
     winnow_intro::parse(divan::black_box(&mut input))
         .unwrap();
 }
+
+#[divan::bench]
+fn small_winnow_intro_bytes() {
+    winnow_intro_bytes::parse(divan::black_box(
+        &mut INPUT[0].as_bytes(),
+    ))
+    .unwrap();
+}
+#[divan::bench]
+fn big_winnow_intro_bytes() {
+    winnow_intro_bytes::parse(divan::black_box(
+        &mut INPUT[1].as_bytes(),
+    ))
+    .unwrap();
+}
