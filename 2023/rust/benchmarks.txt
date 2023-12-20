@@ -101,6 +101,10 @@ day_19_bench     fastest       │ slowest       │ median        │ mean     
 ├─ part2         142.1 µs      │ 195.5 µs      │ 145.1 µs      │ 146.8 µs      │ 100     │ 100
 ╰─ part2_parser  103 µs        │ 127.9 µs      │ 105.7 µs      │ 106.4 µs      │ 100     │ 100
 
+day_20_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      6.562 ms      │ 13.83 ms      │ 7.23 ms       │ 7.764 ms      │ 100     │ 100
+╰─ part2      27.62 ms      │ 35.24 ms      │ 28.94 ms      │ 29.27 ms      │ 100     │ 100
+
 ## Windows 
 
 day_01                 fastest       │ slowest       │ median        │ mean          │ samples │ iters
