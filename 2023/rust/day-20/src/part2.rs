@@ -1,6 +1,5 @@
 use std::{
-    collections::{HashMap, HashSet, VecDeque},
-    ops::Deref,
+    collections::{HashMap, VecDeque},
 };
 
 use nom::{
@@ -83,11 +82,9 @@ impl<'a> Machine<'a> {
                     .get_mut(sending_machine_id.as_str())
                     .unwrap() = *signal;
 
-                let new_signal = memory
+                let new_signal = if memory
                     .values()
-                    .all(|s| s == &Signal::High)
-                    .then_some(Signal::Low)
-                    .unwrap_or(Signal::High);
+                    .all(|s| s == &Signal::High) { Signal::Low } else { Signal::High };
                 self.output
                     .iter()
                     .map(|id| {
@@ -175,7 +172,7 @@ type To = String;
 pub fn process(
     input: &str,
 ) -> miette::Result<String, AocError> {
-    let (input, mut machines) =
+    let (_input, mut machines) =
         parse(input).expect("should parse");
 
     let final_node = "rx";
