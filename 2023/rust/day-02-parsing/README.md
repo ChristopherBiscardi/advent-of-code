@@ -56,7 +56,7 @@ day_02_parsing_bench        fastest       │ slowest       │ median        �
 
 </details>
 
-<details<summary>winnow 0.5</summary>
+<details><summary>winnow 0.5</summary>
 
 ```
 day_02_parsing_bench        fastest       │ slowest       │ median        │ mean          │ samples │ iters
