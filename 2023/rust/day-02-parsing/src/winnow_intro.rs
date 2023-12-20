@@ -3,17 +3,17 @@
 // port to 0.3, upgrade to 0.4, then 0.5
 use winnow::{
     ascii::{dec_uint, digit1, line_ending, space1},
-    branch::alt,
-    bytes::tag,
-    combinator::{fold_repeat, opt},
-    multi::separated1,
-    sequence::{delimited, separated_pair, terminated},
-    IResult, Parser,
+    combinator::{
+        alt, delimited, fold_repeat, opt, separated,
+        separated_pair, terminated,
+    },
+    token::tag,
+    PResult, Parser,
 };
 
 use crate::game::*;
 
-fn parse_color(input: &str) -> IResult<&str, Color> {
+fn parse_color<'i>(input: &mut &'i str) -> PResult<Color> {
     alt((
         tag("red").map(|_| Color::Red),
         tag("green").map(|_| Color::Green),
@@ -21,11 +21,11 @@ fn parse_color(input: &str) -> IResult<&str, Color> {
     ))
     .parse_next(input)
 }
-fn cube(input: &str) -> IResult<&str, (u32, Color)> {
+fn cube<'i>(input: &mut &'i str) -> PResult<(u32, Color)> {
     separated_pair(dec_uint, space1, parse_color)
         .parse_next(input)
 }
-fn round(input: &str) -> IResult<&str, Round> {
+fn round<'i>(input: &mut &'i str) -> PResult<Round> {
     fold_repeat(
         0..,
         terminated(cube, opt(tag(", "))),
@@ -47,17 +47,18 @@ fn round(input: &str) -> IResult<&str, Round> {
     )
     .parse_next(input)
 }
-pub fn game(input: &str) -> IResult<&str, Game> {
-    let (input, id) =
-        delimited(tag("Game "), digit1, tag(": "))
-            .parse_next(input)?;
-    let (input, rounds) =
-        separated1(round, tag("; ")).parse_next(input)?;
-    Ok((input, Game { id, rounds }))
+pub fn game<'i>(input: &mut &'i str) -> PResult<Game<'i>> {
+    let id = delimited(tag("Game "), digit1, tag(": "))
+        .parse_next(input)?;
+    let rounds = separated(0.., round, tag("; "))
+        .parse_next(input)?;
+    Ok(Game { id, rounds })
 }
 
-pub fn parse(input: &str) -> IResult<&str, Vec<Game>> {
-    separated1(game, line_ending).parse_next(input)
+pub fn parse<'i>(
+    input: &mut &'i str,
+) -> PResult<Vec<Game<'i>>> {
+    separated(0.., game, line_ending).parse_next(input)
 }
 
 #[cfg(test)]
@@ -67,9 +68,8 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let (input, game) =
-            parse(&game_output::INPUT).unwrap();
-        assert_eq!(input, "");
+        let mut input = game_output::INPUT;
+        let game = parse(&mut input).unwrap();
         assert_eq!(game_output::output(), &game);
     }
 }

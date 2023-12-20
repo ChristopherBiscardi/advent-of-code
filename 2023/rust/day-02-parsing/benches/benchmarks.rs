@@ -51,11 +51,13 @@ fn big_nom_supreme_intro() {
 
 #[divan::bench]
 fn small_winnow_intro() {
-    winnow_intro::parse(divan::black_box(&INPUT[0]))
+    let mut input = INPUT[0];
+    winnow_intro::parse(divan::black_box(&mut input))
         .unwrap();
 }
 #[divan::bench]
 fn big_winnow_intro() {
-    winnow_intro::parse(divan::black_box(&INPUT[1]))
+    let mut input = INPUT[1];
+    winnow_intro::parse(divan::black_box(&mut input))
         .unwrap();
 }
