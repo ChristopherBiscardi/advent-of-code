@@ -1,0 +1,20 @@
+games = { game_line+ }
+game_line = { game ~ game_sep? }
+game_sep = _{ NEWLINE }
+
+game = { game_const ~ space ~ game_id ~ semi ~ space ~ round+}
+
+game_id = { DECIMAL_NUMBER+ }
+game_const = _{ ASCII_ALPHA+ }
+
+semi = _{ ":" }
+
+space = _{ WHITE_SPACE+ }
+
+cube = { cube_count ~ space ~ cube_color ~ list_sep? }
+cube_count = { DECIMAL_NUMBER+ }
+cube_color = { "red" | "green" | "blue" }
+list_sep = _{ ", " }
+
+round = { cube+ ~ round_sep? }
+round_sep = _{ "; " }

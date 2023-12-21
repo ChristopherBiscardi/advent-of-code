@@ -10,6 +10,8 @@ nom.workspace = true
 rstest.workspace = true
 nom-supreme.workspace = true
 winnow = "0.5"
+pest = "2.7.5"
+pest_derive = "2.7.5"
 
 [dev-dependencies]
 divan.workspace = true
