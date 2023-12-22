@@ -1,6 +1,6 @@
 use std::{collections::HashSet, ops::RangeInclusive};
 
-use glam::IVec2;
+use glam::{IVec2, Mat3, Vec3};
 use itertools::{Itertools, MinMaxResult};
 use nom::{
     branch::alt,
@@ -116,14 +116,52 @@ pub fn process(
     )
     .enumerate()
     .inspect(|(i, set)| {
-        if ((i + 1 - 65) % 131) == 0 {
-            println!("{:03}: {}", i + 1, set.len());
+        if ((i - 65) % 131) == 0 {
+            // this produces the sequence numbers used below
+            println!("{:03}: {}", i, set.len());
         }
-        // dbg!(
-        //     14871 * 202301usize.pow(2)
-        //         + 14735 * 202301
-        //         + 3642
-        // );
+
+        // sequence numbers
+        let seq0: i64 = 3776;
+        let seq1: i64 = 33652;
+        let seq2: i64 = 93270;
+
+        // the n we're looking for (which is not the step count
+        // from the problem description)
+        let n: i64 = 202300;
+
+        // Vandermonde matrix is built from the sequence number input
+        // so x=0, y=1, z=2
+        // x.pow(0), x.pow(1), x.pow(2)
+        // y.pow(0), y.pow(1), y.pow(2)
+        // z.pow(0), z.pow(1), z.pow(2)
+        //
+        // 1, 0, 0
+        // 1, 1, 1
+        // 1, 2, 4
+        let x: f32 = 0.;
+        let y: f32 = 1.;
+        let z: f32 = 2.;
+        let vandermonde = Mat3::from_cols(
+            Vec3::new(x.powf(0.), y.powf(0.), z.powf(0.)),
+            Vec3::new(x.powf(1.), y.powf(1.), z.powf(1.)),
+            Vec3::new(x.powf(2.), y.powf(2.), z.powf(2.)),
+        );
+        // multiplying vandermonde by the sequence numbers
+        // yields our a,b,c values
+        let [c, b, a] = (vandermonde.inverse()
+            * Vec3::new(
+                seq0 as f32,
+                seq1 as f32,
+                seq2 as f32,
+            ))
+        .to_array();
+        let a = a as i64;
+        let b = b as i64;
+        let c = c as i64;
+
+        dbg!(a, b, c);
+        dbg!(a * n.pow(2) + b * n + c);
     })
     // .inspect(|set| {
     //     println!("");

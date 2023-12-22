@@ -1,6 +1,8 @@
 26501365 = 2023(00) _ 131 + 65
 step count = year _ line_length + step_interval
 
+// this is the wrong sequence, but yields the
+// quadratic insight anyway, and gets `a` correct
 064: 3642
 195: 33248
 326: 92596
@@ -49,17 +51,15 @@ half the second
 ❯ 29742 / 2
 14871 is a?
 
+// the correct sequence is this, if you skip 000
+000: 1
+065: 3776
+196: 33652
+327: 93270
+458: 182630
+589: 301732
+
 ---
-
-ax^2 + bx + c
-
-sqrt(b^2 - 4ac) ??? (I think, I haven't math'd in awhile)
-
-a(65^2) + b(65) + c = 3642
-
-4225a + 65b +c = 3642
-
-14871(x^2) + 14735x + 3642
 
 202300
 
