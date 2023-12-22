@@ -1,5 +1,5 @@
 //! A shader and a material that uses it.
-use std::f32::consts::PI;
+use std::{f32::consts::PI, time::Duration};
 
 use bevy::{
     core_pipeline::{
@@ -10,9 +10,14 @@ use bevy::{
     reflect::TypePath,
     render::render_resource::{AsBindGroup, ShaderRef},
     sprite::Anchor,
+    window::WindowMode,
 };
 use bevy_basic_camera::{
     CameraController, CameraControllerPlugin,
+};
+use bevy_tweening::{
+    lens::TransformPositionLens, Animator, EaseFunction,
+    Tween, TweeningPlugin,
 };
 use bevy_xpbd_3d::prelude::*;
 use day_22::parse_full_brick::parse_bricks;
@@ -24,10 +29,17 @@ fn main() {
             Color::hex("1e1e2e").unwrap(),
         ))
         .add_plugins((
-            DefaultPlugins,
+            DefaultPlugins.set(WindowPlugin {
+                primary_window: Some(Window {
+                    mode: WindowMode::BorderlessFullscreen,
+                    ..default()
+                }),
+                ..default()
+            }),
             MaterialPlugin::<CustomMaterial>::default(),
             PhysicsPlugins::default(),
             CameraControllerPlugin,
+            TweeningPlugin,
             // PhysicsDebugPlugin::default(),
         ))
         .add_systems(Startup, setup)
@@ -179,9 +191,9 @@ fn setup(
                 parent.spawn((
                     Restitution::new(0.0),
                     Collider::cuboid(
-                        size.x as f32 - 0.01,
-                        size.y as f32 - 0.01,
-                        size.z as f32 - 0.01,
+                        size.x as f32 - 0.02,
+                        size.y as f32 - 0.02,
+                        size.z as f32 - 0.02,
                     ),
                     Transform::from_xyz(
                         size.x as f32 / 2.0,
@@ -192,14 +204,25 @@ fn setup(
             });
     }
 
-    // let max_y = bricks
-    //     .iter()
-    //     .flat_map(|brick| brick.cubes.iter())
-    //     .max_by_key(|c| c.z)
-    //     .unwrap();
-    // let halfway = max_y.z / 2;
-    // camera
-    // dbg!(halfway);
+    let tween = Tween::new(
+        // Use a quadratic easing on both endpoints.
+        EaseFunction::CubicOut,
+        // Animation time (one way only; for ping-pong it takes 2 seconds
+        // to come back to start).
+        Duration::from_secs(20),
+        // The lens gives the Animator access to the Transform component,
+        // to animate it. It also contains the start and end values associated
+        // with the animation ratios 0. and 1.
+        TransformPositionLens {
+            start: Vec3::new(20.0, 5.0, 20.0),
+            end: Vec3::new(50.0, 140., 50.0),
+        },
+    );
+    // Repeat twice (one per way)
+    // .with_repeat_count(RepeatCount::Finite(2))
+    // After each iteration, reverse direction (ping-pong)
+    // .with_repeat_strategy(RepeatStrategy::MirroredRepeat);
+
     commands.spawn((
         Camera3dBundle {
             camera: Camera {
@@ -216,6 +239,7 @@ fn setup(
         },
         BloomSettings::default(),
         CameraController::default(),
+        Animator::new(tween),
     ));
 }
 

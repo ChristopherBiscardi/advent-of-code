@@ -19,6 +19,7 @@ bevy = "0.12"
 rand = "0.8.5"
 bevy_basic_camera = { git = "https://github.com/DGriffin91/bevy_basic_camera" }
 bevy_xpbd_3d = { version = "0.3", features = ["simd"] }
+bevy_tweening = "0.9"
 
 [dev-dependencies]
 criterion.workspace = true
