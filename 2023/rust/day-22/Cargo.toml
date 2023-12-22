@@ -18,6 +18,7 @@ glam.workspace = true
 bevy = "0.12"
 rand = "0.8.5"
 bevy_basic_camera = { git = "https://github.com/DGriffin91/bevy_basic_camera" }
+bevy_xpbd_3d = "0.3"
 
 [dev-dependencies]
 criterion.workspace = true
