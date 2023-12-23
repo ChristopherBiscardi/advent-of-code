@@ -190,18 +190,18 @@ pub fn process(
 
     grid.iter()
         .flat_map(|plot| {
-            let possible_directions = match plot.r#type {
+            let possible_directions = match &plot.r#type {
                 PlotType::Directional(direction) => {
-                    vec![direction]
+                    std::slice::from_ref(direction)
                 }
-                PlotType::Empty => vec![
+                PlotType::Empty => &[
                     Direction::North,
                     Direction::South,
                     Direction::East,
                     Direction::West,
                 ],
             };
-            possible_directions.into_iter().filter_map(
+            possible_directions.iter().copied().filter_map(
                 |dir| {
                     let next_pos =
                         dir.step(&plot.span.extra);
