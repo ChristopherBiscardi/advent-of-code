@@ -1,0 +1,38 @@
+[package]
+name = "day-24"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+itertools.workspace = true
+nom.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+miette.workspace = true
+thiserror.workspace = true
+dhat.workspace = true
+nom-supreme.workspace = true
+glam.workspace = true
+ndarray = "0.15.6"
+ndarray-linalg = { version = "0.16", features = ["openblas-static"] }
+
+[dev-dependencies]
+criterion.workspace = true
+divan.workspace = true
+rstest.workspace = true
+test-log.workspace = true
+
+[[bench]]
+name = "day-24-bench"
+path = "benches/benchmarks.rs"
+harness = false
+
+[[bench]]
+name = "day-24-bench-criterion"
+path = "benches/benchmarks-criterion.rs"
+harness = false
+
+[features]
+dhat-heap = []
