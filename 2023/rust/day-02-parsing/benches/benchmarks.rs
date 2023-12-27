@@ -76,3 +76,29 @@ fn big_winnow_intro_bytes() {
     ))
     .unwrap();
 }
+
+#[divan::bench]
+fn small_regex_intro() {
+    let mut input = INPUT[0];
+    regex_intro::parse(divan::black_box(&mut input))
+        .unwrap();
+}
+#[divan::bench]
+fn big_regex_intro() {
+    let mut input = INPUT[1];
+    regex_intro::parse(divan::black_box(&mut input))
+        .unwrap();
+}
+
+#[divan::bench]
+fn small_pest_intro() {
+    let mut input = INPUT[0];
+    pest_intro::parse(divan::black_box(&mut input))
+        .unwrap();
+}
+#[divan::bench]
+fn big_pest_intro() {
+    let mut input = INPUT[1];
+    pest_intro::parse(divan::black_box(&mut input))
+        .unwrap();
+}

@@ -2335,6 +2335,7 @@ dependencies = [
  "nom-supreme",
  "pest",
  "pest_derive",
+ "regex",
  "rstest",
  "winnow",
 ]

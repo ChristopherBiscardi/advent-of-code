@@ -116,10 +116,22 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let mut input = game_output::INPUT;
-        let game = parse(input);
-        dbg!(game);
-        // assert_eq!(game_output::output(), &game);
-        panic!("")
+        let input = game_output::INPUT;
+
+        let games = parse(input)
+            // parse is a Result<Pairs, _>
+            .unwrap()
+            .into_iter()
+            // the parser for all games always comes in as a vec
+            // even though there's only one "games" parser
+            .next()
+            .unwrap()
+            // iterate over each game_line, which is the
+            // "inner" parser of the "games" parser
+            .into_inner()
+            .map(|pair| Game::try_from(pair).unwrap())
+            .collect::<Vec<Game>>();
+        assert_eq!(game_output::output(), &games);
+        // panic!("")
     }
 }

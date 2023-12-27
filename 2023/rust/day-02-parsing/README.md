@@ -8,16 +8,20 @@ There are benchmarks here, but they aren't meant to be "end-all ultimate benchma
 
 ```
 day_02_parsing_bench         fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ big_nom_intro             29.54 µs      │ 69.95 µs      │ 29.74 µs      │ 30.78 µs      │ 100     │ 100
-├─ big_nom_intro_bytes       22.12 µs      │ 30.24 µs      │ 22.24 µs      │ 22.7 µs       │ 100     │ 100
-├─ big_nom_supreme_intro     48.37 µs      │ 60.62 µs      │ 48.91 µs      │ 49.74 µs      │ 100     │ 100
-├─ big_winnow_intro          33.12 µs      │ 101.9 µs      │ 34.37 µs      │ 37.11 µs      │ 100     │ 100
-├─ big_winnow_intro_bytes    28.95 µs      │ 104.3 µs      │ 29.58 µs      │ 32.36 µs      │ 100     │ 100
-├─ small_nom_intro           827.8 ns      │ 7.947 µs      │ 890.3 ns      │ 970 ns        │ 100     │ 800
-├─ small_nom_intro_bytes     635.1 ns      │ 692.4 ns      │ 645.4 ns      │ 649 ns        │ 100     │ 800
-├─ small_nom_supreme_intro   1.415 µs      │ 6.207 µs      │ 1.457 µs      │ 1.527 µs      │ 100     │ 100
-├─ small_winnow_intro        890.3 ns      │ 973.5 ns      │ 905.9 ns      │ 915 ns        │ 100     │ 800
-╰─ small_winnow_intro_bytes  760 ns        │ 827.8 ns      │ 775.6 ns      │ 777.8 ns      │ 100     │ 800
+├─ big_nom_intro             29.62 µs      │ 98.41 µs      │ 29.83 µs      │ 30.95 µs      │ 100     │ 100
+├─ big_nom_intro_bytes       22.08 µs      │ 30.74 µs      │ 22.16 µs      │ 22.43 µs      │ 100     │ 100
+├─ big_nom_supreme_intro     48.62 µs      │ 70.7 µs       │ 50.31 µs      │ 50.97 µs      │ 100     │ 100
+├─ big_pest_intro            113.6 µs      │ 195.2 µs      │ 114.1 µs      │ 116 µs        │ 100     │ 100
+├─ big_regex_intro           1.006 ms      │ 1.594 ms      │ 1.016 ms      │ 1.03 ms       │ 100     │ 100
+├─ big_winnow_intro          31.7 µs       │ 40.74 µs      │ 32.12 µs      │ 32.39 µs      │ 100     │ 100
+├─ big_winnow_intro_bytes    28.12 µs      │ 36.91 µs      │ 29.12 µs      │ 29.23 µs      │ 100     │ 100
+├─ small_nom_intro           812.1 ns      │ 921.5 ns      │ 838.1 ns      │ 841.6 ns      │ 100     │ 800
+├─ small_nom_intro_bytes     629.8 ns      │ 713.3 ns      │ 635 ns        │ 641.8 ns      │ 100     │ 800
+├─ small_nom_supreme_intro   1.405 µs      │ 1.905 µs      │ 1.468 µs      │ 1.483 µs      │ 100     │ 400
+├─ small_pest_intro          4.082 µs      │ 9.583 µs      │ 4.291 µs      │ 4.354 µs      │ 100     │ 100
+├─ small_regex_intro         418.9 µs      │ 455.9 µs      │ 423.7 µs      │ 425.5 µs      │ 100     │ 100
+├─ small_winnow_intro        838.1 ns      │ 952.8 ns      │ 848.6 ns      │ 859.3 ns      │ 100     │ 800
+╰─ small_winnow_intro_bytes  749.6 ns      │ 864.1 ns      │ 770.4 ns      │ 774.9 ns      │ 100     │ 800
 ```
 
 ## nom -> winnow upgrade benchmarks
