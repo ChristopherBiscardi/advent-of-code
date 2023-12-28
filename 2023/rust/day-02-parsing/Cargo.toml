@@ -16,10 +16,16 @@ regex = "1.10.2"
 
 [dev-dependencies]
 divan.workspace = true
+criterion.workspace = true
 
 [[bench]]
 name = "day-02-parsing-bench"
 path = "benches/benchmarks.rs"
+harness = false
+
+[[bench]]
+name = "day-02-parsing-bench-criterion"
+path = "benches/benchmarks-criterion.rs"
 harness = false
 
 [features]

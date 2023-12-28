@@ -14,91 +14,104 @@ const INPUT: [&str; 2] = [
     include_str!("../big-input.txt"),
 ];
 
-#[divan::bench]
-fn small_nom_intro() {
-    nom_intro::parse(divan::black_box(&INPUT[0])).unwrap();
-}
-#[divan::bench]
-fn big_nom_intro() {
-    nom_intro::parse(divan::black_box(&INPUT[1])).unwrap();
-}
+mod small {
+    use super::*;
 
-#[divan::bench]
-fn small_nom_intro_bytes() {
-    nom_intro_bytes::parse(divan::black_box(
-        &INPUT[0].as_bytes(),
-    ))
-    .unwrap();
+    #[divan::bench]
+    fn nom_intro() {
+        nom_intro::parse(divan::black_box(&INPUT[0]))
+            .unwrap();
+    }
+    #[divan::bench]
+    fn nom_intro_bytes() {
+        nom_intro_bytes::parse(divan::black_box(
+            &INPUT[0].as_bytes(),
+        ))
+        .unwrap();
+    }
+    #[divan::bench]
+    fn nom_supreme_intro() {
+        nom_supreme_intro::parse(divan::black_box(
+            &INPUT[0],
+        ))
+        .unwrap();
+    }
+    #[divan::bench]
+    fn winnow_intro() {
+        let mut input = INPUT[0];
+        winnow_intro::parse(divan::black_box(&mut input))
+            .unwrap();
+    }
+    #[divan::bench]
+    fn winnow_intro_bytes() {
+        winnow_intro_bytes::parse(divan::black_box(
+            &mut INPUT[0].as_bytes(),
+        ))
+        .unwrap();
+    }
+    #[divan::bench]
+    fn regex_intro() {
+        let mut input = INPUT[0];
+        regex_intro::parse(divan::black_box(&mut input))
+            .unwrap();
+    }
+    #[divan::bench]
+    fn pest_intro() {
+        let mut input = INPUT[0];
+        pest_intro::parse(divan::black_box(&mut input))
+            .unwrap();
+    }
 }
-#[divan::bench]
-fn big_nom_intro_bytes() {
-    nom_intro_bytes::parse(divan::black_box(
-        &INPUT[1].as_bytes(),
-    ))
-    .unwrap();
-}
+mod big {
+    use super::*;
+    #[divan::bench]
+    fn nom_intro() {
+        nom_intro::parse(divan::black_box(&INPUT[1]))
+            .unwrap();
+    }
 
-#[divan::bench]
-fn small_nom_supreme_intro() {
-    nom_supreme_intro::parse(divan::black_box(&INPUT[0]))
+    #[divan::bench]
+    fn nom_intro_bytes() {
+        nom_intro_bytes::parse(divan::black_box(
+            &INPUT[1].as_bytes(),
+        ))
         .unwrap();
-}
-#[divan::bench]
-fn big_nom_supreme_intro() {
-    nom_supreme_intro::parse(divan::black_box(&INPUT[1]))
-        .unwrap();
-}
+    }
 
-#[divan::bench]
-fn small_winnow_intro() {
-    let mut input = INPUT[0];
-    winnow_intro::parse(divan::black_box(&mut input))
+    #[divan::bench]
+    fn nom_supreme_intro() {
+        nom_supreme_intro::parse(divan::black_box(
+            &INPUT[1],
+        ))
         .unwrap();
-}
-#[divan::bench]
-fn big_winnow_intro() {
-    let mut input = INPUT[1];
-    winnow_intro::parse(divan::black_box(&mut input))
-        .unwrap();
-}
+    }
 
-#[divan::bench]
-fn small_winnow_intro_bytes() {
-    winnow_intro_bytes::parse(divan::black_box(
-        &mut INPUT[0].as_bytes(),
-    ))
-    .unwrap();
-}
-#[divan::bench]
-fn big_winnow_intro_bytes() {
-    winnow_intro_bytes::parse(divan::black_box(
-        &mut INPUT[1].as_bytes(),
-    ))
-    .unwrap();
-}
+    #[divan::bench]
+    fn winnow_intro() {
+        let mut input = INPUT[1];
+        winnow_intro::parse(divan::black_box(&mut input))
+            .unwrap();
+    }
 
-#[divan::bench]
-fn small_regex_intro() {
-    let mut input = INPUT[0];
-    regex_intro::parse(divan::black_box(&mut input))
+    #[divan::bench]
+    fn winnow_intro_bytes() {
+        winnow_intro_bytes::parse(divan::black_box(
+            &mut INPUT[1].as_bytes(),
+        ))
         .unwrap();
-}
-#[divan::bench]
-fn big_regex_intro() {
-    let mut input = INPUT[1];
-    regex_intro::parse(divan::black_box(&mut input))
-        .unwrap();
-}
+    }
 
-#[divan::bench]
-fn small_pest_intro() {
-    let mut input = INPUT[0];
-    pest_intro::parse(divan::black_box(&mut input))
-        .unwrap();
-}
-#[divan::bench]
-fn big_pest_intro() {
-    let mut input = INPUT[1];
-    pest_intro::parse(divan::black_box(&mut input))
-        .unwrap();
+    #[divan::bench]
+    fn regex_intro() {
+        let mut input = INPUT[1];
+        regex_intro::parse(divan::black_box(&mut input))
+            .unwrap();
+    }
+
+    #[divan::bench]
+    fn pest_intro() {
+        let mut input = INPUT[1];
+        pest_intro::parse(divan::black_box(&mut input))
+            .unwrap();
+    }
 }
