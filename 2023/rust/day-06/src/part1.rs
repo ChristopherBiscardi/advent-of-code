@@ -31,11 +31,9 @@ pub fn process(
         .zip(distances)
         .map(|(time, record_distance)| {
             (0..time)
-                .filter_map(|speed| {
-                    let my_distance =
-                        (time - speed) * speed;
-                    (my_distance > record_distance)
-                        .then_some(my_distance)
+                .map(|speed| (time - speed) * speed)
+                .filter(|my_distance| {
+                    my_distance > &record_distance
                 })
                 .count()
         })

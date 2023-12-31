@@ -12,9 +12,8 @@ pub fn process(
     let empty_rows = input
         .lines()
         .enumerate()
-        .filter_map(|(index, line)| {
-            line.chars().all(|c| c == '.').then_some(index)
-        })
+        .filter(|(_, line)| line.chars().all(|c| c == '.'))
+        .map(|(index, _)| index)
         .collect::<Vec<usize>>();
 
     let mut columns = input

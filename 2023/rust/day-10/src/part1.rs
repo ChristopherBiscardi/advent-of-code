@@ -111,12 +111,14 @@ fn parse_grid(
         input,
         output
             .into_iter()
-            .filter_map(|pipe_info| {
-                (pipe_info.pipe_type != PipeType::Ground)
-                    .then_some((
-                        pipe_info.span.extra,
-                        pipe_info.pipe_type,
-                    ))
+            .filter(|pipe_info| {
+                pipe_info.pipe_type != PipeType::Ground
+            })
+            .map(|pipe_info| {
+                (
+                    pipe_info.span.extra,
+                    pipe_info.pipe_type,
+                )
             })
             .collect(),
     ))

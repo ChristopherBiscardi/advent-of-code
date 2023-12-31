@@ -34,9 +34,8 @@ fn score_hand(
         } else {
             counts
                 .iter()
-                .filter_map(|(key, value)| {
-                    (key != &'J').then_some(value)
-                })
+                .filter(|(key, _)| (key != &&'J'))
+                .map(|(_, value)| value)
                 .sorted()
                 .with_position()
                 .map(|(position, value)| match position {

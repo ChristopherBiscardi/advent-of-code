@@ -82,10 +82,9 @@ impl<'a> Puzzle<'a> {
             .chars()
             .group_by(|c| c == &'#')
             .into_iter()
-            .filter_map(|(is_hashes, group)| {
-                is_hashes.then_some(
-                    group.into_iter().count() as u32,
-                )
+            .filter(|(is_hashes, _)| *is_hashes)
+            .map(|(_, group)| {
+                group.into_iter().count() as u32
             })
             .collect::<Vec<u32>>();
         info!(?counts);

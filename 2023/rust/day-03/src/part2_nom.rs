@@ -102,12 +102,13 @@ pub fn process(
             let Value::Symbol(sym) = value else {
                 return None;
             };
-            let matching_numbers = POSITIONS
+            Some(sym)
+        })
+        .map(|sym| {
+            POSITIONS
                 .iter()
-                .map(|pos| *pos + sym.extra)
-                .filter_map(|surrounding_symbol_position| {
-                    number_map
-                        .get(&surrounding_symbol_position)
+                .filter_map(|pos| {
+                    number_map.get(&(*pos + sym.extra))
                 })
                 .unique()
                 .map(|(_, fragment)| {
@@ -115,11 +116,13 @@ pub fn process(
                         .parse::<i32>()
                         .expect("should be a valid number")
                 })
-                .collect::<Vec<i32>>();
-
-            (matching_numbers.len() == 2).then_some(
-                matching_numbers.iter().product::<i32>(),
-            )
+                .collect::<Vec<i32>>()
+        })
+        .filter(|matching_numbers| {
+            matching_numbers.len() == 2
+        })
+        .map(|matching_numbers| {
+            matching_numbers.iter().product::<i32>()
         })
         .sum::<i32>();
 

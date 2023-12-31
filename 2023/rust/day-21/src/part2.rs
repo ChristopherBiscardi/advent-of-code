@@ -102,10 +102,9 @@ pub fn process(
                     IVec2::NEG_Y,
                 ]
                 .into_iter()
-                .filter_map(|offset| {
-                    let cell = offset + *pos;
+                .map(|offset| offset + *pos)
+                .filter(|cell| {
                     set.contains(&(cell.rem_euclid(bounds)))
-                        .then_some(cell)
                 })
                 .for_each(|pos| {
                     new_set.insert(pos);

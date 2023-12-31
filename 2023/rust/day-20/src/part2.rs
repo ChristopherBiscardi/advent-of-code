@@ -1,6 +1,4 @@
-use std::{
-    collections::{HashMap, VecDeque},
-};
+use std::collections::{HashMap, VecDeque};
 
 use nom::{
     branch::alt,
@@ -84,7 +82,12 @@ impl<'a> Machine<'a> {
 
                 let new_signal = if memory
                     .values()
-                    .all(|s| s == &Signal::High) { Signal::Low } else { Signal::High };
+                    .all(|s| s == &Signal::High)
+                {
+                    Signal::Low
+                } else {
+                    Signal::High
+                };
                 self.output
                     .iter()
                     .map(|id| {
@@ -178,21 +181,17 @@ pub fn process(
     let final_node = "rx";
     let penultimate_node = machines
         .iter()
-        .find_map(|(id, machine)| {
-            machine
-                .output
-                .contains(&final_node)
-                .then_some(*id)
+        .find(|(_, machine)| {
+            machine.output.contains(&final_node)
         })
+        .map(|(id, _)| id)
         .unwrap();
     let mut penultimate_nodes = machines
         .iter()
-        .filter_map(|(id, machine)| {
-            machine
-                .output
-                .contains(&penultimate_node)
-                .then_some(*id)
+        .filter(|(_, machine)| {
+            machine.output.contains(&penultimate_node)
         })
+        .map(|(id, _)| *id)
         .collect::<Vec<&str>>();
 
     let conjunctions = machines
