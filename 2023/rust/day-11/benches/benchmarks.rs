@@ -13,7 +13,7 @@ fn part1() {
     .unwrap();
 }
 
-#[divan::bench(consts = [
+#[divan::bench(args = [
     2,
     10,
     100,
@@ -21,10 +21,10 @@ fn part1() {
     100000,
     1000000
 ])]
-fn part2<const N: i64>() {
+fn part2(n: i64) {
     part2::process(
         divan::black_box(include_str!("../input2.txt")),
-        divan::black_box(N),
+        n,
     )
     .unwrap();
 }
