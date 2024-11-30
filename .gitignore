@@ -3,3 +3,4 @@
 .vscode
 target
 main
+input*.txt
