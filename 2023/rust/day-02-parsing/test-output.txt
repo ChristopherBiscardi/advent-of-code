@@ -1,0 +1,17 @@
+day_02_parsing_bench      fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ big                                  │               │               │               │         │
+│  ├─ nom_intro           26.74 µs      │ 90.45 µs      │ 27.64 µs      │ 28.44 µs      │ 100     │ 100
+│  ├─ nom_intro_bytes     21.83 µs      │ 31.7 µs       │ 22.6 µs       │ 22.77 µs      │ 100     │ 100
+│  ├─ nom_supreme_intro   47.99 µs      │ 64.49 µs      │ 48.62 µs      │ 49.24 µs      │ 100     │ 100
+│  ├─ pest_intro          99.87 µs      │ 193.1 µs      │ 100.4 µs      │ 102.5 µs      │ 100     │ 100
+│  ├─ regex_intro         979.4 µs      │ 1.576 ms      │ 994.3 µs      │ 1.016 ms      │ 100     │ 100
+│  ├─ winnow_intro        31.66 µs      │ 45.08 µs      │ 32.1 µs       │ 33.17 µs      │ 100     │ 100
+│  ╰─ winnow_intro_bytes  27.62 µs      │ 46.91 µs      │ 28.47 µs      │ 28.95 µs      │ 100     │ 100
+╰─ small                                │               │               │               │         │
+   ├─ nom_intro           760 ns        │ 905.9 ns      │ 775.8 ns      │ 789.7 ns      │ 100     │ 800
+   ├─ nom_intro_bytes     629.8 ns      │ 728.9 ns      │ 640.3 ns      │ 648.9 ns      │ 100     │ 800
+   ├─ nom_supreme_intro   1.384 µs      │ 1.624 µs      │ 1.421 µs      │ 1.434 µs      │ 100     │ 400
+   ├─ pest_intro          3.624 µs      │ 15.95 µs      │ 3.832 µs      │ 3.959 µs      │ 100     │ 100
+   ├─ regex_intro         414 µs        │ 492.7 µs      │ 417.5 µs      │ 421.5 µs      │ 100     │ 100
+   ├─ winnow_intro        838.1 ns      │ 1.124 µs      │ 874.6 ns      │ 884.1 ns      │ 100     │ 800
+   ╰─ winnow_intro_bytes  739.3 ns      │ 1.749 µs      │ 760.1 ns      │ 776.9 ns      │ 100     │ 800

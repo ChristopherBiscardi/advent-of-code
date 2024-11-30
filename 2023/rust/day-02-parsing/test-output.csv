@@ -1,0 +1,8 @@
+benchmark,fastest,slowest,median,mean,samples,iters
+nom_intro,760ns,905.9ns,775.8ns,789.7ns,100,800
+nom_intro_bytes,629.8ns,728.9ns,640.3ns,648.9ns,100,800
+nom_supreme_intro,1.384µs,1.624µs,1.421µs,1.434µs,100,400
+pest_intro,3.624µs,15.95µs,3.832µs,3.959µs,100,100
+regex_intro,414µs,492.7µs,417.5µs,421.5µs,100,100
+winnow_intro,838.1ns,1.124µs,874.6ns,884.1ns,100,800
+winnow_intro_bytes,739.3ns,1.749µs,760.1ns,776.9ns,100,800
