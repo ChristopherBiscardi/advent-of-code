@@ -48,7 +48,7 @@ fn main() {
             // PhysicsDebugPlugin::default(),
         ))
         .insert_resource(State::new(
-            DebugPickingMode::Disabled,
+            DebugPickingMode::Normal,
         ))
         .add_systems(Startup, setup)
         .add_systems(Update, highlight_colliding_cubes)
