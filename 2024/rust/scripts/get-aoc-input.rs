@@ -1,14 +1,12 @@
 #!/usr/bin/env cargo +nightly -Zscript
-
-//! ```cargo
-//! [package]
-//! edition = "2021"
-//!
-//! [dependencies]
-//! clap = { version = "4.2", features = ["derive"] }
-//! nom = "7.1.3"
-//! reqwest = { version = "0.11.22", features=["blocking"] }
-//! ```
+---cargo
+[package]
+edition = "2021"
+[dependencies]
+clap = { version = "4.2", features = ["derive"] }
+nom = "7.1.3"
+reqwest = { version = "0.11.22", features=["blocking"] }
+---
 
 use clap::{error::ErrorKind, CommandFactory, Parser};
 use nom::{
@@ -56,7 +54,7 @@ fn main() -> Result<(), reqwest::Error> {
     };
 
     let url = format!(
-        "https://adventofcode.com/2023/day/{day}/input"
+        "https://adventofcode.com/2024/day/{day}/input"
     );
     println!("sending to `{}`", url);
 
