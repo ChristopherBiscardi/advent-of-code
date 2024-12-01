@@ -12,7 +12,7 @@ bench day part:
 # create the directory for a new day's puzzle and fetch the input
 create day:
     cargo generate --path ./daily-template --name {{day}}
-#    just get-input {{day}}
+    just get-input {{day}}
 
 # You can find SESSION by using Chrome tools:
 # 1) Go to https://adventofcode.com/2022/day/1/input
