@@ -1,4 +1,9 @@
-day_01_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ part1      48.66 µs      │ 115.8 µs      │ 50.54 µs      │ 51.83 µs      │ 100     │ 100
-╰─ part2      116.9 µs      │ 160 µs        │ 121.2 µs      │ 124.3 µs      │ 100     │ 100
+day_01_bench           fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1               46.62 µs      │ 2.046 ms      │ 47.08 µs      │ 67.6 µs       │ 100     │ 100
+├─ part1_nom           40.33 µs      │ 55.24 µs      │ 40.45 µs      │ 40.72 µs      │ 100     │ 100
+├─ part1_nom_iterator  40.29 µs      │ 43.37 µs      │ 40.49 µs      │ 40.65 µs      │ 100     │ 100
+├─ part2               117.9 µs      │ 126.4 µs      │ 118.2 µs      │ 118.9 µs      │ 100     │ 100
+├─ part2_hashmap       78.99 µs      │ 90.74 µs      │ 84.22 µs      │ 83.91 µs      │ 100     │ 100
+├─ part2_hashmap_nom   62.16 µs      │ 78.62 µs      │ 64.56 µs      │ 65 µs         │ 100     │ 100
+╰─ part2_nom           69.29 µs      │ 80.74 µs      │ 70.33 µs      │ 70.69 µs      │ 100     │ 100
 

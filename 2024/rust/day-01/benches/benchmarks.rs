@@ -44,3 +44,19 @@ fn part2_nom() {
     )))
     .unwrap();
 }
+
+#[divan::bench]
+fn part2_hashmap() {
+    part2_hashmap::process(divan::black_box(include_str!(
+        "../input2.txt",
+    )))
+    .unwrap();
+}
+
+#[divan::bench]
+fn part2_hashmap_nom() {
+    part2_hashmap_nom::process(divan::black_box(
+        include_str!("../input2.txt",),
+    ))
+    .unwrap();
+}
