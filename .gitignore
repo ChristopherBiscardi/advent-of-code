@@ -5,3 +5,4 @@ target
 main
 input*.txt
 .envrc
+.env
