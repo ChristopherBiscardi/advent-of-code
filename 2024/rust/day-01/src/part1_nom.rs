@@ -1,6 +1,6 @@
 use miette::miette;
 use nom::{
-    character::complete::{self, newline, space1},
+    character::complete::{self, line_ending, space1},
     combinator::opt,
     multi::fold_many1,
     sequence::{separated_pair, terminated},
@@ -26,7 +26,7 @@ pub fn process(input: &str) -> miette::Result<String> {
 //     input: &str,
 // ) -> IResult<&str, Vec<(i32, i32)>> {
 //     separated_list1(
-//         newline,
+//         line_ending,
 //         separated_pair(
 //             complete::i32,
 //             space1,
@@ -45,7 +45,7 @@ fn parse(
                 space1,
                 complete::i32,
             ),
-            opt(newline),
+            opt(line_ending),
         ),
         || (Vec::new(), Vec::new()),
         |mut acc: (Vec<i32>, Vec<i32>), (l, r)| {

@@ -1,6 +1,6 @@
 use miette::miette;
 use nom::{
-    character::complete::{self, newline, space1},
+    character::complete::{self, line_ending, space1},
     combinator::opt,
     multi::fold_many1,
     sequence::{separated_pair, terminated},
@@ -36,7 +36,7 @@ fn parse(
                 space1,
                 complete::u32,
             ),
-            opt(newline),
+            opt(line_ending),
         ),
         || (Vec::new(), Vec::new()),
         |mut acc: (Vec<u32>, Vec<u32>), (l, r)| {

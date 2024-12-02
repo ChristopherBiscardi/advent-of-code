@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use miette::miette;
 use nom::{
-    character::complete::{self, newline, space1},
+    character::complete::{self, line_ending, space1},
     multi::separated_list1,
     IResult,
 };
@@ -117,7 +117,7 @@ type Report = Vec<i32>;
 
 fn parse(input: &str) -> IResult<&str, Vec<Report>> {
     separated_list1(
-        newline,
+        line_ending,
         separated_list1(space1, complete::i32),
     )(input)
 }
