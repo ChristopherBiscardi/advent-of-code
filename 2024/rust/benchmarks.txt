@@ -1,9 +1,17 @@
 day_01_bench           fastest       │ slowest       │ median        │ mean          │ samples │ iters
-├─ part1               46.62 µs      │ 2.046 ms      │ 47.08 µs      │ 67.6 µs       │ 100     │ 100
-├─ part1_nom           40.33 µs      │ 55.24 µs      │ 40.45 µs      │ 40.72 µs      │ 100     │ 100
-├─ part1_nom_iterator  40.29 µs      │ 43.37 µs      │ 40.49 µs      │ 40.65 µs      │ 100     │ 100
-├─ part2               117.9 µs      │ 126.4 µs      │ 118.2 µs      │ 118.9 µs      │ 100     │ 100
-├─ part2_hashmap       78.99 µs      │ 90.74 µs      │ 84.22 µs      │ 83.91 µs      │ 100     │ 100
-├─ part2_hashmap_nom   62.16 µs      │ 78.62 µs      │ 64.56 µs      │ 65 µs         │ 100     │ 100
-╰─ part2_nom           69.29 µs      │ 80.74 µs      │ 70.33 µs      │ 70.69 µs      │ 100     │ 100
+├─ part1               47.41 µs      │ 117.1 µs      │ 47.91 µs      │ 49.45 µs      │ 100     │ 100
+├─ part1_nom           42.66 µs      │ 46.37 µs      │ 42.95 µs      │ 43.29 µs      │ 100     │ 100
+├─ part1_nom_iterator  42.95 µs      │ 62.08 µs      │ 43.31 µs      │ 44.19 µs      │ 100     │ 100
+├─ part2               123.2 µs      │ 141 µs        │ 124.7 µs      │ 126.6 µs      │ 100     │ 100
+├─ part2_hashmap       76.83 µs      │ 98.2 µs       │ 79.74 µs      │ 80.71 µs      │ 100     │ 100
+├─ part2_hashmap_nom   63.29 µs      │ 117.7 µs      │ 66.24 µs      │ 68.86 µs      │ 100     │ 100
+╰─ part2_nom           70.24 µs      │ 130.9 µs      │ 70.49 µs      │ 72.84 µs      │ 100     │ 100
+
+day_02_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      154 µs        │ 289.6 µs      │ 162.9 µs      │ 168.7 µs      │ 100     │ 100
+╰─ part2      402.6 µs      │ 491.5 µs      │ 419.1 µs      │ 425.8 µs      │ 100     │ 100
+
+day_03_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      109.2 µs      │ 155.5 µs      │ 110.1 µs      │ 111.5 µs      │ 100     │ 100
+╰─ part2      139 µs        │ 248 µs        │ 142.3 µs      │ 146.2 µs      │ 100     │ 100
 
