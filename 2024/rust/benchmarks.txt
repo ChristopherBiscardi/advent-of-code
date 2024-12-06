@@ -1,3 +1,5 @@
+## benchmarks are run on an m1 max mac laptop
+
 day_01_bench           fastest       │ slowest       │ median        │ mean          │ samples │ iters
 ├─ part1               47.41 µs      │ 117.1 µs      │ 47.91 µs      │ 49.45 µs      │ 100     │ 100
 ├─ part1_nom           42.66 µs      │ 46.37 µs      │ 42.95 µs      │ 43.29 µs      │ 100     │ 100
@@ -16,3 +18,19 @@ day_03_bench          fastest       │ slowest       │ median        │ mean
 ├─ part1_inline       84.45 µs      │ 113.7 µs      │ 87.41 µs      │ 88.82 µs      │ 100     │ 100
 ├─ part1_inline_find  56.54 µs      │ 77.49 µs      │ 56.74 µs      │ 57.57 µs      │ 100     │ 100
 ╰─ part2              138.9 µs      │ 220.6 µs      │ 139.8 µs      │ 143 µs        │ 100     │ 100
+
+day_04_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      1.523 ms      │ 1.711 ms      │ 1.536 ms      │ 1.539 ms      │ 100     │ 100
+╰─ part2      1.081 ms      │ 1.299 ms      │ 1.122 ms      │ 1.128 ms      │ 100     │ 100
+
+day_05_bench     fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ parser_part1  86.87 µs      │ 297.1 µs      │ 88.27 µs      │ 91.26 µs      │ 100     │ 100
+├─ part1         231.4 µs      │ 336.5 µs      │ 240.8 µs      │ 242.4 µs      │ 100     │ 100
+├─ part1_sort    115.3 µs      │ 160 µs        │ 121 µs        │ 123.2 µs      │ 100     │ 100
+├─ part2         358 µs        │ 446.2 µs      │ 373.1 µs      │ 376.6 µs      │ 100     │ 100
+╰─ part2_sort    247.9 µs      │ 314.9 µs      │ 261.2 µs      │ 264.3 µs      │ 100     │ 100
+
+day_06_bench     fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ parser_part1  451.7 µs      │ 1.464 ms      │ 466.8 µs      │ 484.3 µs      │ 100     │ 100
+├─ part1         887.1 µs      │ 1.126 ms      │ 954.4 µs      │ 964.7 µs      │ 100     │ 100
+╰─ part2         1.997 s       │ 2.605 s       │ 2.173 s       │ 2.198 s       │ 100     │ 100
