@@ -13,48 +13,18 @@ pub fn process(input: &str) -> miette::Result<String> {
     let (_input, (rules, updates)) = parse(input)
         .map_err(|e| miette!("parse failed {}", e))?;
 
-    let results: Vec<usize> = updates
+    let result: u32 = updates
         .iter()
-        .enumerate()
-        .filter_map(|(index, original_update)| {
-            let mut current_item = original_update[0];
-            let mut update = &original_update[1..];
-            let mut before_pages = &original_update[0..0];
-
-            while before_pages.len()
-                != original_update.len()
-            {
-                if let Some(pages_that_must_come_after) =
-                    rules.get(&current_item)
-                {
-                    if !pages_that_must_come_after
-                        .iter()
-                        .all(|page| {
-                            !before_pages.contains(page)
-                        })
-                    {
-                        return None;
-                    }
-                }
-                // next iteration
-                before_pages = &original_update
-                    [0..(before_pages.len() + 1)];
-
-                if let Some(page) = update.get(0) {
-                    current_item = *page;
-                    update = &update[1..];
-                }
-            }
-
-            Some(index)
+        .filter(|update| {
+            update.is_sorted_by(|a, b| {
+                rules
+                    .get(a)
+                    .is_some_and(|pages| pages.contains(b))
+            })
         })
-        .collect();
-
-    let result: u32 = results
-        .iter()
-        .map(|index| {
-            let middle = updates[*index].len() / 2;
-            updates[*index][middle]
+        .map(|update| {
+            let middle = update.len() / 2;
+            update[middle]
         })
         .sum();
 
@@ -92,7 +62,7 @@ fn updates(input: &str) -> IResult<&str, Vec<Vec<u32>>> {
     )(input)
 }
 
-pub fn parse(
+fn parse(
     input: &str,
 ) -> IResult<&str, (HashMap<u32, Vec<u32>>, Vec<Vec<u32>>)>
 {
