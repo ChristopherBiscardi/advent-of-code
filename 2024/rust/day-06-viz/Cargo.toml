@@ -1,0 +1,16 @@
+[package]
+name = "day-06-viz"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+glam.workspace = true
+itertools.workspace = true
+miette.workspace = true
+nom.workspace = true
+nom_locate.workspace = true
+tracing.workspace = true
+bevy = "0.15"
+bevy_ecs_tilemap = { git = "https://github.com/rparrett/bevy_ecs_tilemap", branch = "bevy-0.15" }
+serde = "1.0.215"
+thiserror.workspace = true

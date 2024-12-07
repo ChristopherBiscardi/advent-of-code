@@ -11,6 +11,17 @@ fn parser_part1() {
     part1::parse(divan::black_box(Span::new(
         include_str!("../input1.txt",),
     )))
+    .unwrap()
+    .0;
+}
+
+#[divan::bench]
+fn parser_part1_bytes() {
+    part1_bytes::parse(divan::black_box(
+        part1_bytes::Span::new(include_bytes!(
+            "../input1.txt"
+        )),
+    ))
     .unwrap();
 }
 
