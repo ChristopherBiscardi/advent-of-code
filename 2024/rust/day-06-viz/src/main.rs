@@ -13,7 +13,7 @@ use bevy_ecs_tilemap::{
 };
 use day_06_viz::{
     loader::{AocDay6, AocDay6Loader},
-    Direction, Guard,
+    BaseMap, Direction, Guard,
 };
 use glam::IVec2;
 use itertools::Itertools;
@@ -172,20 +172,12 @@ fn print_on_load(
                     .is_some()
                 {
                     TileTextureIndex(24)
-                } else if asset.guard_start_position
-                    == IVec2::new(x as i32, y as i32)
-                {
-                    TileTextureIndex(13)
                 } else {
                     TileTextureIndex(14)
                 },
                 ..Default::default()
             });
-            if asset.guard_start_position
-                == IVec2::new(x as i32, y as i32)
-            {
-                t.insert((Direction::North, Guard));
-            };
+
             let tile_entity = t.id();
             tile_storage.set(&tile_pos, tile_entity);
         }
@@ -195,6 +187,73 @@ fn print_on_load(
     let grid_size = tile_size.into();
     let map_type = TilemapType::default();
 
+    commands
+        .entity(tilemap_entity)
+        .insert(TilemapBundle {
+            grid_size,
+            map_type,
+            size: map_size,
+            storage: tile_storage,
+            texture: TilemapTexture::Single(
+                texture_handle.clone(),
+            ),
+            tile_size,
+            transform: get_tilemap_center_transform(
+                &map_size, &grid_size, &map_type, 0.0,
+            ),
+            ..Default::default()
+        })
+        .insert(BaseMap);
+
+    // layer 2
+
+    // Create a tilemap entity a little early.
+    // We want this entity early because we need to tell each tile which tilemap entity
+    // it is associated with. This is done with the TilemapId component on each tile.
+    // Eventually, we will insert the `TilemapBundle` bundle on the entity, which
+    // will contain various necessary components, such as `TileStorage`.
+    let tilemap_entity = commands.spawn_empty().id();
+
+    // To begin creating the map we will need a `TileStorage` component.
+    // This component is a grid of tile entities and is used to help keep track of individual
+    // tiles in the world. If you have multiple layers of tiles you would have a tilemap entity
+    // per layer, each with their own `TileStorage` component.
+    let mut tile_storage = TileStorage::empty(map_size);
+
+    // Spawn the elements of the tilemap.
+    // Alternatively, you can use helpers::filling::fill_tilemap.
+    // for x in 0..map_size.x {
+    //     for y in 0..map_size.y {
+    let x = asset.guard_start_position.x;
+    let y = asset.guard_start_position.y;
+
+    let tile_pos = TilePos {
+        x: x as u32,
+        y: y as u32,
+    };
+    let mut t = commands.spawn(TileBundle {
+        // color: TileColor(Color::BLACK),
+        position: tile_pos,
+        tilemap_id: TilemapId(tilemap_entity),
+        texture_index: TileTextureIndex(13),
+        ..Default::default()
+    });
+
+    t.insert((Direction::North, Guard));
+
+    let tile_entity = t.id();
+    tile_storage.set(&tile_pos, tile_entity);
+    //     }
+    // }
+
+    let tile_size = TilemapTileSize { x: 8.0, y: 8.0 };
+    let grid_size = tile_size.into();
+    let map_type = TilemapType::default();
+
+    let mut layer = get_tilemap_center_transform(
+        &map_size, &grid_size, &map_type, 0.0,
+    );
+    layer.translation.z = 2.;
     commands.entity(tilemap_entity).insert(TilemapBundle {
         grid_size,
         map_type,
@@ -202,9 +261,7 @@ fn print_on_load(
         storage: tile_storage,
         texture: TilemapTexture::Single(texture_handle),
         tile_size,
-        transform: get_tilemap_center_transform(
-            &map_size, &grid_size, &map_type, 0.0,
-        ),
+        transform: layer,
         ..Default::default()
     });
 }
@@ -216,6 +273,8 @@ fn move_guard(
     >,
     mut state: ResMut<State>,
     custom_assets: Res<Assets<AocDay6>>,
+    base_map: Single<&TileStorage, With<BaseMap>>,
+    mut tiles: Query<&mut TileTextureIndex>,
 ) {
     if !state.printed {
         return;
@@ -258,6 +317,16 @@ fn move_guard(
             {
                 *dir = dir.turn_right();
             } else {
+                if let Some(entity) = base_map.get(&pos) {
+                    let mut index =
+                        tiles.get_mut(entity).unwrap();
+                    index.0 = match *dir {
+                        Direction::North => 5,
+                        Direction::South => 7,
+                        Direction::East => 1,
+                        Direction::West => 1,
+                    };
+                };
                 *pos = next_position;
                 // visited_positions.insert(player_position);
             }

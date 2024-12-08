@@ -4,6 +4,9 @@ pub mod loader;
 pub mod parser;
 
 #[derive(Component)]
+pub struct BaseMap;
+
+#[derive(Component)]
 pub struct Guard;
 
 #[derive(Component)]
