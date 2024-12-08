@@ -46,7 +46,9 @@ fn alphanum_pos(
     let (input, c) = satisfy(|c| c.is_alphanum())(input)?;
     Ok((input, (IVec2::new(x, y), c)))
 }
-fn parse(input: Span) -> IResult<Span, Vec<(IVec2, char)>> {
+pub fn parse(
+    input: Span,
+) -> IResult<Span, Vec<(IVec2, char)>> {
     many1(preceded(
         take_till(|c: char| c.is_alphanum()),
         alphanum_pos,
