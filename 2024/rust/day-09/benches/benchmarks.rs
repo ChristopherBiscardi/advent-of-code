@@ -20,3 +20,11 @@ fn part2() {
     )))
     .unwrap();
 }
+
+#[divan::bench]
+fn part2_expanded() {
+    part2_expanded::process(divan::black_box(include_str!(
+        "../input2.txt",
+    )))
+    .unwrap();
+}
