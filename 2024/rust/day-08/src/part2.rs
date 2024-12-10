@@ -61,7 +61,8 @@ pub fn process(input: &str) -> miette::Result<String> {
                     )
                     .collect();
                     [first_results, second_results]
-                    // [sats[0].0 + diff, sats[1].0 - diff]
+                    // [sats[0].0 + diff,
+                    // sats[1].0 - diff]
                 })
                 .flatten()
         })

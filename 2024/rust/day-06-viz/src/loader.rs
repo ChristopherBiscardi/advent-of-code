@@ -20,7 +20,8 @@ pub struct AocDay6 {
 #[derive(Default)]
 pub struct AocDay6Loader;
 
-/// Possible errors that can be produced by [`AocDay6Loader`]
+/// Possible errors that can be produced by
+/// [`AocDay6Loader`]
 #[non_exhaustive]
 #[derive(Debug, Error)]
 pub enum AocDay6LoaderError {

@@ -92,7 +92,8 @@ pub fn process(input: &str) -> miette::Result<String> {
                     ))
                     .is_some()
                 {
-                    // break true if next_position is also in set
+                    // break true if next_position is also
+                    // in set
                     break true;
                 } else if (x_minmax.0..=x_minmax.1)
                     .contains(&next_position.x)

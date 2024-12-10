@@ -33,10 +33,12 @@ fn main() {
         .run();
 }
 
-// pub fn process(input: &str) -> miette::Result<String> {
-//     let (_input, ((mut player_position, _), walls)) =
+// pub fn process(input: &str) ->
+// miette::Result<String> {     let (_input, ((mut
+// player_position, _), walls)) =
 //         parse(Span::new(input))
-//             .map_err(|e| miette!("parse failed {}", e))?;
+//             .map_err(|e| miette!("parse failed
+// {}", e))?;
 
 //     let x_minmax = walls
 //         .iter()
@@ -63,18 +65,20 @@ fn main() {
 //             .contains(&player_position.y)
 //     {
 //         let next_position =
-//             player_position + direction.to_ivec2();
-//         if walls.get(&next_position).is_some() {
+//             player_position +
+// direction.to_ivec2();         if
+// walls.get(&next_position).is_some() {
 //             direction = direction.turn_right();
 //         } else {
 //             player_position = next_position;
-//             visited_positions.insert(player_position);
+//             
+// visited_positions.insert(player_position);
 //         }
 //     }
 //     // dbg!(&visited_positions);
 
-//     Ok((visited_positions.len() - 1).to_string())
-// }
+//     Ok((visited_positions.len() -
+// 1).to_string()) }
 
 #[derive(Resource, Default)]
 struct State {
@@ -92,9 +96,12 @@ fn setup(
     // Recommended way to load an asset
     state.handle = asset_server.load("input.day6.txt");
 
-    // File extensions are optional, but are recommended for project management and last-resort inference
+    // File extensions are optional, but are
+    // recommended for project management and
+    // last-resort inference
     // state.other_handle =
-    // asset_server.load("data/asset_no_extension");
+    // asset_server.load("data/asset_no_extension"
+    // );
 }
 
 fn print_on_load(
@@ -145,20 +152,28 @@ fn print_on_load(
     };
 
     // Create a tilemap entity a little early.
-    // We want this entity early because we need to tell each tile which tilemap entity
-    // it is associated with. This is done with the TilemapId component on each tile.
-    // Eventually, we will insert the `TilemapBundle` bundle on the entity, which
-    // will contain various necessary components, such as `TileStorage`.
+    // We want this entity early because we need to
+    // tell each tile which tilemap entity
+    // it is associated with. This is done with the
+    // TilemapId component on each tile.
+    // Eventually, we will insert the `TilemapBundle`
+    // bundle on the entity, which will contain
+    // various necessary components, such as
+    // `TileStorage`.
     let tilemap_entity = commands.spawn_empty().id();
 
-    // To begin creating the map we will need a `TileStorage` component.
-    // This component is a grid of tile entities and is used to help keep track of individual
-    // tiles in the world. If you have multiple layers of tiles you would have a tilemap entity
-    // per layer, each with their own `TileStorage` component.
+    // To begin creating the map we will need a
+    // `TileStorage` component. This component is
+    // a grid of tile entities and is used to help
+    // keep track of individual tiles in the
+    // world. If you have multiple layers of tiles you
+    // would have a tilemap entity per layer, each
+    // with their own `TileStorage` component.
     let mut tile_storage = TileStorage::empty(map_size);
 
     // Spawn the elements of the tilemap.
-    // Alternatively, you can use helpers::filling::fill_tilemap.
+    // Alternatively, you can use
+    // helpers::filling::fill_tilemap.
     for x in 0..map_size.x {
         for y in 0..map_size.y {
             let tile_pos = TilePos { x, y };
@@ -208,22 +223,29 @@ fn print_on_load(
     // layer 2
 
     // Create a tilemap entity a little early.
-    // We want this entity early because we need to tell each tile which tilemap entity
-    // it is associated with. This is done with the TilemapId component on each tile.
-    // Eventually, we will insert the `TilemapBundle` bundle on the entity, which
-    // will contain various necessary components, such as `TileStorage`.
+    // We want this entity early because we need to
+    // tell each tile which tilemap entity
+    // it is associated with. This is done with the
+    // TilemapId component on each tile.
+    // Eventually, we will insert the `TilemapBundle`
+    // bundle on the entity, which will contain
+    // various necessary components, such as
+    // `TileStorage`.
     let tilemap_entity = commands.spawn_empty().id();
 
-    // To begin creating the map we will need a `TileStorage` component.
-    // This component is a grid of tile entities and is used to help keep track of individual
-    // tiles in the world. If you have multiple layers of tiles you would have a tilemap entity
-    // per layer, each with their own `TileStorage` component.
+    // To begin creating the map we will need a
+    // `TileStorage` component. This component is
+    // a grid of tile entities and is used to help
+    // keep track of individual tiles in the
+    // world. If you have multiple layers of tiles you
+    // would have a tilemap entity per layer, each
+    // with their own `TileStorage` component.
     let mut tile_storage = TileStorage::empty(map_size);
 
     // Spawn the elements of the tilemap.
-    // Alternatively, you can use helpers::filling::fill_tilemap.
-    // for x in 0..map_size.x {
-    //     for y in 0..map_size.y {
+    // Alternatively, you can use
+    // helpers::filling::fill_tilemap. for x in 0.
+    // .map_size.x {     for y in 0..map_size.y {
     let x = asset.guard_start_position.x;
     let y = asset.guard_start_position.y;
 
@@ -328,7 +350,8 @@ fn move_guard(
                     };
                 };
                 *pos = next_position;
-                // visited_positions.insert(player_position);
+                // visited_positions.
+                // insert(player_position);
             }
         }
     }
