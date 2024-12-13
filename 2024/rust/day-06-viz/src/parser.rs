@@ -28,18 +28,25 @@ pub fn parse(
     let (input, items) =
         separated_list1(line_ending, many1(token))(input)?;
 
+    let y_max = items
+        .iter()
+        .flatten()
+        .map(|(pos, _)| pos.y)
+        .max()
+        .unwrap();
+
     let player = items
         .iter()
         .flatten()
         .find(|(_, value)| value == &'^')
         .cloned()
-        .map(|(v, _)| v)
+        .map(|(v, _)| (v - IVec2::new(0, y_max)).abs())
         .expect("should have a player");
     let walls = items
         .into_iter()
         .flatten()
         .filter(|(_, value)| value == &'#')
-        .map(|(v, _)| v)
+        .map(|(v, _)| (v - IVec2::new(0, y_max)).abs())
         .collect::<HashSet<IVec2>>();
     Ok((input, (player, walls)))
 }

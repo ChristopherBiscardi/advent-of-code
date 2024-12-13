@@ -12,7 +12,7 @@ pub struct Guard;
 #[derive(Component)]
 pub struct Wall;
 
-#[derive(Debug, Component)]
+#[derive(Debug, Component, Clone)]
 pub enum Direction {
     North,
     South,
@@ -31,8 +31,8 @@ impl Direction {
     }
     pub fn to_ivec2(&self) -> IVec2 {
         match self {
-            Direction::North => IVec2::NEG_Y,
-            Direction::South => IVec2::Y,
+            Direction::North => IVec2::Y,
+            Direction::South => IVec2::NEG_Y,
             Direction::East => IVec2::X,
             Direction::West => IVec2::NEG_X,
         }

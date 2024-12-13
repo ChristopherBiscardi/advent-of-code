@@ -6,8 +6,8 @@ use bevy_ecs_tilemap::{
     },
     prelude::get_tilemap_center_transform,
     tiles::{
-        TileBundle, TileColor, TilePos, TileStorage,
-        TileTextureIndex,
+        TileBundle, TileColor, TilePos, TilePosOld,
+        TileStorage, TileTextureIndex,
     },
     TilemapBundle, TilemapPlugin,
 };
@@ -29,7 +29,10 @@ fn main() {
         .add_plugins(TilemapPlugin)
         .add_systems(Startup, setup)
         .add_systems(Update, (print_on_load,))
-        .add_systems(Update, move_guard)
+        .add_systems(
+            Update,
+            move_guard, // .run_if(on_timer(Duration::from_secs(1))),
+        )
         .run();
 }
 
@@ -71,7 +74,7 @@ fn main() {
 //             direction = direction.turn_right();
 //         } else {
 //             player_position = next_position;
-//             
+//
 // visited_positions.insert(player_position);
 //         }
 //     }
@@ -95,6 +98,7 @@ fn setup(
     commands.spawn(Camera2d);
     // Recommended way to load an asset
     state.handle = asset_server.load("input.day6.txt");
+    // state.handle = asset_server.load("inputtest.day6.txt");
 
     // File extensions are optional, but are
     // recommended for project management and
@@ -337,11 +341,46 @@ fn move_guard(
                 .get(&IVec2::new(x as i32, y as i32))
                 .is_some()
             {
+                let old_dir = dir.clone();
                 *dir = dir.turn_right();
+                if let Some(entity) = base_map.get(&pos) {
+                    let mut index =
+                        tiles.get_mut(entity).unwrap();
+
+                    index.0 = match (old_dir, &*dir) {
+                        (
+                            Direction::North,
+                            Direction::East,
+                        ) => 0,
+                        (
+                            Direction::South,
+                            Direction::West,
+                        ) => 12,
+                        (
+                            Direction::East,
+                            Direction::South,
+                        ) => 2,
+                        (
+                            Direction::West,
+                            Direction::North,
+                        ) => 10,
+                        _ => unreachable!(
+                            "Can only turn right"
+                        ),
+                    };
+                };
+                let x = pos.x as i32 + dir.to_ivec2().x;
+                let y = pos.y as i32 + dir.to_ivec2().y;
+                let next_position = TilePos {
+                    x: x as u32,
+                    y: y as u32,
+                };
+                *pos = next_position;
             } else {
                 if let Some(entity) = base_map.get(&pos) {
                     let mut index =
                         tiles.get_mut(entity).unwrap();
+
                     index.0 = match *dir {
                         Direction::North => 5,
                         Direction::South => 7,
