@@ -26,9 +26,11 @@ fn main() {
         .init_asset::<AocDay6>()
         .init_asset_loader::<AocDay6Loader>()
         .init_resource::<State>()
+        .init_resource::<FirstRunGuardLocations>()
+        .add_event::<FirstGuardDoneEvent>()
         .add_plugins(TilemapPlugin)
         .add_systems(Startup, setup)
-        .add_systems(Update, (print_on_load,))
+        .add_systems(Update, (start_first_map,))
         .add_systems(
             Update,
             move_guard, // .run_if(on_timer(Duration::from_secs(1))),
@@ -86,7 +88,6 @@ fn main() {
 #[derive(Resource, Default)]
 struct State {
     handle: Handle<AocDay6>,
-    other_handle: Handle<AocDay6>,
     printed: bool,
 }
 
@@ -95,20 +96,19 @@ fn setup(
     asset_server: Res<AssetServer>,
     mut commands: Commands,
 ) {
-    commands.spawn(Camera2d);
-    // Recommended way to load an asset
+    commands.spawn((
+        Camera2d,
+        OrthographicProjection {
+            scaling_mode: bevy::render::camera::ScalingMode::FixedVertical { viewport_height: 130. * 8. },
+            ..OrthographicProjection::default_2d()
+        },
+    ));
+
     state.handle = asset_server.load("input.day6.txt");
     // state.handle = asset_server.load("inputtest.day6.txt");
-
-    // File extensions are optional, but are
-    // recommended for project management and
-    // last-resort inference
-    // state.other_handle =
-    // asset_server.load("data/asset_no_extension"
-    // );
 }
 
-fn print_on_load(
+fn start_first_map(
     mut state: ResMut<State>,
     custom_assets: Res<Assets<AocDay6>>,
     mut commands: Commands,
@@ -394,4 +394,16 @@ fn move_guard(
             }
         }
     }
+}
+
+#[derive(Event)]
+struct FirstGuardDoneEvent;
+
+#[derive(Resource, Default)]
+struct FirstRunGuardLocations(HashSet<IVec2>);
+
+#[derive(Component)]
+enum GuardStatus {
+    Processing,
+    Finished,
 }
