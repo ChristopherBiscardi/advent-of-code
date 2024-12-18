@@ -37,7 +37,7 @@ pub fn process(input: &str) -> miette::Result<String> {
     let mut it = reversed_program.iter();
     // it.next();
     let mut numbers_to_check = it.fold(
-        vec![bitvec![usize, Msb0;0 ;64]],
+        vec![bitvec![usize, Msb0;0;64]],
         |numbers_to_check, instruction| {
             info!(instruction);
             // dbg!(&numbers_to_check, instruction);
@@ -74,7 +74,7 @@ pub fn process(input: &str) -> miette::Result<String> {
             for i in pattern {
                 bv2.push(*i);
             }
-            // dbg!(bv2.as_raw_slice());
+            dbg!(bv2.as_raw_slice());
             let num = bv2.as_raw_slice()[0];
             dbg!(num);
             // dbg!(bv2.to_string(), num);
@@ -88,6 +88,7 @@ pub fn process(input: &str) -> miette::Result<String> {
                 .iter()
                 .map(|ins| *ins as u32)
                 .join(",");
+            dbg!(&output);
             if (output == original) {
                 next_numbers.push(num);
             }
