@@ -33,10 +33,7 @@ fn validate_design(design: &str, towels: &[&str]) -> bool {
             tag::<&str, &str, nom::error::Error<&str>>(
                 *towel,
             )(design)
-            // this .ok() is a performance win of 1ms
-            // over using .is_ok_and
-            .ok()
-            .is_some_and(|(input, _)| {
+            .is_ok_and(|(input, _)| {
                 input.is_empty()
                     || validate_design(input, towels)
             })
