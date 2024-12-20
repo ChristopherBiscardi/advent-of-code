@@ -105,7 +105,8 @@ fn setup(
     ));
 
     state.handle = asset_server.load("input.day6.txt");
-    // state.handle = asset_server.load("inputtest.day6.txt");
+    // state.handle =
+    // asset_server.load("inputtest.day6.txt");
 }
 
 fn start_first_map(

@@ -1,7 +1,8 @@
 use bitvec::prelude::*;
 use itertools::Itertools;
 fn main() {
-    // let input = vec![2,4,1,2,7,5,0,3,4,7,1,7,5,5,3,0];
+    // let input =
+    // vec![2,4,1,2,7,5,0,3,4,7,1,7,5,5,3,0];
     // let input = vec![0, 3, 5, 4, 3, 0];
     // // let mut n: i32 = 117440;
     // 'outer: for og_n in 10000..120000 {

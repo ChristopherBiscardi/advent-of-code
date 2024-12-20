@@ -159,8 +159,8 @@ mod tests {
     // fn sandbox() {
     //     // intersection of both lines
     //     let mat =
-    //         DMat2::from_cols_array(&[94., 34., 22., 67.]);
-    //     let d = mat.determinant();
+    //         DMat2::from_cols_array(&[94., 34., 22.,
+    // 67.]);     let d = mat.determinant();
     //     let mat_ac = DMat2::from_cols_array(&[
     //         8400., 5400., 22., 67.,
     //     ]);

@@ -7,8 +7,10 @@ use nom::{
     sequence::{preceded, separated_pair},
     IResult, Parser,
 };
-use std::{collections::HashSet, fmt, io::Write};
-use std::{fmt::Write as _, fs::File};
+use std::{
+    collections::HashSet, fmt, fmt::Write as _, fs::File,
+    io::Write,
+};
 
 const MAP_SIZE: IVec2 = if cfg!(test) {
     IVec2::new(11, 7)
@@ -45,13 +47,13 @@ pub fn process(input: &str) -> miette::Result<String> {
     //     })?;
     // let output = debug_grid(&robots).map_err(|e| {
     //     miette::miette!(
-    //         "debug failed to write to output, {:?}",
-    //         e
+    //         "debug failed to write to output,
+    // {:?}",         e
     //     )
     // })?;
     // file.write_all(output.as_bytes()).map_err(|e| {
-    //     miette::miette!("failed to write to file {:?}", e)
-    // })?;
+    //     miette::miette!("failed to write to file
+    // {:?}", e) })?;
 
     Ok(last_step.to_string())
 }
@@ -61,8 +63,9 @@ fn tree_test(robots: &[Robot]) -> bool {
         .iter()
         .map(|Robot { position, .. }| position)
         .all_unique()
-    // let mut map: HashSet<&IVec2> = HashSet::default();
-    // for Robot { position, .. } in robots {
+    // let mut map: HashSet<&IVec2> =
+    // HashSet::default(); for Robot {
+    // position, .. } in robots {
     //     match map.contains(position) {
     //         true => {
     //             return false;

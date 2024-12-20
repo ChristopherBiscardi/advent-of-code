@@ -56,7 +56,8 @@ pub fn process(input: &str) -> miette::Result<String> {
 
         match next {
             Object::Wall => {
-                // println!("{}", debug_grid(&map).unwrap());
+                // println!("{}",
+                // debug_grid(&map).unwrap());
                 continue;
             }
             Object::BoxLeft => {

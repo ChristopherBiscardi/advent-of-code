@@ -1,11 +1,10 @@
 #[tracing::instrument]
 pub fn process(input: &str) -> miette::Result<String> {
-    let mut expanded =
-        input
-            .chars()
-            .enumerate()
-            .map(|(compressed_index, num_indices)| {
-                std::iter::repeat(
+    let mut expanded = input
+        .chars()
+        .enumerate()
+        .map(|(compressed_index, num_indices)| {
+            std::iter::repeat(
                     if compressed_index % 2 == 0 {
                         Some(compressed_index / 2)
                     } else {
@@ -14,9 +13,9 @@ pub fn process(input: &str) -> miette::Result<String> {
                 )
                 .take(num_indices.to_digit(10).unwrap()
                     as usize)
-            })
-            .flatten()
-            .collect::<Vec<_>>();
+        })
+        .flatten()
+        .collect::<Vec<_>>();
 
     // print_blocks("original expanded blocks",
     // &expanded);
