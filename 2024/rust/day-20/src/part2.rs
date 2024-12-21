@@ -39,7 +39,7 @@ pub fn process(input: &str) -> miette::Result<String> {
     )
     .expect("a valid aoc result");
 
-    dbg!(original_cost);
+    // dbg!(original_cost);
 
     let result = original_path
         .iter()

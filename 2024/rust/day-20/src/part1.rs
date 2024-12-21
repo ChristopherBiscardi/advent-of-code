@@ -48,7 +48,7 @@ pub fn process(input: &str) -> miette::Result<String> {
     )
     .expect("a valid aoc result");
 
-    dbg!(first_run.1);
+    // dbg!(first_run.1);
 
     // run each pathfind with one missing wall
     // if that wall has at least two empty sides.
