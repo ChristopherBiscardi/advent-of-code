@@ -13,6 +13,7 @@ tracing-subscriber.workspace = true
 miette.workspace = true
 petgraph = "0.6.5"
 graph-cycles = "0.1.0"
+pathfinding = "4.12.0"
 
 [dev-dependencies]
 divan.workspace = true
