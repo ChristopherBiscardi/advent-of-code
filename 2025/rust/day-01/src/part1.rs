@@ -5,28 +5,28 @@ use nom::{
     character::complete::{self, line_ending},
     multi::separated_list1,
 };
-use tracing::info;
+
+const STARTING_POSITION: i32 = 50;
 
 #[tracing::instrument]
 pub fn process(input: &str) -> miette::Result<String> {
     let (_, directions) = directions.parse(input).unwrap();
 
-    let mut dial = 50;
-    let mut counter = 0;
-
-    for direction in directions {
-        match direction {
-            Direction::Left(num) => {
-                dial = (dial - num).rem_euclid(100);
-            }
-            Direction::Right(num) => {
-                dial = (dial + num).rem_euclid(100);
-            }
-        }
-        if dial == 0 {
-            counter += 1;
-        }
-    }
+    let (_final_position, counter) =
+        directions.iter().fold(
+            (STARTING_POSITION, 0),
+            |(dial, counter), direction| {
+                let num = match direction {
+                    Direction::Left(num) => -num,
+                    Direction::Right(num) => *num,
+                };
+                let next_dial =
+                    (dial - num).rem_euclid(100);
+                let additional_counters =
+                    if next_dial == 0 { 1 } else { 0 };
+                (next_dial, counter + additional_counters)
+            },
+        );
 
     Ok(counter.to_string())
 }
