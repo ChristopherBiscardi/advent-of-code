@@ -1,4 +1,4 @@
-use day_01::part2_updates::process;
+use day_01::part2_dial_struct::process;
 use miette::Context;
 
 #[tracing::instrument]

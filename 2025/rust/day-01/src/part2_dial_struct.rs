@@ -15,18 +15,12 @@ pub fn process(input: &str) -> miette::Result<String> {
     let (_, directions) =
         all_consuming(directions).parse(input).unwrap();
 
-    let resulting_dial = directions.iter().fold(
-        Dial {
-            location: 50,
-            revolutions: 0,
-        },
-        |mut dial, direction| {
-            dial.spin(*direction);
-            dial
-        },
-    );
+    let mut dial = Dial::default();
+    for direction in directions {
+        dial.spin(direction);
+    }
 
-    Ok(resulting_dial.revolutions.to_string())
+    Ok(dial.revolutions.to_string())
 }
 
 #[derive(Debug, PartialEq)]
@@ -36,6 +30,15 @@ struct Dial {
     /// number of times we've passed or landed
     /// on 0
     revolutions: i32,
+}
+
+impl Default for Dial {
+    fn default() -> Self {
+        Self {
+            location: 50,
+            revolutions: 0,
+        }
+    }
 }
 
 impl Dial {
