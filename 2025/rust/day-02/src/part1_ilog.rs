@@ -12,6 +12,7 @@ pub fn process(input: &str) -> miette::Result<String> {
         all_consuming(ranges).parse(input).map_err(
             |e| miette!("failed to parse aoc input, {e}"),
         )?;
+
     let mut total = 0;
     for id in id_ranges.into_iter().flatten() {
         // a number from 0-5, which is half of the

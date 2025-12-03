@@ -1,0 +1,15 @@
+day_01_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      88.24 µs      │ 140.6 µs      │ 88.97 µs      │ 91.95 µs      │ 100     │ 100
+╰─ part2      103.2 µs      │ 177 µs        │ 103.6 µs      │ 105.4 µs      │ 100     │ 100
+
+day_02_bench         fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ parser            957.6 ns      │ 10.45 µs      │ 999.6 ns      │ 1.233 µs      │ 100     │ 100
+├─ part1             42.37 ms      │ 44.59 ms      │ 42.9 ms       │ 42.98 ms      │ 100     │ 100
+├─ part1_ilog        5.856 ms      │ 6.181 ms      │ 6 ms          │ 6.01 ms       │ 100     │ 100
+├─ part1_ilog_rayon  780.6 µs      │ 4.668 ms      │ 886.1 µs      │ 980.2 µs      │ 100     │ 100
+╰─ part2             11.29 ms      │ 18.29 ms      │ 14.47 ms      │ 14.16 ms      │ 100     │ 100
+
+day_03_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      58.95 µs      │ 97.37 µs      │ 65.79 µs      │ 66.84 µs      │ 100     │ 100
+╰─ part2      237.3 µs      │ 282.6 µs      │ 241.8 µs      │ 245.4 µs      │ 100     │ 100
+
