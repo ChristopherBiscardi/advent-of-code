@@ -13,19 +13,21 @@ pub fn process(input: &str) -> miette::Result<String> {
             |e| miette!("failed to parse aoc input, {e}"),
         )?;
     let mut total = 0;
-    for ids in id_ranges.into_iter() {
-        for id in ids.into_iter() {
-            let id_str = id.to_string();
-            let half = id_str.len() / 2;
-            if &id_str[..half] == &id_str[half..] {
-                total += id;
-            }
+    for id in id_ranges.into_iter().flatten() {
+        // a number from 0-5, which is half of the
+        // number of digits in the number
+        let places = (id.ilog10() + 1) / 2;
+        // 10^n, which is 10, 100, 1000, etc
+        let hundos = 10u64.pow(places);
+        // 204204 == 204 === 204
+        if id / hundos == id % hundos {
+            total += id;
         }
     }
     Ok(total.to_string())
 }
 
-pub fn ranges(
+fn ranges(
     input: &str,
 ) -> IResult<&str, Vec<RangeInclusive<u64>>> {
     separated_list1(
