@@ -44,10 +44,3 @@ fn part2() {
     )))
     .unwrap();
 }
-#[divan::bench]
-fn part2_ilog() {
-    part2_ilog::process(divan::black_box(include_str!(
-        "../input2.txt",
-    )))
-    .unwrap();
-}
