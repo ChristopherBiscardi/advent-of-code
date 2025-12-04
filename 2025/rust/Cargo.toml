@@ -1,11 +1,5 @@
 [workspace]
-members = [
-    "day-*",
-    "day-01",
-    "day-02",
-    "day-03",
-    "day-04",
-]
+members = ["day-*", "day-01", "day-02", "day-03", "day-04"]
 default-members = ["day-*"]
 resolver = "3"
 

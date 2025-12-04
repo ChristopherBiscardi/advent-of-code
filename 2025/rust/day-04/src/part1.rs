@@ -16,19 +16,7 @@ const NEIGHBORS: [IVec2; 8] = [
 
 #[tracing::instrument]
 pub fn process(input: &str) -> miette::Result<String> {
-    let positions = input
-        .lines()
-        .enumerate()
-        .flat_map(|(y, line)| {
-            line.chars().enumerate().filter_map(
-                move |(x, value)| {
-                    (value == '@').then_some(IVec2::new(
-                        x as i32, y as i32,
-                    ))
-                },
-            )
-        })
-        .collect::<HashSet<IVec2>>();
+    let positions = parse(input);
 
     let count = positions
         .iter()
@@ -43,6 +31,22 @@ pub fn process(input: &str) -> miette::Result<String> {
         })
         .count();
     Ok(count.to_string())
+}
+
+pub fn parse(input: &str) -> HashSet<IVec2> {
+    input
+        .lines()
+        .enumerate()
+        .flat_map(|(y, line)| {
+            line.chars().enumerate().filter_map(
+                move |(x, value)| {
+                    (value == '@').then_some(IVec2::new(
+                        x as i32, y as i32,
+                    ))
+                },
+            )
+        })
+        .collect::<HashSet<IVec2>>()
 }
 
 #[cfg(test)]
