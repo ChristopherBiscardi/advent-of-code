@@ -13,3 +13,10 @@ day_03_bench     fastest       │ slowest       │ median        │ mean     
 ├─ part1         59.41 µs      │ 141.8 µs      │ 64.58 µs      │ 65.1 µs       │ 100     │ 100
 ├─ part2         236 µs        │ 287.7 µs      │ 243.4 µs      │ 246.6 µs      │ 100     │ 100
 ╰─ part2_reduce  47.95 µs      │ 109.6 µs      │ 52.31 µs      │ 54.18 µs      │ 100     │ 100
+
+day_04_bench         fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ parse             319.2 µs      │ 386.2 µs      │ 327 µs        │ 328.2 µs      │ 100     │ 100
+├─ part1             1.991 ms      │ 2.161 ms      │ 2.032 ms      │ 2.032 ms      │ 100     │ 100
+├─ part2             47.41 ms      │ 51.69 ms      │ 47.63 ms      │ 47.82 ms      │ 100     │ 100
+├─ part2_convolve    3.739 ms      │ 4.062 ms      │ 3.755 ms      │ 3.764 ms      │ 100     │ 100
+╰─ part2_rustc_hash  24.13 ms      │ 26.33 ms      │ 24.2 ms       │ 24.29 ms      │ 100     │ 100

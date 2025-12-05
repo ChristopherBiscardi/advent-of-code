@@ -13,6 +13,8 @@ rayon = "1.10.0"
 rstest = "0.26"
 thiserror = "2.0.3"
 tracing = "0.1.41"
+rustc-hash = "2.1.1"
+ndarray = "0.17.1"
 
 [workspace.dependencies.miette]
 version = "7.4"
