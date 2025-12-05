@@ -1,5 +1,12 @@
 [workspace]
-members = ["day-*", "day-01", "day-02", "day-03", "day-04"]
+members = [
+    "day-*",
+    "day-01",
+    "day-02",
+    "day-03",
+    "day-04",
+    "day-05",
+]
 default-members = ["day-*"]
 resolver = "3"
 
@@ -7,14 +14,14 @@ resolver = "3"
 divan = "0.1.7"
 glam = "0.30"
 itertools = "0.14.0"
+ndarray = "0.17.1"
 nom = "8.0.0"
 nom_locate = "5.0"
 rayon = "1.10.0"
 rstest = "0.26"
+rustc-hash = "2.1.1"
 thiserror = "2.0.3"
 tracing = "0.1.41"
-rustc-hash = "2.1.1"
-ndarray = "0.17.1"
 
 [workspace.dependencies.miette]
 version = "7.4"

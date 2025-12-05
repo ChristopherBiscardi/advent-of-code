@@ -20,3 +20,7 @@ day_04_bench         fastest       │ slowest       │ median        │ mean 
 ├─ part2             47.41 ms      │ 51.69 ms      │ 47.63 ms      │ 47.82 ms      │ 100     │ 100
 ├─ part2_convolve    3.739 ms      │ 4.062 ms      │ 3.755 ms      │ 3.764 ms      │ 100     │ 100
 ╰─ part2_rustc_hash  24.13 ms      │ 26.33 ms      │ 24.2 ms       │ 24.29 ms      │ 100     │ 100
+
+day_05_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      104.4 µs      │ 150.7 µs      │ 104.9 µs      │ 107.1 µs      │ 100     │ 100
+╰─ part2      19.91 µs      │ 61.08 µs      │ 20.74 µs      │ 22.43 µs      │ 100     │ 100
