@@ -1,4 +1,3 @@
-use itertools::{Itertools, Position};
 use nom::{
     IResult, Parser,
     branch::alt,
@@ -6,31 +5,26 @@ use nom::{
     character::complete::{
         self, line_ending, space0, space1,
     },
-    multi::separated_list1,
-    sequence::{delimited, separated_pair},
+    combinator::recognize,
+    multi::{many1, separated_list1},
+    sequence::{pair, preceded, terminated},
 };
 use tracing::info;
 
 #[tracing::instrument(skip(input))]
 pub fn process(input: &str) -> miette::Result<String> {
-    // let (_input, (nums, ops)) = parse.parse(input).unwrap();
-    let mut ops = vec![];
-    let mut lines_iterators = vec![];
-    for (pos, line) in input.lines().with_position() {
-        if let Position::Last = pos {
-            let (_input, mut output) =
-                operations(line).unwrap();
-            output.reverse();
-            ops = output;
-        }
-        lines_iterators.push(line.chars().rev());
-    }
+    let (_, (mut lines_iterators, mut ops)) =
+        parse(input.as_bytes()).unwrap();
+    ops.reverse();
+
     let result = ops
         .iter()
         .map(|op| {
             let mut output = match *op {
-                "*" => 1,
-                "+" => 0,
+                // "*" => 1,
+                // "+" => 0,
+                [42] => 1,
+                [43] => 0,
                 _ => {
                     panic!("");
                 }
@@ -41,7 +35,7 @@ pub fn process(input: &str) -> miette::Result<String> {
                     .rev()
                     .filter_map(|line| {
                         line.next()
-                            .and_then(|c| c.to_digit(10))
+                            .and_then(|c| c.checked_sub(48))
                     })
                     .enumerate()
                     .map(|(places, digit)| {
@@ -53,10 +47,10 @@ pub fn process(input: &str) -> miette::Result<String> {
                     break;
                 }
                 match *op {
-                    "*" => {
+                    [42] => {
                         output *= result;
                     }
-                    "+" => {
+                    [43] => {
                         output += result;
                     }
                     _ => {
@@ -70,25 +64,38 @@ pub fn process(input: &str) -> miette::Result<String> {
     Ok(result.to_string())
 }
 
-fn parse(
-    input: &str,
-) -> IResult<&str, (Vec<Vec<u64>>, Vec<&str>)> {
-    separated_pair(
-        separated_list1(
-            line_ending,
-            delimited(
-                space0,
-                separated_list1(space1, complete::u64),
-                space0,
-            ),
-        ),
-        line_ending,
-        operations,
-    )
-    .parse(input)
+// split into
+pub fn parse(
+    input: &[u8],
+) -> IResult<
+    &[u8],
+    (
+        Vec<impl Iterator<Item = &u8>>,
+        Vec<&[u8]>,
+    ),
+> {
+    pair(nums, operations).parse(input)
 }
 
-fn operations(input: &str) -> IResult<&str, Vec<&str>> {
+// fn parse(input: &[u8]) -> IResult<&[u8]> {}
+fn nums(
+    input: &[u8],
+) -> IResult<&[u8], Vec<impl Iterator<Item = &u8>>> {
+    many1(terminated(line, line_ending)).parse(input)
+}
+
+fn line(
+    input: &[u8],
+) -> IResult<&[u8], impl Iterator<Item = &u8>> {
+    recognize(preceded(
+        space0,
+        many1(terminated(complete::u64, space0)),
+    ))
+    .parse(input)
+    .map(|(input, output)| (input, output.iter().rev()))
+}
+
+fn operations(input: &[u8]) -> IResult<&[u8], Vec<&[u8]>> {
     separated_list1(space1, alt((tag("*"), tag("+"))))
         .parse(input)
 }

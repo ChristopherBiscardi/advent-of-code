@@ -1,4 +1,3 @@
-use itertools::{Itertools, izip, multizip};
 use nom::{
     IResult, Parser,
     branch::alt,
@@ -7,7 +6,7 @@ use nom::{
         self, line_ending, space0, space1,
     },
     multi::separated_list1,
-    sequence::{delimited, separated_pair, terminated},
+    sequence::{delimited, separated_pair},
 };
 
 #[tracing::instrument]
