@@ -2,12 +2,10 @@ use nom::{
     IResult, Parser,
     branch::alt,
     bytes::complete::{tag, take_until},
-    character::complete::{
-        self, line_ending, space0, space1,
-    },
-    combinator::{recognize, verify},
+    character::complete::{line_ending, space1},
+    combinator::verify,
     multi::{many1, separated_list1},
-    sequence::{pair, preceded, terminated},
+    sequence::pair,
 };
 use tracing::info;
 

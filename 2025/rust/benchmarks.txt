@@ -24,3 +24,9 @@ day_04_bench         fastest       │ slowest       │ median        │ mean 
 day_05_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
 ├─ part1      104.4 µs      │ 150.7 µs      │ 104.9 µs      │ 107.1 µs      │ 100     │ 100
 ╰─ part2      19.91 µs      │ 61.08 µs      │ 20.74 µs      │ 22.43 µs      │ 100     │ 100
+
+day_06_bench             fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1                 66.87 µs      │ 127.9 µs      │ 67.22 µs      │ 68.56 µs      │ 100     │ 100
+├─ part2                 54.83 µs      │ 96.91 µs      │ 55.33 µs      │ 58.09 µs      │ 100     │ 100
+├─ part2_inflight        35.87 µs      │ 79.16 µs      │ 36.04 µs      │ 38.88 µs      │ 100     │ 100
+╰─ part2_inflight_parse  6.999 µs      │ 13.41 µs      │ 7.395 µs      │ 7.708 µs      │ 100     │ 100
