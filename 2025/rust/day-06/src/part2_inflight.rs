@@ -1,11 +1,11 @@
 use nom::{
     IResult, Parser,
     branch::alt,
-    bytes::complete::tag,
+    bytes::complete::{tag, take_until},
     character::complete::{
         self, line_ending, space0, space1,
     },
-    combinator::recognize,
+    combinator::{recognize, verify},
     multi::{many1, separated_list1},
     sequence::{pair, preceded, terminated},
 };
@@ -81,16 +81,25 @@ pub fn parse(
 fn nums(
     input: &[u8],
 ) -> IResult<&[u8], Vec<impl Iterator<Item = &u8>>> {
-    many1(terminated(line, line_ending)).parse(input)
+    many1(line).parse(input)
 }
 
 fn line(
     input: &[u8],
 ) -> IResult<&[u8], impl Iterator<Item = &u8>> {
-    recognize(preceded(
-        space0,
-        many1(terminated(complete::u64, space0)),
-    ))
+    // this recognize would work, but using u8 is faster
+    // and we don't actually need to do a full parse to
+    // know we aren't trying to parse the operator line
+    // recognize(preceded(
+    //     space0,
+    //     many1(terminated(complete::u64, space0)),
+    // ))
+    verify(
+        take_until("\n")
+            .and(line_ending)
+            .map(|(line, _)| line),
+        |v: &[u8]| ![42, 43].contains(&v[0]),
+    )
     .parse(input)
     .map(|(input, output)| (input, output.iter().rev()))
 }
