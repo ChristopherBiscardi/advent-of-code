@@ -1,0 +1,9 @@
+[package]
+name = "day-09-viz"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = "0.17.3"
+nom.workspace = true
+itertools.workspace = true
