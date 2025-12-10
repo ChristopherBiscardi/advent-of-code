@@ -10,7 +10,7 @@ members = [
     "day-07",
     "day-08",
     "day-09",
-    "day-09-viz"
+    "day-09-viz",
 ]
 default-members = ["day-*"]
 resolver = "3"
@@ -25,8 +25,9 @@ nom_locate = "5.0"
 rayon = "1.10.0"
 rstest = "0.26"
 rustc-hash = "2.1.1"
-thiserror = "2.0.3"
+thiserror = "2.0.17"
 tracing = "0.1.41"
+petgraph = "0.8"
 
 [workspace.dependencies.miette]
 version = "7.4"
@@ -39,7 +40,4 @@ default-features = false
 
 [workspace.dependencies.tracing-subscriber]
 version = "0.3.18"
-features = [
-    "fmt",
-    "env-filter",
-]
+features = ["fmt", "env-filter"]

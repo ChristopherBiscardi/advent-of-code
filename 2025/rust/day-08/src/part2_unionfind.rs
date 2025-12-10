@@ -6,10 +6,8 @@ use nom::{
     character::complete::{self, line_ending},
     multi::separated_list1,
 };
+use petgraph::unionfind::UnionFind;
 use tracing::info;
-use union_find::{
-    QuickFindUf, UnionByRank, UnionBySize, UnionFind,
-};
 
 #[tracing::instrument(skip(input))]
 pub fn process(input: &str) -> miette::Result<String> {
@@ -20,9 +18,9 @@ pub fn process(input: &str) -> miette::Result<String> {
 
 fn groups(positions: Vec<IVec3>) -> miette::Result<usize> {
     // let mut connections: Vec<Vec<IVec3>> = vec![];
-    let mut connections =
-        QuickFindUf::<UnionBySize>::new(positions.len());
+    let mut connections = UnionFind::new(positions.len());
 
+    let mut result: usize = 0;
     for (a, b, _) in positions
         .iter()
         .enumerate()
@@ -35,30 +33,21 @@ fn groups(positions: Vec<IVec3>) -> miette::Result<usize> {
             )
         })
         .sorted_by(|a, b| a.2.partial_cmp(&b.2).unwrap())
-        .take(10)
     {
-        connections.union(a.0, b.0);
-        dbg!(connections.size());
+        if connections.union(a.0, b.0) {
+            // new union happened; check to see if we made a loop
+            if (0..positions.len())
+                .into_iter()
+                .tuple_windows()
+                .all(|(a, b)| connections.equiv(a, b))
+            {
+                result = a.1.x as usize * b.1.x as usize;
+                break;
+            }
+        }
     }
 
-    let t = (connections.find(0), connections.get(0));
-    dbg!(t);
-    let results: usize = (0..positions.len())
-        .into_iter()
-        .map(|index| {
-            (
-                connections.get(index).size(),
-                connections.find(index),
-            )
-        })
-        .unique()
-        .sorted_by(|a, b| b.cmp(a))
-        .take(3)
-        .map(|(count, index)| count)
-        .product();
-    dbg!(results);
-
-    todo!()
+    Ok(result)
 }
 
 fn parse(input: &str) -> IResult<&str, Vec<IVec3>> {

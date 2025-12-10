@@ -12,7 +12,7 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 miette.workspace = true
 glam.workspace = true
-union-find = "0.4.3"
+petgraph.workspace = true
 
 [dev-dependencies]
 divan.workspace = true
