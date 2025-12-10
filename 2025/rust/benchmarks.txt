@@ -30,3 +30,17 @@ day_06_bench             fastest       │ slowest       │ median        │ m
 ├─ part2                 54.83 µs      │ 96.91 µs      │ 55.33 µs      │ 58.09 µs      │ 100     │ 100
 ├─ part2_inflight        35.87 µs      │ 79.16 µs      │ 36.04 µs      │ 38.88 µs      │ 100     │ 100
 ╰─ part2_inflight_parse  6.999 µs      │ 13.41 µs      │ 7.395 µs      │ 7.708 µs      │ 100     │ 100
+
+day_07_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      146.7 µs      │ 240.9 µs      │ 148 µs        │ 150.4 µs      │ 100     │ 100
+╰─ part2      116.7 µs      │ 186.9 µs      │ 118.8 µs      │ 123.1 µs      │ 100     │ 100
+
+day_08_bench        fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1            18.76 ms      │ 21.48 ms      │ 18.87 ms      │ 19.06 ms      │ 100     │ 100
+├─ part1_unionfind  23.47 ms      │ 26.3 ms       │ 23.62 ms      │ 23.84 ms      │ 100     │ 100
+├─ part2            26.26 ms      │ 29.56 ms      │ 26.52 ms      │ 26.68 ms      │ 100     │ 100
+╰─ part2_unionfind  23.54 ms      │ 26.12 ms      │ 23.63 ms      │ 23.74 ms      │ 100     │ 100
+
+day_09_bench  fastest       │ slowest       │ median        │ mean          │ samples │ iters
+├─ part1      118.7 µs      │ 137.4 µs      │ 119 µs        │ 120.6 µs      │ 100     │ 100
+╰─ part2      10 ms         │ 11.03 ms      │ 10.09 ms      │ 10.2 ms       │ 100     │ 100
