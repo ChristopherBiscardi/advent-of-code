@@ -36,6 +36,8 @@ fn groups(positions: Vec<IVec3>) -> miette::Result<usize> {
     {
         if connections.union(a.0, b.0) {
             // new union happened; check to see if we made a loop
+            // not being able to check the size of the group is
+            // really awkward here
             if (0..positions.len())
                 .into_iter()
                 .tuple_windows()
