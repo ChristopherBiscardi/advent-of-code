@@ -12,14 +12,17 @@ members = [
     "day-09",
     "day-09-viz",
     "day-10",
+    "day-11",
 ]
 default-members = ["day-*"]
 resolver = "3"
 
 [workspace.dependencies]
+bitvec = "1.0.1"
 divan = "0.1.7"
 glam = "0.30"
 itertools = "0.14.0"
+memoize = "0.5"
 ndarray = "0.17.1"
 nom = "8.0.0"
 nom_locate = "5.0"
@@ -29,8 +32,7 @@ rstest = "0.26"
 rustc-hash = "2.1.1"
 thiserror = "2.0.17"
 tracing = "0.1.41"
-bitvec = "1.0.1"
-memoize = "0.5"
+pathfinding = "4.14"
 
 [workspace.dependencies.miette]
 version = "7.4"
