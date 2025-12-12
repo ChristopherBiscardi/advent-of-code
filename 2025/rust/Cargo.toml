@@ -13,6 +13,7 @@ members = [
     "day-09-viz",
     "day-10",
     "day-11",
+    "day-12",
 ]
 default-members = ["day-*"]
 resolver = "3"
@@ -26,13 +27,13 @@ memoize = "0.5"
 ndarray = "0.17.1"
 nom = "8.0.0"
 nom_locate = "5.0"
+pathfinding = "4.14"
 petgraph = "0.8"
 rayon = "1.10.0"
 rstest = "0.26"
 rustc-hash = "2.1.1"
 thiserror = "2.0.17"
 tracing = "0.1.41"
-pathfinding = "4.14"
 
 [workspace.dependencies.miette]
 version = "7.4"
@@ -45,4 +46,7 @@ default-features = false
 
 [workspace.dependencies.tracing-subscriber]
 version = "0.3.18"
-features = ["fmt", "env-filter"]
+features = [
+    "fmt",
+    "env-filter",
+]
